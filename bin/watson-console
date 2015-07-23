@@ -1,0 +1,10 @@
+#!/Users/Honza/Work/mama/volunteer-organiser/bin/python3.4
+# EASY-INSTALL-ENTRY-SCRIPT: 'watson-framework==3.0.3','console_scripts','watson-console'
+__requires__ = 'watson-framework==3.0.3'
+import sys
+from pkg_resources import load_entry_point
+
+if __name__ == '__main__':
+    sys.exit(
+        load_entry_point('watson-framework==3.0.3', 'console_scripts', 'watson-console')()
+    )
