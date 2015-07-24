@@ -24,10 +24,19 @@ class Base(controllers.Rest):
 	db = None
 	output = {
 		'title': 'Volunteer Organiser',
-		'styles': [
+		'css': [
 			'css/pure/0.6.0/pure-min.css',
 			'css/colors.min.css',
 			'css/organiser.css',
-		]
+		],
+		'js': [
+
+		],
+
 	}
+
+	def link(self,name,target):
+		lnk="http://"+target
+		if True:
+			return "<a href='%s'>%s</a>" % (lnk,name)
 
