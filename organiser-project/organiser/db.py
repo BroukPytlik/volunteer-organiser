@@ -16,12 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from watson import framework
-from watson.framework import controllers
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
+Session = sessionmaker()
 
-class Index(controllers.Rest):
-	def GET(self):
-		self.redirect('board')
-	def POST(self):
-		self.redirect('board')
+def create_session(container, connection_string):
+	some_engine = create_engine(connection_string)
+	return Session(bind=some_engine)#

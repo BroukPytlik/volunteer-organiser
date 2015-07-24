@@ -18,10 +18,11 @@
 
 from watson import framework
 from watson.framework import controllers
+from organiser.controllers import Base
 
 
-class Index(controllers.Rest):
+class Board(Base):
 	def GET(self):
-		self.redirect('board')
-	def POST(self):
-		self.redirect('board')
+		self.output['content']='Welcome to Watson v{0}! '.format(framework.__version__)
+		#return Base.output
+		return self.output

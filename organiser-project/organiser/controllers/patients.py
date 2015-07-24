@@ -20,8 +20,7 @@ from watson import framework
 from watson.framework import controllers
 
 
-class Index(controllers.Rest):
+class Patients(controllers.Rest):
+	db = None
 	def GET(self):
-		self.redirect('board')
-	def POST(self):
-		self.redirect('board')
+		return 'Welcome to Watson v{0}! '.format(framework.__version__)

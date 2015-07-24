@@ -18,10 +18,9 @@
 
 from watson import framework
 from watson.framework import controllers
+from organiser.controllers import Base
 
 
-class Index(controllers.Rest):
+class Volunteers(Base):
 	def GET(self):
-		self.redirect('board')
-	def POST(self):
-		self.redirect('board')
+		return 'Welcome to Watson v{0}! '.format(framework.__version__)

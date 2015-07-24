@@ -20,8 +20,14 @@ from watson import framework
 from watson.framework import controllers
 
 
-class Index(controllers.Rest):
-	def GET(self):
-		self.redirect('board')
-	def POST(self):
-		self.redirect('board')
+class Base(controllers.Rest):
+	db = None
+	output = {
+		'title': 'Volunteer Organiser',
+		'styles': [
+			'css/pure/0.6.0/pure-min.css',
+			'css/colors.min.css',
+			'css/organiser.css',
+		]
+	}
+
