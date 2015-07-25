@@ -1,4 +1,4 @@
-# vim: set noexpandtab cindent sw=4 ts=4:
+# vim: set expandtab cindent sw=4 ts=4:
 #
 # (C)2015 Jan Tulak <jan@tulak.me>
 #
@@ -78,6 +78,7 @@ class Patient(Person):
 
 
 class Volunteer(Person):
+    active = models.BooleanField(blank=True, default=True)
     pass
 
 

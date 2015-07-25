@@ -1,3 +1,16 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+from django.template import RequestContext, loader
+from django.core import urlresolvers
 
-# Create your views here.
+from .models import Duty,Patient,Volunteer,Ward
+
+def index(request):
+
+    
+    return render(request, 'board/index.html', {
+        'content': 'guu!',
+        'duty_list_url': urlresolvers.reverse('admin:board_duty_changelist'),
+        'patient_list_url': urlresolvers.reverse('admin:board_patient_changelist'),
+        'volunteer_list_url': urlresolvers.reverse('admin:board_volunteer_changelist'),
+        })

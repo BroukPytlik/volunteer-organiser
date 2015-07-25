@@ -10,6 +10,22 @@ admin.AdminSite.site_header ="Volunteer administration"
 admin.AdminSite.site_title ="Volunteer administration"
 
 
+class VolunteerActiveFilter(admin.SimpleListFilter):
+    title = 'active'
+    parameter_name = 'active'
+
+    def lookups(self, request, model_admin):
+        return (('active', _('Active')), 
+                ('inactive', _('Inactive'))
+            )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'active':
+            return queryset.filter(active = True)
+        elif self.value() == 'inactive':
+            return queryset.filter(active = False)
+
+
 
 class BirthdayFilter(admin.SimpleListFilter):
     title = 'birthday'
@@ -52,11 +68,11 @@ class VolunteerAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['first_name', 'surname', 'birthday']}),
        (_('Contact'), {'fields': ['email','phone']}),
-       (_('Other'), {'fields': ['notes']}),
+       (_('Other'), {'fields': ['active','notes']}),
     ]
     list_display = ('first_name', 'surname',
-                    'birthday', 'email', 'notes')
-    list_filter = [BirthdayFilter]
+                    'birthday', 'email', 'phone', 'active', 'notes')
+    list_filter = [BirthdayFilter,VolunteerActiveFilter]
 
 
 class PatientAdmin(admin.ModelAdmin):
@@ -66,7 +82,7 @@ class PatientAdmin(admin.ModelAdmin):
        (_('Other'), {'fields': ['ward','notes']}),
     ]
     list_display = ('first_name', 'surname', 'ward',
-                    'birthday', 'email', 'notes')
+                    'birthday', 'email', 'phone', 'notes')
 
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(Volunteer, VolunteerAdmin)
