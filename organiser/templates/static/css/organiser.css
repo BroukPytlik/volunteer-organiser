@@ -1,0 +1,11 @@
+.center{
+	text-align: center;
+}
+
+#header a {
+    display: block;
+    height: 35pt;
+}
+#header a:hover {
+    background: #111;
+}

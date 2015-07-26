@@ -18,26 +18,9 @@
 
 from django.db import models
 from django.utils.translation import ugettext as _
-from django.utils import timezone
+from django.utils.timezone import now
 import datetime
-
-DAY_OF_THE_WEEK = [
-    (1, _(u'Monday')),
-    (2, _(u'Tuesday')),
-    (3, _(u'Wednesday')),
-    (4, _(u'Thursday')),
-    (5, _(u'Friday')),
-    (6, _(u'Saturday')),
-    (7, _(u'Sunday')),
-]
-
-MORNING = 0
-AFTERNOON = 1
-DUTY_TIME = [
-    (MORNING, _('Morning')),
-    (AFTERNOON, _('Afternoon')),
-]
-
+import board.helpers as h
 #
 # Just a simple class to hold wards list
 #
@@ -54,22 +37,30 @@ class Ward(models.Model):
 class Person(models.Model):
     first_name = models.CharField(max_length=20)
     surname    = models.CharField(max_length=20)
-    birthday   = models.DateField()
+    # birthdate - real date of birth
+    birthdate  = models.DateField()
+    # birthday - only month and day, year is the same for all persons
+    # BIRTHDAY_YEAR
+    birthday  = models.DateField()
     notes      = models.TextField(blank=True, null=True)
     phone      = models.CharField(max_length=20,blank=True, null=True)
     email      = models.EmailField(blank=True, null=True)
 
     # show whether the person has birthday today
     def birthday_today(self):
-        return self.birthday.month == timezone.now().month \
-                and self.birthday.day == timezone.now().day
+        return self.birthday == helper.bday(now=True)
+
     birthday_today.admin_order_field = _('birthday')
     birthday_today.boolean = True
     birthday_today.short_description = _("Birthday today?")
 
+    def save(self, *args, **kwargs):
+        self.birthday = h.bday(self.birthdate.month, self.birthdate.day)
+        super(Person, self).save(*args, **kwargs)
+
     def __str__(self):
         return "%s, %s (%s)" % (
-                self.surname, self.first_name, self.birthday
+                self.surname, self.first_name, self.birthdate
             )
 
 
@@ -92,7 +83,7 @@ class Duty(models.Model):
     volunteer   = models.ForeignKey(Volunteer)
     patient     = models.ForeignKey(Patient)
     created     = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    time        = models.IntegerField(choices=DUTY_TIME, default=MORNING)
+    time        = models.IntegerField(choices=h.DUTY_TIME, default=h.MORNING)
     date        = models.DateField()
     #day         = models.IntegerField(default=1, choices=DAY_OF_THE_WEEK)
  #   ended       = models.DateField(blank=True, null=True)
@@ -103,7 +94,7 @@ class Duty(models.Model):
                 DAY_OF_THE_WEEK[self.date.weekday()][1],
                 DUTY_TIME[self.time][1],
             )
-        if (self.date < timezone.now().date()):
+        if (self.date < now().date()):
             day = "%s %s" % (_('was on'), day)
         else:
             day = "%s: %s" % (_('day'), day)
@@ -118,7 +109,7 @@ class Duty(models.Model):
 
     
     def duty_today(self):
-        return timezone.now().date() == self.date
+        return now().date() == self.date
             
     duty_today.admin_order_field = _('duty')
     duty_today.boolean = True

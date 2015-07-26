@@ -1,10 +1,12 @@
 from django.contrib import admin
 from django.utils.translation import ugettext as _
-from django.utils import timezone
+from django.utils.timezone import now
+from django.db.models import Q
 import datetime
+from .models import Duty,Person,Patient,Volunteer,Ward
+import board.helpers as h
 
-from .models import Duty,Patient,Volunteer,Ward
-
+from pprint import pprint
 
 admin.AdminSite.site_header ="Volunteer administration"
 admin.AdminSite.site_title ="Volunteer administration"
@@ -26,6 +28,39 @@ class VolunteerActiveFilter(admin.SimpleListFilter):
             return queryset.filter(active = False)
 
 
+class DutyFilter(admin.SimpleListFilter):
+    title = 'duty'
+    # Parameter for the filter that will be used in the URL query.
+    parameter_name = 'duty_soon'
+    def lookups(self, request, model_admin):
+        return ( ('today', _('Today')), ('week', _('Next 7 days')))
+
+    def queryset(self, request, queryset):
+        # select by date... Patient.objects.filter(birthday__month=4, birthday__day=1)
+        if self.value() == 'today':
+            return queryset.filter(
+                    date = now().date()
+                )
+        if self.value() == 'week':
+            future_date = (now() + datetime.timedelta(days=7)).date()
+            if (now().year == future_date.year):
+                return queryset.filter(
+                        Q(date__gte = now().date()) &
+                        Q(date__lte = datetime.date(future_date.year,
+                            future_date.month,
+                            future_date.day)
+                        )
+                    )
+            else:
+                return queryset.filter(
+                        Q(date__gte = now().date()) &
+                        Q(date__lte = datetime.date(now().year(),12, 31)) |
+                        Q(date__gte = datetime.date(future_date.year, 1, 1)) &
+                        Q(date__lte = datetime.date(future_date.year,
+                            future_date.month,
+                            future_date.day)
+                        )
+                    )
 
 class BirthdayFilter(admin.SimpleListFilter):
     title = 'birthday'
@@ -38,20 +73,24 @@ class BirthdayFilter(admin.SimpleListFilter):
         # select by date... Patient.objects.filter(birthday__month=4, birthday__day=1)
         if self.value() == 'today':
             return queryset.filter(
-                    birthday__month=timezone.now().month,
-                    birthday__day=timezone.now().day
+                    birthday = h.bday(now=True)
                 )
-        # FIXME
         if self.value() == 'week':
-            future_date=timezone.now() +  datetime.timedelta(days=7);
-            return queryset.filter(
-                    birthday__month__gte = timezone.now().month,
-                    birthday__day__gte = timezone.now().day,
-                  #  birthday__month__lte = (timezone.now() \
-                  #          + datetime.timedelta(days=7)).month,
-                  #  birthday__day__lte = (timezone.now() \
-                  #          + datetime.timedelta(days=7)).day,
-                )
+            future_date = (now() + datetime.timedelta(days=7)).date()
+            if (now().year == future_date.year):
+                return queryset.filter(
+                        Q(birthday__gte = h.bday(now=True)) &
+                        Q(birthday__lte = h.bday(future_date.month, 
+                            future_date.day))
+                    )
+            else:
+                return queryset.filter(
+                        Q(birthday__gte = h.bday(now=True)) &
+                        Q(birthday__lte = h.bday(12, 31)) |
+                        Q(birthday__gte = h.bday(1, 1)) &
+                        Q(birthday__lte = h.bday(future_date.month,
+                            future_date.day))
+                    )
 
 
 class DutyAdmin(admin.ModelAdmin):
@@ -60,29 +99,31 @@ class DutyAdmin(admin.ModelAdmin):
        (_('When'), {'fields': ['date', 'time']}),
        (_('Other'), {'fields': ['notes']}),
     ]
-    list_display = ('volunteer', 'patient', 
+    list_display = ('volunteer', 'patient',
             'date', 'time', 'notes')
+    list_filter = [DutyFilter]
 
 
 class VolunteerAdmin(admin.ModelAdmin):
     fieldsets = [
-       (_('Person'), {'fields': ['first_name', 'surname', 'birthday']}),
+       (_('Person'), {'fields': ['first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone']}),
        (_('Other'), {'fields': ['active','notes']}),
     ]
     list_display = ('first_name', 'surname',
-                    'birthday', 'email', 'phone', 'active', 'notes')
+                    'birthdate', 'email', 'phone', 'active', 'notes')
     list_filter = [BirthdayFilter,VolunteerActiveFilter]
 
 
 class PatientAdmin(admin.ModelAdmin):
     fieldsets = [
-       (_('Person'), {'fields': ['first_name', 'surname', 'birthday']}),
+       (_('Person'), {'fields': ['first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone']}),
        (_('Other'), {'fields': ['ward','notes']}),
     ]
     list_display = ('first_name', 'surname', 'ward',
-                    'birthday', 'email', 'phone', 'notes')
+                    'birthdate', 'email', 'phone', 'notes')
+    list_filter = [BirthdayFilter]
 
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(Volunteer, VolunteerAdmin)
