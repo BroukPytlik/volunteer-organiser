@@ -1,0 +1,250 @@
+# Translation file for Volunteer Organiser
+# vim: set expandtab cindent sw=4 ts=4:
+#
+# (C)2015 Jan Tulak <jan@tulak.me>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-26 19:15+0200\n"
+"PO-Revision-Date: 2015-07-26 19:15+ZONE\n"
+"Last-Translator: Jan Tulak <jan@tulak.me>\n"
+"Language-Team: Jan Tulak <jan@tulak.me>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: board/admin.py:19
+msgid "Active"
+msgstr "Aktivní"
+
+#: board/admin.py:20
+msgid "Inactive"
+msgstr "Neaktivní"
+
+#: board/admin.py:35 board/admin.py:56
+msgid "Today"
+msgstr "Dnes"
+
+#: board/admin.py:35 board/admin.py:56
+msgid "Next 7 days"
+msgstr "Příštích 7 dní"
+
+#: board/admin.py:76
+msgid "Who"
+msgstr "Kdo"
+
+#: board/admin.py:77
+msgid "When"
+msgstr "Kdy"
+
+#: board/admin.py:78 board/admin.py:89 board/admin.py:100
+msgid "Other"
+msgstr "Jiné"
+
+#: board/admin.py:87 board/admin.py:98
+msgid "Person"
+msgstr "Osoba"
+
+#: board/admin.py:88 board/admin.py:99
+msgid "Contact"
+msgstr "Kontakt"
+
+#: board/helpers.py:26
+msgid "Monday"
+msgstr "Pondělí"
+
+#: board/helpers.py:27
+msgid "Tuesday"
+msgstr "Úterý"
+
+#: board/helpers.py:28
+msgid "Wednesday"
+msgstr "Středa"
+
+#: board/helpers.py:29
+msgid "Thursday"
+msgstr "Čtvrtek"
+
+#: board/helpers.py:30
+msgid "Friday"
+msgstr "Pátek"
+
+#: board/helpers.py:31
+msgid "Saturday"
+msgstr "Sobota"
+
+#: board/helpers.py:32
+msgid "Sunday"
+msgstr "Neděle"
+
+#: board/helpers.py:38
+msgid "Morning"
+msgstr "Dopoledne"
+
+#: board/helpers.py:39
+msgid "Afternoon"
+msgstr "Odpoledne"
+
+#: board/models.py:73
+msgid "birthday"
+msgstr "narozeniny"
+
+#: board/models.py:75
+msgid "Birthday today?"
+msgstr "Narozeniny dnes?"
+
+#: board/models.py:116
+msgid "was on"
+msgstr "byl u"
+
+#: board/models.py:118
+msgid "day"
+msgstr "den"
+
+#: board/models.py:122
+msgid "patient"
+msgstr "pacient"
+
+#: board/models.py:123
+msgid "volunteer"
+msgstr "dobrovolník"
+
+#: board/models.py:147
+msgid "duty"
+msgstr "služba"
+
+#: board/models.py:149
+msgid "Duty today?"
+msgstr "Služba dnes?"
+
+#: board/templates/board/birthdays.html:2
+msgid "Birthdays today"
+msgstr "Narozeniny dnes"
+
+#: board/templates/board/birthdays.html:3
+#: board/templates/board/birthdays.html:28 templates/organiser/base.html:54
+msgid "Patients"
+msgstr "Pacienti"
+
+#: board/templates/board/birthdays.html:8
+#: board/templates/board/birthdays.html:19
+msgid "has"
+msgstr "má"
+
+#: board/templates/board/birthdays.html:8
+#: board/templates/board/birthdays.html:19
+#: board/templates/board/birthdays.html:33
+#: board/templates/board/birthdays.html:44
+msgid "years"
+msgstr "let"
+
+#: board/templates/board/birthdays.html:11
+#: board/templates/board/birthdays.html:22
+#: board/templates/board/birthdays.html:36
+#: board/templates/board/birthdays.html:47
+msgid "Nobody"
+msgstr "Nikdo"
+
+#: board/templates/board/birthdays.html:14
+#: board/templates/board/birthdays.html:39 templates/organiser/base.html:49
+msgid "Volunteers"
+msgstr "Dobrovolníci"
+
+#: board/templates/board/birthdays.html:27
+msgid "Birthdays"
+msgstr "Narozeniny"
+
+#: board/templates/board/birthdays.html:27 board/templates/board/duties.html:16
+msgid "in the next week"
+msgstr "příští týden"
+
+#: board/templates/board/birthdays.html:33
+#: board/templates/board/birthdays.html:44
+msgid "will have"
+msgstr "bude mít"
+
+#: board/templates/board/duties.html:2
+msgid "Dutys today"
+msgstr "Služba dnes"
+
+#: board/templates/board/duties.html:16
+#: templates/organiser/base.html:44
+msgid "Duties"
+msgstr "Služby"
+
+#: board/templates/board/duties.html:13
+#: board/templates/board/duties.html:29
+msgid "Nobody has a duty."
+msgstr "Nikdo nemá službu."
+
+#: organiser/settings.py:93
+msgid "English"
+msgstr "Anglicky"
+
+#: organiser/settings.py:94
+msgid "Czech"
+msgstr "Česky"
+
+#: organiser/templates/admin/base_site.html:3
+msgid "Volunteer Organiser"
+msgstr "Organizátor dobrovolníků"
+
+#: organiser/templates/admin/base_site.html:6
+msgid "Volunteer administration"
+msgstr "Administrace dobrovolníků"
+
+#: organiser/templates/admin/index.html:20
+#, python-format
+msgid "Models in the %(name)s application"
+msgstr "Modely v aplikaci %(name)s"
+
+#: organiser/templates/admin/index.html:31
+msgid "Add"
+msgstr "Přidat"
+
+#: organiser/templates/admin/index.html:37
+msgid "Change"
+msgstr "Upravit"
+
+#: organiser/templates/admin/index.html:47
+msgid "You don't have permission to edit anything."
+msgstr "Nemáte oprávnění cokoliv upravovat."
+
+#: organiser/templates/admin/index.html:55
+msgid "Recent Actions"
+msgstr "Nedávné aktivity"
+
+#: organiser/templates/admin/index.html:56
+msgid "My Actions"
+msgstr "Moje akce"
+
+#: organiser/templates/admin/index.html:60
+msgid "None available"
+msgstr "Nic není dostupné"
+
+#: organiser/templates/admin/index.html:74
+msgid "Unknown content"
+msgstr "Neznámý obsah"
+
+#: templates/organiser/base.html:39
+msgid "Board"
+msgstr "Nástěnka"

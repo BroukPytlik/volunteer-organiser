@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.core import urlresolvers
-from django.template.defaulttags import register
 
 import board.helpers as h
 from .models import Duty,Patient,Volunteer,Ward
@@ -11,13 +10,6 @@ from .models import Duty,Patient,Volunteer,Ward
 OVERVIEW_DAYS=7
 
 
-@register.filter
-def day_of_week(day):
-    return h.DAY_OF_THE_WEEK[day][1]
-
-@register.filter
-def duty_time(time):
-    return h.DUTY_TIME[time][1]
 
 def index(request):
 

@@ -19,6 +19,9 @@
 from django.utils.translation import ugettext as _
 from django.utils import timezone
 from django.db.models import Q
+from django.utils.translation import get_language
+from django.template.defaulttags import register
+import re
 import datetime
 
 
@@ -103,4 +106,21 @@ def filter_date_range(queryset, column, start, end):
                         Q(**arg_start_year) &
                         Q(**arg_end)
                     )
+
+@register.filter
+def day_of_week(day):
+    return DAY_OF_THE_WEEK[day][1]
+
+@register.filter
+def duty_time(time):
+    return DUTY_TIME[time][1]
+
+# strip language from URL when changing language
+@register.filter
+def strip_lang(path):
+    pattern = '^(/%s)/' % get_language()
+    match = re.search(pattern, path)
+    if match is None:
+        return path
+    return path[match.end(1):]
 
