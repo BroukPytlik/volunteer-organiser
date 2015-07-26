@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.utils.timezone import now
-from django.db.models import Q
 import datetime
 from .models import Duty,Person,Patient,Volunteer,Ward
 import board.helpers as h
@@ -36,31 +35,18 @@ class DutyFilter(admin.SimpleListFilter):
         return ( ('today', _('Today')), ('week', _('Next 7 days')))
 
     def queryset(self, request, queryset):
-        # select by date... Patient.objects.filter(birthday__month=4, birthday__day=1)
         if self.value() == 'today':
-            return queryset.filter(
-                    date = now().date()
-                )
+            # for 'today' it is simple...
+            return queryset.filter(date = now().date())
+
         if self.value() == 'week':
             future_date = (now() + datetime.timedelta(days=7)).date()
-            if (now().year == future_date.year):
-                return queryset.filter(
-                        Q(date__gte = now().date()) &
-                        Q(date__lte = datetime.date(future_date.year,
-                            future_date.month,
-                            future_date.day)
-                        )
-                    )
-            else:
-                return queryset.filter(
-                        Q(date__gte = now().date()) &
-                        Q(date__lte = datetime.date(now().year(),12, 31)) |
-                        Q(date__gte = datetime.date(future_date.year, 1, 1)) &
-                        Q(date__lte = datetime.date(future_date.year,
-                            future_date.month,
-                            future_date.day)
-                        )
-                    )
+            return h.filter_date_range(
+                    queryset,
+                    'date',
+                    now().date(),
+                    future_date
+                )
 
 class BirthdayFilter(admin.SimpleListFilter):
     title = 'birthday'
@@ -77,20 +63,12 @@ class BirthdayFilter(admin.SimpleListFilter):
                 )
         if self.value() == 'week':
             future_date = (now() + datetime.timedelta(days=7)).date()
-            if (now().year == future_date.year):
-                return queryset.filter(
-                        Q(birthday__gte = h.bday(now=True)) &
-                        Q(birthday__lte = h.bday(future_date.month, 
-                            future_date.day))
-                    )
-            else:
-                return queryset.filter(
-                        Q(birthday__gte = h.bday(now=True)) &
-                        Q(birthday__lte = h.bday(12, 31)) |
-                        Q(birthday__gte = h.bday(1, 1)) &
-                        Q(birthday__lte = h.bday(future_date.month,
-                            future_date.day))
-                    )
+            return h.filter_date_range(
+                    queryset,
+                    'birthday',
+                    h.bday(now=True),
+                    h.bday(future_date.month, future_date.day)
+                )
 
 
 class DutyAdmin(admin.ModelAdmin):

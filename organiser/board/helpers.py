@@ -18,6 +18,7 @@
 
 from django.utils.translation import ugettext as _
 from django.utils import timezone
+from django.db.models import Q
 import datetime
 
 
@@ -52,4 +53,27 @@ def bday(month=None, day=None, now=False):
         month = timezone.now().month
         day = timezone.now().day
     return datetime.date(BIRTHDAY_YEAR, month, day)
+
+def filter_date_range(queryset, column, start, end):
+            arg_start={ column+'__gte' : start}
+            arg_end={column+'__lte' :end}
+            arg_start_year={ column+'__gte' : datetime.date(end.year, 1, 1)}
+            arg_end_year={column+'__lte' :datetime.date(start.year, 12, 31)}
+
+            # if we are looking for next few days,
+            # we have to bear in mind what happens on the eve
+            # of a new year. So if the interval we are looking into
+            # is going over the New Year, break the search into two.
+            if (start.year == end.year):
+                return queryset.filter(
+                        Q(**arg_start) &
+                        Q(**arg_end)
+                    )
+            else:
+                return queryset.filter(
+                        Q(**arg_start) &
+                        Q(**arg_end_year) |
+                        Q(**arg_start_year) &
+                        Q(**arg_end)
+                    )
 

@@ -46,7 +46,19 @@ class Person(models.Model):
     phone      = models.CharField(max_length=20,blank=True, null=True)
     email      = models.EmailField(blank=True, null=True)
 
+    # get list of all people who has birthday in next X days
+    @classmethod
+    def filter_birthday_in(cls, days):
+        future_date = (now() + datetime.timedelta(days=days)).date()
+        return h.filter_date_range(
+                cls.objects,
+                'birthday',
+                h.bday(now=True),
+                h.bday(future_date.month, future_date.day)
+            )
+
     # show whether the person has birthday today
+    # Class method
     def birthday_today(self):
         return self.birthday == helper.bday(now=True)
 
@@ -85,14 +97,12 @@ class Duty(models.Model):
     created     = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     time        = models.IntegerField(choices=h.DUTY_TIME, default=h.MORNING)
     date        = models.DateField()
-    #day         = models.IntegerField(default=1, choices=DAY_OF_THE_WEEK)
- #   ended       = models.DateField(blank=True, null=True)
     notes       = models.TextField(blank=True, null=True)
 
     def __str__(self):
         day = "%s %s" % (
-                DAY_OF_THE_WEEK[self.date.weekday()][1],
-                DUTY_TIME[self.time][1],
+                h.DAY_OF_THE_WEEK[self.date.weekday()][1],
+                h.DUTY_TIME[self.time][1],
             )
         if (self.date < now().date()):
             day = "%s %s" % (_('was on'), day)
@@ -103,13 +113,24 @@ class Duty(models.Model):
         return "%s: <%s>\n%s: <%s>\n%s\n" % (
                 _('patient'), self.patient, 
                 _('volunteer'), self.volunteer, 
-                #_('day'), DAY_OF_THE_WEEK[self.day][1]
                 day,
             )
 
     
     def duty_today(self):
         return now().date() == self.date
+
+
+    # get duties in next X days
+    @classmethod
+    def filter_date_in(cls, days):
+        future_date = (now() + datetime.timedelta(days=days)).date()
+        return h.filter_date_range(
+                cls.objects,
+                'date',
+                now().date(),
+                future_date
+            )
             
     duty_today.admin_order_field = _('duty')
     duty_today.boolean = True
