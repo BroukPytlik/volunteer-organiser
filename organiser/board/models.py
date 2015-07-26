@@ -46,16 +46,24 @@ class Person(models.Model):
     phone      = models.CharField(max_length=20,blank=True, null=True)
     email      = models.EmailField(blank=True, null=True)
 
-    # get list of all people who has birthday in next X days
     @classmethod
-    def filter_birthday_in(cls, days):
+    def filter_birthday_in(cls, days, skip=1):
+        """
+        Get list of all people with birthday in the next X days.
+        By default it skips 1 day to start search tomorrow.
+        Can be altered with skip=N.
+        """
         future_date = (now() + datetime.timedelta(days=days)).date()
+        start = (now() + datetime.timedelta(days=skip)).date()
         return h.filter_date_range(
                 cls.objects,
                 'birthday',
-                h.bday(now=True),
+                h.bday(start.month, start.day),
                 h.bday(future_date.month, future_date.day)
             )
+
+    def age(self):
+        return h.num_years(self.birthdate)
 
     # show whether the person has birthday today
     # Class method
@@ -123,12 +131,16 @@ class Duty(models.Model):
 
     # get duties in next X days
     @classmethod
-    def filter_date_in(cls, days):
+    def filter_date_in(cls, days, skip=1):
+        """
+        Get list of all duties in the next X days. By default it skips
+        1 day to start search tomorrow. Can be altered with skip=N.
+        """
         future_date = (now() + datetime.timedelta(days=days)).date()
         return h.filter_date_range(
                 cls.objects,
                 'date',
-                now().date(),
+                now().date() + datetime.timedelta(days=skip),
                 future_date
             )
             

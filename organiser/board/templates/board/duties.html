@@ -1,0 +1,32 @@
+{% block duties %}
+        <h2>{{_('Dutys today')}}</h2>
+            <ul class="list duty">
+            {% for duty in duties_today  %}
+                <li class="pure-g">
+                    <div class="pure-u-3-4">
+                        {{duty.volunteer}} will go to {{duty.patient}} on {{duty.time}}
+                    </div>
+                    <div class="pure-u-1-4">
+                    </div>
+                </li>
+            {% empty %}
+                <li>{{_('Nobody has a duty')}}</li>
+            {% endfor %}
+            </ul>
+        <h2>{{_('Duties')}} {{ _('in the next week')}}</h2>
+            <ul class="list duty">
+            {% for duty in duties_soon  %}
+                <li class="pure-g">
+                    <div class="pure-u-3-4">
+                        {{duty.volunteer}} will go to {{duty.patient}} 
+                        on {{duty.date.isoweekday|day_of_week}}
+                        {{duty.time|duty_time}}
+                    </div>
+                    <div class="pure-u-1-4">
+                    </div>
+                </li>
+            {% empty %}
+                <li>{{_('Nobody has a duty.')}}</li>
+            {% endfor %}
+            </ul>
+{% endblock %}

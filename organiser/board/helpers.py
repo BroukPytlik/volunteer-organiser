@@ -54,6 +54,33 @@ def bday(month=None, day=None, now=False):
         day = timezone.now().day
     return datetime.date(BIRTHDAY_YEAR, month, day)
 
+
+def years_ago(years, from_date=None):
+    """
+    Author: Rick Copeland - http://stackoverflow.com/a/765990/1023519
+    """
+    if from_date is None:
+        from_date = timezone.now().date()
+    try:
+        return from_date.replace(year=from_date.year - years)
+    except:
+        # Must be 2/29!
+        #assert from_date.month == 2 and from_date.day == 29 # can be removed
+        return from_date.replace(month=3, day=1,
+                             year=from_date.year-years)
+
+def num_years(begin, end=None):
+    """
+    Author: Rick Copeland - http://stackoverflow.com/a/765990/1023519
+    """
+    if end is None:
+        end = timezone.now().date()
+    num_years = int((end - begin).days / 365.25)
+    if begin > years_ago(num_years, end):
+        return num_years - 1
+    else:
+        return num_years
+
 def filter_date_range(queryset, column, start, end):
             arg_start={ column+'__gte' : start}
             arg_end={column+'__lte' :end}

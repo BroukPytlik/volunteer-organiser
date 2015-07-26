@@ -1,0 +1,50 @@
+{% block birthdays %}
+        <h2>{{_('Birthdays today')}}</h2>
+        <h3>{{_('Patients')}}</h3>
+            <ul class="list person patient">
+            {% for p in birthdays_patients_today  %}
+                <li >
+                    {{p.first_name}} {{p.surname}}
+                    {{_('has')}} {{p.age|add:1}} {{_('years')}}
+                </li>
+            {% empty %}
+                <li>{{_('Nobody')}}</li>
+            {% endfor %}
+            </ul>
+        <h3>{{_('Volunteers')}}</h3>
+            <ul class="list person volunteer">
+            {% for p in birthdays_volunteers_today  %}
+                <li>
+                    {{p.first_name}} {{p.surname}}
+                    {{_('has')}} {{p.age|add:1}} {{_('years')}}
+                </li>
+            {% empty %}
+                <li>{{_('Nobody')}}</li>
+            {% endfor %}
+            </ul>
+
+
+        <h2>{{_('Birthdays')}} {{_('in the next week')}}</h2>
+        <h3>{{_('Patients')}}</h3>
+            <ul class="list person patient">
+            {% for p in birthdays_patients_soon  %}
+                <li>
+                    {{p.first_name}} {{p.surname}}
+                    {{_('will have')}} {{p.age|add:1}} {{_('years')}}
+                </li>
+            {% empty %}
+                <li>{{_('Nobody')}}</li>
+            {% endfor %}
+            </ul>
+        <h3>{{_('Volunteers')}}</h3>
+            <ul class="list person volunteer">
+            {% for p in birthdays_volunteers_soon  %}
+                <li>
+                    {{p.first_name}} {{p.surname}}
+                    {{_('will have')}} {{p.age|add:1}} {{_('years')}}
+                </li>
+            {% empty %}
+                <li>{{_('Nobody')}}</li>
+            {% endfor %}
+            </ul>
+{% endblock %}
