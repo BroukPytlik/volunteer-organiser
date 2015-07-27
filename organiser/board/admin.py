@@ -140,7 +140,7 @@ class VolunteerAdmin(admin.ModelAdmin):
        (_('Contact'), {'fields': ['email','phone1','phone2','address']}),
        (_('Other'), {'fields': ['professions','availableCategories', 'availableSubcategories', 'workingSince', 'workedUntil', 'active','notes']}),
     ]
-    list_display = ('first_name', 'surname',
+    list_display = ('surname', 'first_name',
                     'birthdate', 'professions', 'getCategoriesStr','getSubcategoriesStr', 'notes', 'active')
     list_filter = [BirthdayFilter,VolunteerActiveFilter, VolunteerCategoriesFilter, VolunteerSubcategoriesFilter]
 
@@ -150,7 +150,7 @@ class PatientAdmin(admin.ModelAdmin):
        (_('Person'), {'fields': ['first_name', 'surname', 'birthdate']}),
        (_('Other'), {'fields': ['ward','diagnosis','notes']}),
     ]
-    list_display = ('first_name', 'surname',
+    list_display = ('surname', 'first_name',
                     'birthdate', 'ward', 'diagnosis', 'notes')
     list_filter = [BirthdayFilter, PatientWardsFilter]
 
