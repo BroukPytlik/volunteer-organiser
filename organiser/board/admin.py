@@ -2,9 +2,11 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 from django.core import urlresolvers
+from django import forms
 import datetime
 from .models import Duty,Person,Patient,Volunteer,Ward
 import board.helpers as h
+import board.validators as validators
 
 from pprint import pprint
 
@@ -84,12 +86,22 @@ class BirthdayFilter(admin.SimpleListFilter):
                     h.bday(future_date.month, future_date.day)
                 )
 
+class DutyAdminForm(forms.ModelForm):
+    def clean(self):
+        cleaned_data = super(DutyAdminForm, self).clean()
+        volunteer = cleaned_data.get('volunteer')
+        ward = cleaned_data.get('ward')
+        validators.validate_duty_ward(volunteer, ward)
+        return self.cleaned_data
+
 
 class DutyAdmin(admin.ModelAdmin):
+    form = DutyAdminForm
     fieldsets = [
+       (_('Where'), {'fields': ['ward']}),
        (_('Who'), {'fields': ['volunteer', 'patient']}),
        (_('When'), {'fields': ['date', 'time']}),
-       (_('Other'), {'fields': ['ward','notes']}),
+       (_('Other'), {'fields': ['notes']}),
     ]
     list_display = ('volunteer', 'patient',
             'date', 'time', 'ward', 'notes')

@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-27 09:41+0200\n"
+"POT-Creation-Date: 2015-07-27 19:18+0200\n"
 "PO-Revision-Date: 2015-07-26 19:15+ZONE\n"
 "Last-Translator: Jan Tulak <jan@tulak.me>\n"
 "Language-Team: Jan Tulak <jan@tulak.me>\n"
@@ -31,57 +31,65 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: board/admin.py:12 board/admin.py:13 board/templates/board/index.html:2
+#: board/admin.py:14 board/admin.py:15 board/templates/board/index.html:2
 #: board/templates/board/index.html.py:5
 #: organiser/templates/admin/base_site.html:6
 msgid "Volunteer administration"
 msgstr "Administrace dobrovolníků"
 
-#: board/admin.py:17 board/models.py:98
+#: board/admin.py:19 board/models.py:107
+msgid "wards"
+msgstr "oddělení"
+
+#: board/admin.py:31 board/models.py:98
 msgid "active"
 msgstr "aktivní"
 
-#: board/admin.py:21
+#: board/admin.py:35
 msgid "Active"
 msgstr "Aktivní"
 
-#: board/admin.py:22
+#: board/admin.py:36
 msgid "Inactive"
 msgstr "Neaktivní"
 
-#: board/admin.py:33 board/models.py:111 board/models.py:147
+#: board/admin.py:47 board/models.py:119 board/models.py:157
 msgid "duty"
 msgstr "služba"
 
-#: board/admin.py:37 board/admin.py:58
+#: board/admin.py:51 board/admin.py:72
 msgid "Today"
 msgstr "Dnes"
 
-#: board/admin.py:37 board/admin.py:58
+#: board/admin.py:51 board/admin.py:72
 msgid "Next 7 days"
 msgstr "Příštích 7 dní"
 
-#: board/admin.py:54 board/models.py:73
+#: board/admin.py:68 board/models.py:74
 msgid "birthday"
 msgstr "narozeniny"
 
-#: board/admin.py:78
+#: board/admin.py:101
+msgid "Where"
+msgstr "Kde"
+
+#: board/admin.py:102
 msgid "Who"
 msgstr "Kdo"
 
-#: board/admin.py:79
+#: board/admin.py:103
 msgid "When"
 msgstr "Kdy"
 
-#: board/admin.py:80 board/admin.py:91 board/admin.py:102
+#: board/admin.py:104 board/admin.py:115 board/admin.py:126
 msgid "Other"
 msgstr "Jiné"
 
-#: board/admin.py:89 board/admin.py:100
+#: board/admin.py:113 board/admin.py:124
 msgid "Person"
 msgstr "Osoba"
 
-#: board/admin.py:90 board/admin.py:101
+#: board/admin.py:114 board/admin.py:125
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -121,71 +129,77 @@ msgstr "Dopoledne"
 msgid "Afternoon"
 msgstr "Odpoledne"
 
-#: board/models.py:38
+#: board/models.py:39
 msgid "first name"
 msgstr "jméno"
 
-#: board/models.py:39
+#: board/models.py:40
 msgid "surname"
 msgstr "příjmení"
 
-#: board/models.py:41
+#: board/models.py:42
 msgid "birth date"
 msgstr "datum narození"
 
-#: board/models.py:45 board/models.py:117
+#: board/models.py:46 board/models.py:125
 msgid "notes"
 msgstr "poznámky"
 
-#: board/models.py:46
+#: board/models.py:47
 msgid "phone"
 msgstr "telefon"
 
-#: board/models.py:47
+#: board/models.py:48
 msgid "e-mail"
 msgstr "e-mail"
 
-#: board/models.py:75
+#: board/models.py:76
 msgid "Birthday today?"
 msgstr "Narozeniny dnes?"
 
-#: board/models.py:89
+#: board/models.py:90
 msgid "patients"
 msgstr "pacienti"
 
-#: board/models.py:90 board/models.py:113 board/models.py:122
+#: board/models.py:91 board/models.py:121 board/models.py:132
 msgid "patient"
 msgstr "pacient"
-
-#: board/models.py:91
-msgid "ward"
-msgstr "oddělení"
 
 #: board/models.py:96
 msgid "volunteers"
 msgstr "dobrovolníci"
 
-#: board/models.py:97 board/models.py:112 board/models.py:123
+#: board/models.py:97 board/models.py:120 board/models.py:133
 msgid "volunteer"
 msgstr "dobrovolník"
 
-#: board/models.py:110
+#: board/models.py:99
+#, fuzzy
+#| msgid "None available"
+msgid "available wards"
+msgstr "Nic není dostupné"
+
+#: board/models.py:118
 msgid "duties"
 msgstr "služby"
 
-#: board/models.py:114
+#: board/models.py:122
 msgid "created"
 msgstr "vytvořeno"
 
-#: board/models.py:115
+#: board/models.py:123
 msgid "time"
 msgstr "čas"
 
-#: board/models.py:116
+#: board/models.py:124
 msgid "date"
 msgstr "datum"
 
-#: board/models.py:149
+#: board/models.py:126
+msgid "ward"
+msgstr "oddělení"
+
+#: board/models.py:159
 msgid "Duty today?"
 msgstr "Služba dnes?"
 
@@ -226,7 +240,7 @@ msgstr "Dobrovolníci"
 msgid "Birthdays"
 msgstr "Narozeniny"
 
-#: board/templates/board/birthdays.html:27 board/templates/board/duties.html:18
+#: board/templates/board/birthdays.html:27 board/templates/board/duties.html:14
 msgid "in the next week"
 msgstr "příští týden"
 
@@ -239,24 +253,24 @@ msgstr "bude mít"
 msgid "Dutys today"
 msgstr "Služba dnes"
 
-#: board/templates/board/duties.html:8 board/templates/board/duties.html:23
+#: board/templates/board/duties.html:7 board/templates/board/duties.html:18
 msgid "will go to"
 msgstr "půjde k"
 
-#: board/templates/board/duties.html:9
+#: board/templates/board/duties.html:8
 msgctxt "duties time only"
 msgid "on"
 msgstr ""
 
-#: board/templates/board/duties.html:15 board/templates/board/duties.html:31
+#: board/templates/board/duties.html:11 board/templates/board/duties.html:23
 msgid "Nobody has a duty."
 msgstr "Nikdo nemá službu."
 
-#: board/templates/board/duties.html:18 templates/organiser/base.html:93
+#: board/templates/board/duties.html:14 templates/organiser/base.html:93
 msgid "Duties"
 msgstr "Služby"
 
-#: board/templates/board/duties.html:24
+#: board/templates/board/duties.html:19
 msgctxt "Duties day and time"
 msgid "on"
 msgstr "ve: "
@@ -266,6 +280,10 @@ msgstr "ve: "
 #: templates/organiser/base.html:88 templates/organiser/base.html.py:112
 msgid "Board"
 msgstr "Nástěnka"
+
+#: board/validators.py:25
+msgid "Volunteer doesn't like this ward."
+msgstr "Dobrovolník nechce toto oddělení."
 
 #: organiser/settings.py:98
 msgid "Czech"

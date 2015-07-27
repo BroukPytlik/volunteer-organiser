@@ -21,6 +21,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 import datetime
 import board.helpers as h
+import board.validators
 #
 # Just a simple class to hold wards list
 #
@@ -122,7 +123,8 @@ class Duty(models.Model):
     time        = models.IntegerField(choices=h.DUTY_TIME, default=h.MORNING, verbose_name=_('time'))
     date        = models.DateField(verbose_name=_('date'))
     notes       = models.TextField(blank=True, null=True, verbose_name=_('notes'))
-    ward = models.ForeignKey(Ward, verbose_name=_('ward'))
+    ward        = models.ForeignKey(Ward, verbose_name=_('ward'))
+
 
     def __str__(self):
 
