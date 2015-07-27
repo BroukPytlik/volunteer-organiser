@@ -109,6 +109,14 @@ class Volunteer(Person):
             verbose_name = _("volunteer")
     active = models.BooleanField(blank=True, default=True, verbose_name=_('active'))
     availableCategories = models.ManyToManyField(Category, verbose_name = _('available categories'))
+    pid = models.IntegerField(unique = True, blank = True, verbose_name = _('PID'))
+
+    def save(self, *args, **kwargs):
+        if not self.pid:
+            last_pid = Volunteer.objects.all().aggregate(models.Max('pid'))['pid__max']
+            self.pid = int(last_pid) + 1
+        print ("\n\n%s\n\n" % self.pid )
+        super(Volunteer, self).save(*args, **kwargs)
 
 
     def getCategoriesStr(self):

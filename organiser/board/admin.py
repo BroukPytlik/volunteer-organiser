@@ -121,7 +121,7 @@ class DutyAdmin(admin.ModelAdmin):
 
 class VolunteerAdmin(admin.ModelAdmin):
     fieldsets = [
-       (_('Person'), {'fields': ['first_name', 'surname', 'birthdate']}),
+       (_('Person'), {'fields': ['pid', 'first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone']}),
        (_('Other'), {'fields': ['active','availableCategories','notes']}),
     ]
