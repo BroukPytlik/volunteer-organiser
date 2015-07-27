@@ -4,7 +4,7 @@ from django.utils.timezone import now
 from django.core import urlresolvers
 from django import forms
 import datetime
-from .models import Duty,Person,Patient,Volunteer,Category
+from .models import Duty,Person,Patient,Volunteer,Category,Ward
 import board.helpers as h
 import board.validators as validators
 
@@ -15,6 +15,17 @@ admin.site.site_header = _("Volunteer administration")
 admin.site.site_title = _("Volunteer administration")
 
 
+class PatientWardsFilter(admin.SimpleListFilter):
+    title = _('wards')
+    parameter_name = 'wards'
+
+    def lookups(self, request, model_admin):
+        return [(x.name, _(x.name)) for x in Ward.objects.all()]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(ward__name = self.value())
+        
 class VolunteerCategoriesFilter(admin.SimpleListFilter):
     title = _('categories')
     parameter_name = 'categories'
@@ -122,13 +133,14 @@ class VolunteerAdmin(admin.ModelAdmin):
 class PatientAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['first_name', 'surname', 'birthdate']}),
-       (_('Other'), {'fields': ['diagnosis','notes']}),
+       (_('Other'), {'fields': ['ward','diagnosis','notes']}),
     ]
     list_display = ('first_name', 'surname',
-                    'birthdate', 'diagnosis', 'notes')
-    list_filter = [BirthdayFilter]
+                    'birthdate', 'ward', 'diagnosis', 'notes')
+    list_filter = [BirthdayFilter, PatientWardsFilter]
 
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(Duty, DutyAdmin)
 admin.site.register(Category)
+admin.site.register(Ward)

@@ -26,6 +26,9 @@ import board.validators
 # Just a simple class to hold categories list
 #
 class Category(models.Model):
+    class Meta:
+            verbose_name_plural = _("categories")
+            verbose_name = _("category")
     name = models.CharField(max_length=50)
 
     def __str__(self):
@@ -84,12 +87,20 @@ class Person(models.Model):
                 self.surname, self.first_name, self.birthdate
             )
 
+class Ward(models.Model):
+    class Meta:
+            verbose_name_plural = _("wards")
+            verbose_name = _("ward")
+    name = models.TextField(verbose_name = _('name'))
+    def __str__(self):
+        return self.name
 
 class Patient(Person):
     class Meta:
             verbose_name_plural = _("patients")
             verbose_name = _("patient")
     diagnosis = models.TextField(blank = True, null=True,verbose_name = _('diagnosis'))
+    ward = models.ForeignKey(Ward, verbose_name = _('ward'))
 
 
 class Volunteer(Person):
