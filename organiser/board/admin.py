@@ -4,7 +4,7 @@ from django.utils.timezone import now
 from django.core import urlresolvers
 from django import forms
 import datetime
-from .models import Duty,Person,Patient,Volunteer,Ward
+from .models import Duty,Person,Patient,Volunteer,Category
 import board.helpers as h
 import board.validators as validators
 
@@ -15,16 +15,16 @@ admin.site.site_header = _("Volunteer administration")
 admin.site.site_title = _("Volunteer administration")
 
 
-class VolunteerWardsFilter(admin.SimpleListFilter):
-    title = _('wards')
-    parameter_name = 'wards'
+class VolunteerCategoriesFilter(admin.SimpleListFilter):
+    title = _('categories')
+    parameter_name = 'categories'
 
     def lookups(self, request, model_admin):
-        return [(x.name, _(x.name)) for x in Ward.objects.all()]
+        return [(x.name, _(x.name)) for x in Category.objects.all()]
 
     def queryset(self, request, queryset):
         if self.value():
-            return queryset.filter(availableWards__name = self.value())
+            return queryset.filter(availableCategories__name = self.value())
 
 
 class VolunteerActiveFilter(admin.SimpleListFilter):
@@ -90,21 +90,21 @@ class DutyAdminForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(DutyAdminForm, self).clean()
         volunteer = cleaned_data.get('volunteer')
-        ward = cleaned_data.get('ward')
-        validators.validate_duty_ward(volunteer, ward)
+        category = cleaned_data.get('category')
+        validators.validate_duty_category(volunteer, category)
         return self.cleaned_data
 
 
 class DutyAdmin(admin.ModelAdmin):
     form = DutyAdminForm
     fieldsets = [
-       (_('Where'), {'fields': ['ward']}),
+       (_('Where'), {'fields': ['category']}),
        (_('Who'), {'fields': ['volunteer', 'patient']}),
        (_('When'), {'fields': ['date', 'time']}),
        (_('Other'), {'fields': ['notes']}),
     ]
     list_display = ('volunteer', 'patient',
-            'date', 'time', 'ward', 'notes')
+            'date', 'time', 'category', 'notes')
     list_filter = [DutyFilter]
 
 
@@ -112,24 +112,23 @@ class VolunteerAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone']}),
-       (_('Other'), {'fields': ['active','availableWards','notes']}),
+       (_('Other'), {'fields': ['active','availableCategories','notes']}),
     ]
     list_display = ('first_name', 'surname',
-                    'birthdate', 'email', 'phone', 'active', 'getWardsStr', 'notes')
-    list_filter = [BirthdayFilter,VolunteerActiveFilter, VolunteerWardsFilter]
+                    'birthdate', 'email', 'phone', 'active', 'getCategoriesStr', 'notes')
+    list_filter = [BirthdayFilter,VolunteerActiveFilter, VolunteerCategoriesFilter]
 
 
 class PatientAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['first_name', 'surname', 'birthdate']}),
-       (_('Contact'), {'fields': ['email','phone']}),
-       (_('Other'), {'fields': ['notes']}),
+       (_('Other'), {'fields': ['diagnosis','notes']}),
     ]
     list_display = ('first_name', 'surname',
-                    'birthdate', 'email', 'phone', 'notes')
+                    'birthdate', 'diagnosis', 'notes')
     list_filter = [BirthdayFilter]
 
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(Duty, DutyAdmin)
-admin.site.register(Ward)
+admin.site.register(Category)

@@ -23,9 +23,9 @@ import datetime
 import board.helpers as h
 import board.validators
 #
-# Just a simple class to hold wards list
+# Just a simple class to hold categories list
 #
-class Ward(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=50)
 
     def __str__(self):
@@ -89,6 +89,7 @@ class Patient(Person):
     class Meta:
             verbose_name_plural = _("patients")
             verbose_name = _("patient")
+    diagnosis = models.TextField(blank = True, null=True,verbose_name = _('diagnosis'))
 
 
 class Volunteer(Person):
@@ -96,15 +97,15 @@ class Volunteer(Person):
             verbose_name_plural = _("volunteers")
             verbose_name = _("volunteer")
     active = models.BooleanField(blank=True, default=True, verbose_name=_('active'))
-    availableWards = models.ManyToManyField(Ward, verbose_name = _('available wards'))
+    availableCategories = models.ManyToManyField(Category, verbose_name = _('available categories'))
 
 
-    def getWardsStr(self):
+    def getCategoriesStr(self):
         l = []
-        for i in self.availableWards.all():
+        for i in self.availableCategories.all():
             l.append(str(i))
         return ', '.join(l)
-    getWardsStr.short_description = _('wards')
+    getCategoriesStr.short_description = _('categories')
 
 
 
@@ -118,12 +119,12 @@ class Duty(models.Model):
             verbose_name_plural = _("duties")
             verbose_name = _("duty")
     volunteer   = models.ForeignKey(Volunteer, verbose_name=_('volunteer'))
-    patient     = models.ForeignKey(Patient, verbose_name=_('patient'))
+    patient     = models.ForeignKey(Patient, blank=True, null=True, verbose_name=_('patient'))
     created     = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name=_('created'))
     time        = models.IntegerField(choices=h.DUTY_TIME, default=h.MORNING, verbose_name=_('time'))
     date        = models.DateField(verbose_name=_('date'))
     notes       = models.TextField(blank=True, null=True, verbose_name=_('notes'))
-    ward        = models.ForeignKey(Ward, verbose_name=_('ward'))
+    category        = models.ForeignKey(Category, verbose_name=_('category'))
 
 
     def __str__(self):

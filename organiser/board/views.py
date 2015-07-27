@@ -4,7 +4,7 @@ from django.template import RequestContext, loader
 from django.core import urlresolvers
 
 import board.helpers as h
-from .models import Duty,Patient,Volunteer,Ward
+from .models import Duty,Patient,Volunteer
 
 # how many days should we look in front for birthdays and duties?
 OVERVIEW_DAYS=7
