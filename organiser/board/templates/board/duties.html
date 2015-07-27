@@ -1,10 +1,12 @@
+{% load i18n %}
 {% block duties %}
         <h2>{{_('Dutys today')}}</h2>
             <ul class="list duty">
             {% for duty in duties_today  %}
                 <li class="pure-g">
                     <div class="pure-u-3-4">
-                        {{duty.volunteer}} {{_('will go to')}} {{duty.patient}} {{_('on')}} {{duty.time}}
+                        {{duty.volunteer}} {{ _('will go to')}} {{duty.patient}} 
+                        {% trans 'on' context 'duties time only' %} {{duty.time}}
                     </div>
                     <div class="pure-u-1-4">
                     </div>
@@ -18,8 +20,8 @@
             {% for duty in duties_soon  %}
                 <li class="pure-g">
                     <div class="pure-u-3-4">
-                        {{duty.volunteer}} will go to {{duty.patient}} 
-                        on {{duty.date.isoweekday|day_of_week}}
+                        {{duty.volunteer}} {{_('will go to')}} {{duty.patient}} 
+                        {% trans 'on' context 'Duties day and time' %} {{duty.date.isoweekday|day_of_week}}
                         {{duty.time|duty_time}}
                     </div>
                     <div class="pure-u-1-4">

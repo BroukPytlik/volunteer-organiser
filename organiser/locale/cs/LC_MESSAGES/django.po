@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-26 22:36+0200\n"
+"POT-Creation-Date: 2015-07-27 09:41+0200\n"
 "PO-Revision-Date: 2015-07-26 19:15+ZONE\n"
 "Last-Translator: Jan Tulak <jan@tulak.me>\n"
 "Language-Team: Jan Tulak <jan@tulak.me>\n"
@@ -31,93 +31,93 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: board/admin.py:11 board/admin.py:12 board/templates/board/index.html:2
+#: board/admin.py:12 board/admin.py:13 board/templates/board/index.html:2
 #: board/templates/board/index.html.py:5
 #: organiser/templates/admin/base_site.html:6
 msgid "Volunteer administration"
 msgstr "Administrace dobrovolníků"
 
-#: board/admin.py:27 board/models.py:98
+#: board/admin.py:17 board/models.py:98
 msgid "active"
 msgstr "aktivní"
 
-#: board/admin.py:31
+#: board/admin.py:21
 msgid "Active"
 msgstr "Aktivní"
 
-#: board/admin.py:32
+#: board/admin.py:22
 msgid "Inactive"
 msgstr "Neaktivní"
 
-#: board/admin.py:43 board/models.py:111 board/models.py:159
+#: board/admin.py:33 board/models.py:111 board/models.py:147
 msgid "duty"
 msgstr "služba"
 
-#: board/admin.py:47 board/admin.py:68
+#: board/admin.py:37 board/admin.py:58
 msgid "Today"
 msgstr "Dnes"
 
-#: board/admin.py:47 board/admin.py:68
+#: board/admin.py:37 board/admin.py:58
 msgid "Next 7 days"
 msgstr "Příštích 7 dní"
 
-#: board/admin.py:64 board/models.py:73
+#: board/admin.py:54 board/models.py:73
 msgid "birthday"
 msgstr "narozeniny"
 
-#: board/admin.py:88
+#: board/admin.py:78
 msgid "Who"
 msgstr "Kdo"
 
-#: board/admin.py:89
+#: board/admin.py:79
 msgid "When"
 msgstr "Kdy"
 
-#: board/admin.py:90 board/admin.py:101 board/admin.py:112
+#: board/admin.py:80 board/admin.py:91 board/admin.py:102
 msgid "Other"
 msgstr "Jiné"
 
-#: board/admin.py:99 board/admin.py:110
+#: board/admin.py:89 board/admin.py:100
 msgid "Person"
 msgstr "Osoba"
 
-#: board/admin.py:100 board/admin.py:111
+#: board/admin.py:90 board/admin.py:101
 msgid "Contact"
 msgstr "Kontakt"
 
-#: board/helpers.py:29
+#: board/helpers.py:30
 msgid "Monday"
 msgstr "Pondělí"
 
-#: board/helpers.py:30
+#: board/helpers.py:31
 msgid "Tuesday"
 msgstr "Úterý"
 
-#: board/helpers.py:31
+#: board/helpers.py:32
 msgid "Wednesday"
 msgstr "Středa"
 
-#: board/helpers.py:32
+#: board/helpers.py:33
 msgid "Thursday"
 msgstr "Čtvrtek"
 
-#: board/helpers.py:33
+#: board/helpers.py:34
 msgid "Friday"
 msgstr "Pátek"
 
-#: board/helpers.py:34
+#: board/helpers.py:35
 msgid "Saturday"
 msgstr "Sobota"
 
-#: board/helpers.py:35
+#: board/helpers.py:36
 msgid "Sunday"
 msgstr "Neděle"
 
-#: board/helpers.py:41
+#: board/helpers.py:42
 msgid "Morning"
 msgstr "Dopoledne"
 
-#: board/helpers.py:42
+#: board/helpers.py:43
 msgid "Afternoon"
 msgstr "Odpoledne"
 
@@ -153,7 +153,7 @@ msgstr "Narozeniny dnes?"
 msgid "patients"
 msgstr "pacienti"
 
-#: board/models.py:90 board/models.py:113 board/models.py:134
+#: board/models.py:90 board/models.py:113 board/models.py:122
 msgid "patient"
 msgstr "pacient"
 
@@ -165,7 +165,7 @@ msgstr "oddělení"
 msgid "volunteers"
 msgstr "dobrovolníci"
 
-#: board/models.py:97 board/models.py:112 board/models.py:135
+#: board/models.py:97 board/models.py:112 board/models.py:123
 msgid "volunteer"
 msgstr "dobrovolník"
 
@@ -185,11 +185,7 @@ msgstr "čas"
 msgid "date"
 msgstr "datum"
 
-#: board/models.py:125
-msgid "was on"
-msgstr "byla"
-
-#: board/models.py:161
+#: board/models.py:149
 msgid "Duty today?"
 msgstr "Služba dnes?"
 
@@ -230,7 +226,7 @@ msgstr "Dobrovolníci"
 msgid "Birthdays"
 msgstr "Narozeniny"
 
-#: board/templates/board/birthdays.html:27 board/templates/board/duties.html:16
+#: board/templates/board/birthdays.html:27 board/templates/board/duties.html:18
 msgid "in the next week"
 msgstr "příští týden"
 
@@ -239,25 +235,31 @@ msgstr "příští týden"
 msgid "will have"
 msgstr "bude mít"
 
-#: board/templates/board/duties.html:2
+#: board/templates/board/duties.html:3
 msgid "Dutys today"
 msgstr "Služba dnes"
 
-#: board/templates/board/duties.html:7
+#: board/templates/board/duties.html:8 board/templates/board/duties.html:23
 msgid "will go to"
 msgstr "půjde k"
 
-#: board/templates/board/duties.html:7
+#: board/templates/board/duties.html:9
+msgctxt "duties time only"
 msgid "on"
 msgstr ""
 
-#: board/templates/board/duties.html:13 board/templates/board/duties.html:29
+#: board/templates/board/duties.html:15 board/templates/board/duties.html:31
 msgid "Nobody has a duty."
 msgstr "Nikdo nemá službu."
 
-#: board/templates/board/duties.html:16 templates/organiser/base.html:93
+#: board/templates/board/duties.html:18 templates/organiser/base.html:93
 msgid "Duties"
 msgstr "Služby"
+
+#: board/templates/board/duties.html:24
+msgctxt "Duties day and time"
+msgid "on"
+msgstr "ve: "
 
 #: board/templates/board/index.html:12 templates/admin/change_form.html:18
 #: templates/admin/change_list.html:40 templates/admin/object_history.html:6
@@ -376,6 +378,9 @@ msgstr "Změna hesla"
 #: templates/organiser/base.html:77
 msgid "Log out"
 msgstr "Odhlásit"
+
+#~ msgid "was on"
+#~ msgstr "byla"
 
 #~ msgid "day"
 #~ msgstr "den"
