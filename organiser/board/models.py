@@ -25,10 +25,18 @@ import board.validators
 #
 # Just a simple class to hold categories list
 #
-class Category(models.Model):
+class Category1(models.Model):
     class Meta:
             verbose_name_plural = _("categories")
             verbose_name = _("category")
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+class Category2(models.Model):
+    class Meta:
+            verbose_name_plural = _("subcategories")
+            verbose_name = _("subcategory")
     name = models.CharField(max_length=50)
 
     def __str__(self):
@@ -110,7 +118,8 @@ class Volunteer(Person):
             verbose_name_plural = _("volunteers")
             verbose_name = _("volunteer")
     active = models.BooleanField(blank=True, default=True, verbose_name=_('active'))
-    availableCategories = models.ManyToManyField(Category, verbose_name = _('available categories'))
+    availableCategories = models.ManyToManyField(Category1, verbose_name = _('available categories'))
+    availableSubcategories = models.ManyToManyField(Category2, blank=True, verbose_name = _('available subcategories'))
     pid = models.IntegerField(unique = True, blank = True, verbose_name = _('PID'))
     workingSince = models.DateField(blank=True, verbose_name = _('working since'))
     workedUntil = models.DateField(blank=True,null=True, verbose_name = _('worked until'))
@@ -124,6 +133,13 @@ class Volunteer(Person):
             self.workingSince = now().date()
         super(Volunteer, self).save(*args, **kwargs)
 
+
+    def getSubcategoriesStr(self):
+        l = []
+        for i in self.availableSubcategories.all():
+            l.append(str(i))
+        return ', '.join(l)
+    getSubcategoriesStr.short_description = _('subcategories')
 
     def getCategoriesStr(self):
         l = []
@@ -149,7 +165,8 @@ class Duty(models.Model):
     time        = models.IntegerField(choices=h.DUTY_TIME, default=h.MORNING, verbose_name=_('time'))
     date        = models.DateField(verbose_name=_('date'))
     notes       = models.TextField(blank=True, null=True, verbose_name=_('notes'))
-    category        = models.ForeignKey(Category, verbose_name=_('category'))
+    category1        = models.ForeignKey(Category1, verbose_name=_('category'))
+    category2        = models.ForeignKey(Category2, blank=True, null=True, verbose_name=_('subcategory'))
 
 
     def __str__(self):

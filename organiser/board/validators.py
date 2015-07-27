@@ -20,6 +20,6 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 
-def validate_duty_category(volunteer, category):
-    if not volunteer.availableCategories.filter(name = category ):
+def validate_duty_category1(volunteer, category1):
+    if not volunteer.availableCategories.filter(name = category1 ):
         raise ValidationError(_("Volunteer doesn't like this category."))

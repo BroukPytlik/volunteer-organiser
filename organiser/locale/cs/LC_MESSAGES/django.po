@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-27 22:48+0200\n"
+"POT-Creation-Date: 2015-07-27 23:14+0200\n"
 "PO-Revision-Date: 2015-07-26 19:15+ZONE\n"
 "Last-Translator: Jan Tulak <jan@tulak.me>\n"
 "Language-Team: Jan Tulak <jan@tulak.me>\n"
@@ -37,15 +37,15 @@ msgstr ""
 msgid "Volunteer administration"
 msgstr "Administrace dobrovolníků"
 
-#: board/admin.py:19 board/models.py:94
+#: board/admin.py:19 board/models.py:102
 msgid "wards"
 msgstr "oddělení"
 
-#: board/admin.py:30 board/models.py:30 board/models.py:133
+#: board/admin.py:30 board/models.py:30 board/models.py:149
 msgid "categories"
 msgstr "kategorie"
 
-#: board/admin.py:42 board/models.py:112
+#: board/admin.py:42 board/models.py:120
 msgid "active"
 msgstr "aktivní"
 
@@ -57,7 +57,7 @@ msgstr "Aktivní"
 msgid "Inactive"
 msgstr "Neaktivní"
 
-#: board/admin.py:58 board/models.py:145 board/models.py:183
+#: board/admin.py:58 board/models.py:161 board/models.py:200
 msgid "duty"
 msgstr "služba"
 
@@ -69,31 +69,31 @@ msgstr "Dnes"
 msgid "Next 7 days"
 msgstr "Příštích 7 dní"
 
-#: board/admin.py:79 board/models.py:79
+#: board/admin.py:79 board/models.py:87
 msgid "birthday"
 msgstr "narozeniny"
 
-#: board/admin.py:112
+#: board/admin.py:115
 msgid "Where"
 msgstr "Kde"
 
-#: board/admin.py:113
+#: board/admin.py:116
 msgid "Who"
 msgstr "Kdo"
 
-#: board/admin.py:114
+#: board/admin.py:117
 msgid "When"
 msgstr "Kdy"
 
-#: board/admin.py:115 board/admin.py:126 board/admin.py:136
+#: board/admin.py:118 board/admin.py:129 board/admin.py:139
 msgid "Other"
 msgstr "Jiné"
 
-#: board/admin.py:124 board/admin.py:135
+#: board/admin.py:127 board/admin.py:138
 msgid "Person"
 msgstr "Osoba"
 
-#: board/admin.py:125
+#: board/admin.py:128
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -133,107 +133,119 @@ msgstr "Dopoledne"
 msgid "Afternoon"
 msgstr "Odpoledne"
 
-#: board/models.py:31 board/models.py:152
+#: board/models.py:31 board/models.py:168
 msgid "category"
 msgstr "kategorie"
 
-#: board/models.py:42
+#: board/models.py:38 board/models.py:142
+msgid "subcategories"
+msgstr "subkategorie"
+
+#: board/models.py:39 board/models.py:169
+msgid "subcategory"
+msgstr "subategorie"
+
+#: board/models.py:50
 msgid "first name"
 msgstr "jméno"
 
-#: board/models.py:43
+#: board/models.py:51
 msgid "surname"
 msgstr "příjmení"
 
-#: board/models.py:45
+#: board/models.py:53
 msgid "birth date"
 msgstr "datum narození"
 
-#: board/models.py:49 board/models.py:151
+#: board/models.py:57 board/models.py:167
 msgid "notes"
 msgstr "poznámky"
 
-#: board/models.py:50 board/models.py:51
+#: board/models.py:58 board/models.py:59
 msgid "phone"
 msgstr "telefon"
 
-#: board/models.py:52
+#: board/models.py:60
 msgid "e-mail"
 msgstr "e-mail"
 
-#: board/models.py:53
+#: board/models.py:61
 msgid "address"
 msgstr "adresa"
 
-#: board/models.py:81
+#: board/models.py:89
 msgid "Birthday today?"
 msgstr "Narozeniny dnes?"
 
-#: board/models.py:95 board/models.py:105
+#: board/models.py:103 board/models.py:113
 msgid "ward"
 msgstr "oddělení"
 
-#: board/models.py:96
+#: board/models.py:104
 msgid "name"
 msgstr "jméno"
 
-#: board/models.py:102
+#: board/models.py:110
 msgid "patients"
 msgstr "pacienti"
 
-#: board/models.py:103 board/models.py:147 board/models.py:158
+#: board/models.py:111 board/models.py:163 board/models.py:175
 msgid "patient"
 msgstr "pacient"
 
-#: board/models.py:104
+#: board/models.py:112
 msgid "diagnosis"
 msgstr "diagnóza"
 
-#: board/models.py:110
+#: board/models.py:118
 msgid "volunteers"
 msgstr "dobrovolníci"
 
-#: board/models.py:111 board/models.py:146 board/models.py:159
+#: board/models.py:119 board/models.py:162 board/models.py:176
 msgid "volunteer"
 msgstr "dobrovolník"
 
-#: board/models.py:113
+#: board/models.py:121
 msgid "available categories"
 msgstr "Dostupné kategorie"
 
-#: board/models.py:114
+#: board/models.py:122
+msgid "available subcategories"
+msgstr "dostupné podkategorie"
+
+#: board/models.py:123
 msgid "PID"
 msgstr "PID"
 
-#: board/models.py:115
+#: board/models.py:124
 msgid "working since"
 msgstr "zaměstnaný od"
 
-#: board/models.py:116
+#: board/models.py:125
 msgid "worked until"
 msgstr "pracoval do"
 
-#: board/models.py:117
+#: board/models.py:126
 msgid "professions"
 msgstr "profese"
 
-#: board/models.py:144
+#: board/models.py:160
 msgid "duties"
 msgstr "služby"
 
-#: board/models.py:148
+#: board/models.py:164
 msgid "created"
 msgstr "vytvořeno"
 
-#: board/models.py:149
+#: board/models.py:165
 msgid "time"
 msgstr "čas"
 
-#: board/models.py:150
+#: board/models.py:166
 msgid "date"
 msgstr "datum"
 
-#: board/models.py:185
+#: board/models.py:202
 msgid "Duty today?"
 msgstr "Služba dnes?"
 

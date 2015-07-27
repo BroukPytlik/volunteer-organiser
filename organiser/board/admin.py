@@ -4,7 +4,7 @@ from django.utils.timezone import now
 from django.core import urlresolvers
 from django import forms
 import datetime
-from .models import Duty,Person,Patient,Volunteer,Category,Ward
+from .models import Duty,Person,Patient,Volunteer,Category1,Category2,Ward
 import board.helpers as h
 import board.validators as validators
 
@@ -31,11 +31,23 @@ class VolunteerCategoriesFilter(admin.SimpleListFilter):
     parameter_name = 'categories'
 
     def lookups(self, request, model_admin):
-        return [(x.name, _(x.name)) for x in Category.objects.all()]
+        return [(x.name, _(x.name)) for x in Category1.objects.all()]
 
     def queryset(self, request, queryset):
         if self.value():
             return queryset.filter(availableCategories__name = self.value())
+
+
+class VolunteerSubcategoriesFilter(admin.SimpleListFilter):
+    title = _('subcategories')
+    parameter_name = 'subcategories'
+
+    def lookups(self, request, model_admin):
+        return [(x.name, _(x.name)) for x in Category2.objects.all()]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(availableSubcategories__name = self.value())
 
 
 class VolunteerActiveFilter(admin.SimpleListFilter):
@@ -97,25 +109,28 @@ class BirthdayFilter(admin.SimpleListFilter):
                     h.bday(future_date.month, future_date.day)
                 )
 
+
+# to ensure the volunteer wasn't assigned bad category1
 class DutyAdminForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(DutyAdminForm, self).clean()
         volunteer = cleaned_data.get('volunteer')
-        category = cleaned_data.get('category')
-        validators.validate_duty_category(volunteer, category)
+        category1 = cleaned_data.get('category1')
+        validators.validate_duty_category1(volunteer, category1)
         return self.cleaned_data
 
 
 class DutyAdmin(admin.ModelAdmin):
-    form = DutyAdminForm
+    # disabled, not needed
+    # form = DutyAdminForm
     fieldsets = [
-       (_('Where'), {'fields': ['category']}),
+       (_('Where'), {'fields': ['category1','category2']}),
        (_('Who'), {'fields': ['volunteer', 'patient']}),
        (_('When'), {'fields': ['date', 'time']}),
        (_('Other'), {'fields': ['notes']}),
     ]
     list_display = ('volunteer', 'patient',
-            'date', 'time', 'category', 'notes')
+            'date', 'time', 'category1', 'category2', 'notes')
     list_filter = [DutyFilter]
 
 
@@ -123,11 +138,11 @@ class VolunteerAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['pid', 'first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone1','phone2','address']}),
-       (_('Other'), {'fields': ['professions','availableCategories', 'workingSince', 'workedUntil', 'active','notes']}),
+       (_('Other'), {'fields': ['professions','availableCategories', 'availableSubcategories', 'workingSince', 'workedUntil', 'active','notes']}),
     ]
     list_display = ('first_name', 'surname',
-                    'birthdate', 'professions', 'getCategoriesStr', 'notes', 'active')
-    list_filter = [BirthdayFilter,VolunteerActiveFilter, VolunteerCategoriesFilter]
+                    'birthdate', 'professions', 'getCategoriesStr','getSubcategoriesStr', 'notes', 'active')
+    list_filter = [BirthdayFilter,VolunteerActiveFilter, VolunteerCategoriesFilter, VolunteerSubcategoriesFilter]
 
 
 class PatientAdmin(admin.ModelAdmin):
@@ -142,5 +157,6 @@ class PatientAdmin(admin.ModelAdmin):
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(Duty, DutyAdmin)
-admin.site.register(Category)
+admin.site.register(Category1)
+admin.site.register(Category2)
 admin.site.register(Ward)
