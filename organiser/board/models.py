@@ -17,7 +17,7 @@
 #
 
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 import datetime
 import board.helpers as h
@@ -35,16 +35,16 @@ class Ward(models.Model):
 # Generic person details, common for both patient and volunteer.
 #
 class Person(models.Model):
-    first_name = models.CharField(max_length=20)
-    surname    = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=20, verbose_name=_('first name'))
+    surname    = models.CharField(max_length=20, verbose_name=_('surname'))
     # birthdate - real date of birth
-    birthdate  = models.DateField()
+    birthdate  = models.DateField(verbose_name=_('birth date'))
     # birthday - only month and day, year is the same for all persons
     # BIRTHDAY_YEAR
     birthday  = models.DateField()
-    notes      = models.TextField(blank=True, null=True)
-    phone      = models.CharField(max_length=20,blank=True, null=True)
-    email      = models.EmailField(blank=True, null=True)
+    notes      = models.TextField(blank=True, null=True, verbose_name=_('notes'))
+    phone      = models.CharField(max_length=20,blank=True, null=True, verbose_name=_('phone'))
+    email      = models.EmailField(blank=True, null=True, verbose_name=_('e-mail'))
 
     @classmethod
     def filter_birthday_in(cls, days, skip=1):
@@ -85,11 +85,17 @@ class Person(models.Model):
 
 
 class Patient(Person):
-    ward = models.ForeignKey(Ward)
+    class Meta:
+            verbose_name_plural = _("patients")
+            verbose_name = _("patient")
+    ward = models.ForeignKey(Ward, verbose_name=_('ward'))
 
 
 class Volunteer(Person):
-    active = models.BooleanField(blank=True, default=True)
+    class Meta:
+            verbose_name_plural = _("volunteers")
+            verbose_name = _("volunteer")
+    active = models.BooleanField(blank=True, default=True, verbose_name=_('active'))
     pass
 
 
@@ -100,28 +106,22 @@ class Volunteer(Person):
 # In most views, show only future dutys.
 # 
 class Duty(models.Model):
-    volunteer   = models.ForeignKey(Volunteer)
-    patient     = models.ForeignKey(Patient)
-    created     = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-    time        = models.IntegerField(choices=h.DUTY_TIME, default=h.MORNING)
-    date        = models.DateField()
-    notes       = models.TextField(blank=True, null=True)
+    class Meta:
+            verbose_name_plural = _("duties")
+            verbose_name = _("duty")
+    volunteer   = models.ForeignKey(Volunteer, verbose_name=_('volunteer'))
+    patient     = models.ForeignKey(Patient, verbose_name=_('patient'))
+    created     = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name=_('created'))
+    time        = models.IntegerField(choices=h.DUTY_TIME, default=h.MORNING, verbose_name=_('time'))
+    date        = models.DateField(verbose_name=_('date'))
+    notes       = models.TextField(blank=True, null=True, verbose_name=_('notes'))
 
     def __str__(self):
-        day = "%s %s" % (
-                h.DAY_OF_THE_WEEK[self.date.weekday()][1],
-                h.DUTY_TIME[self.time][1],
-            )
-        if (self.date < now().date()):
-            day = "%s %s" % (_('was on'), day)
-        else:
-            day = "%s: %s" % (_('day'), day)
 
-
-        return "%s: <%s>\n%s: <%s>\n%s\n" % (
+        return "%s: <%s>, %s: <%s>, %s %s\n" % (
                 _('patient'), self.patient, 
                 _('volunteer'), self.volunteer, 
-                day,
+                self.date, h.DUTY_TIME[self.time][1]
             )
 
     

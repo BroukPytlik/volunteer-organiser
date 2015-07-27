@@ -2,10 +2,13 @@
 	text-align: center;
 }
 
-#header a {
+.lang-form {
     display: block;
-    height: 35pt;
+    float: right;
+    color:black;
 }
-#header a:hover {
-    background: #111;
+
+.dump {
+    border: 1px solid #aa6;
+    background: #ffa;
 }

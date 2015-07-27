@@ -1,18 +1,32 @@
 from django.contrib import admin
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
+from django.core import urlresolvers
 import datetime
 from .models import Duty,Person,Patient,Volunteer,Ward
 import board.helpers as h
 
 from pprint import pprint
 
-admin.AdminSite.site_header ="Volunteer administration"
-admin.AdminSite.site_title ="Volunteer administration"
+
+
+admin.AdminSite.site_header = _("Volunteer administration")
+admin.AdminSite.site_title = _("Volunteer administration")
+
+class ModelAdmin(admin.ModelAdmin):
+    """
+    Use custom admin model to provide links.
+    """
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['duty_list_url'] = urlresolvers.reverse('admin:board_duty_changelist')
+        extra_context['patient_list_url'] = urlresolvers.reverse('admin:board_patient_changelist')
+        extra_context['volunteer_list_url'] = urlresolvers.reverse('admin:board_volunteer_changelist')
+        return super(ModelAdmin, self).changelist_view(request, extra_context=extra_context)
 
 
 class VolunteerActiveFilter(admin.SimpleListFilter):
-    title = 'active'
+    title = _('active')
     parameter_name = 'active'
 
     def lookups(self, request, model_admin):
@@ -28,7 +42,7 @@ class VolunteerActiveFilter(admin.SimpleListFilter):
 
 
 class DutyFilter(admin.SimpleListFilter):
-    title = 'duty'
+    title = _('duty')
     # Parameter for the filter that will be used in the URL query.
     parameter_name = 'duty_soon'
     def lookups(self, request, model_admin):
@@ -49,7 +63,7 @@ class DutyFilter(admin.SimpleListFilter):
                 )
 
 class BirthdayFilter(admin.SimpleListFilter):
-    title = 'birthday'
+    title = _('birthday')
     # Parameter for the filter that will be used in the URL query.
     parameter_name = 'birthday_soon'
     def lookups(self, request, model_admin):
@@ -71,7 +85,7 @@ class BirthdayFilter(admin.SimpleListFilter):
                 )
 
 
-class DutyAdmin(admin.ModelAdmin):
+class DutyAdmin(ModelAdmin):
     fieldsets = [
        (_('Who'), {'fields': ['volunteer', 'patient']}),
        (_('When'), {'fields': ['date', 'time']}),
@@ -82,7 +96,7 @@ class DutyAdmin(admin.ModelAdmin):
     list_filter = [DutyFilter]
 
 
-class VolunteerAdmin(admin.ModelAdmin):
+class VolunteerAdmin(ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone']}),
@@ -93,7 +107,7 @@ class VolunteerAdmin(admin.ModelAdmin):
     list_filter = [BirthdayFilter,VolunteerActiveFilter]
 
 
-class PatientAdmin(admin.ModelAdmin):
+class PatientAdmin(ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone']}),

@@ -1,4 +1,18 @@
 {% extends "organiser/base.html" %}
+{% block title %}{{ title }} | {{ site_title|default:_('Volunteer administration') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Volunteer administration') }}</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    {{ _('Board')}}
+</div>
+{% endblock %}
+
 {% block content %}
 <div class="pure-g">
     <div class="pure-u-1-3">

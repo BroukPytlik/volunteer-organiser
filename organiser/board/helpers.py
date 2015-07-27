@@ -16,23 +16,24 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.db.models import Q
 from django.utils.translation import get_language
 from django.template.defaulttags import register
 import re
 import datetime
+from pprint import pformat
 
 
 DAY_OF_THE_WEEK = [
-    (1, _(u'Monday')),
-    (2, _(u'Tuesday')),
-    (3, _(u'Wednesday')),
-    (4, _(u'Thursday')),
-    (5, _(u'Friday')),
-    (6, _(u'Saturday')),
-    (7, _(u'Sunday')),
+    (1, _('Monday')),
+    (2, _('Tuesday')),
+    (3, _('Wednesday')),
+    (4, _('Thursday')),
+    (5, _('Friday')),
+    (6, _('Saturday')),
+    (7, _('Sunday')),
 ]
 
 MORNING = 0
@@ -124,3 +125,42 @@ def strip_lang(path):
         return path
     return path[match.end(1):]
 
+
+
+# Custom tag for diagnostics
+@register.simple_tag()
+def dump(var):
+    dumped = str(vars(var))
+    out = ''
+    indent = 0
+    prev_char_br = False
+    for i in range(len(dumped)):
+        formatting="%s"
+        c = dumped[i]
+        if i < len(dumped)-1:
+            n = dumped[i+1]
+        else:
+            n = None
+
+        if prev_char_br == True:
+            prev_char_br = False
+            for x in range(indent*4):
+                out += '-'
+
+        else:
+            if c == ',':
+                if n != ',':
+                    formatting = '%s\n'
+                    prev_char_br = True
+
+            if c == '{' or c == '(' or c == '[':
+                indent += 1
+                if n != '}' and n != ')' and n != ']':
+                    formatting = '%s\n'
+                    prev_char_br = True
+            if c == '}' or c == ')' or c == ']':
+                indent -= 1
+                formatting = "\n%s"
+                prev_char_br = True
+        out += formatting%c
+    return "<pre class='dump'>%s</pre>" % (out)

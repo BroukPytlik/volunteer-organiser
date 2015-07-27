@@ -16,13 +16,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-26 19:15+0200\n"
+"POT-Creation-Date: 2015-07-26 22:36+0200\n"
 "PO-Revision-Date: 2015-07-26 19:15+ZONE\n"
 "Last-Translator: Jan Tulak <jan@tulak.me>\n"
 "Language-Team: Jan Tulak <jan@tulak.me>\n"
@@ -32,107 +31,165 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: board/admin.py:19
+#: board/admin.py:11 board/admin.py:12 board/templates/board/index.html:2
+#: board/templates/board/index.html.py:5
+#: organiser/templates/admin/base_site.html:6
+msgid "Volunteer administration"
+msgstr "Administrace dobrovolníků"
+
+#: board/admin.py:27 board/models.py:98
+msgid "active"
+msgstr "aktivní"
+
+#: board/admin.py:31
 msgid "Active"
 msgstr "Aktivní"
 
-#: board/admin.py:20
+#: board/admin.py:32
 msgid "Inactive"
 msgstr "Neaktivní"
 
-#: board/admin.py:35 board/admin.py:56
+#: board/admin.py:43 board/models.py:111 board/models.py:159
+msgid "duty"
+msgstr "služba"
+
+#: board/admin.py:47 board/admin.py:68
 msgid "Today"
 msgstr "Dnes"
 
-#: board/admin.py:35 board/admin.py:56
+#: board/admin.py:47 board/admin.py:68
 msgid "Next 7 days"
 msgstr "Příštích 7 dní"
 
-#: board/admin.py:76
+#: board/admin.py:64 board/models.py:73
+msgid "birthday"
+msgstr "narozeniny"
+
+#: board/admin.py:88
 msgid "Who"
 msgstr "Kdo"
 
-#: board/admin.py:77
+#: board/admin.py:89
 msgid "When"
 msgstr "Kdy"
 
-#: board/admin.py:78 board/admin.py:89 board/admin.py:100
+#: board/admin.py:90 board/admin.py:101 board/admin.py:112
 msgid "Other"
 msgstr "Jiné"
 
-#: board/admin.py:87 board/admin.py:98
+#: board/admin.py:99 board/admin.py:110
 msgid "Person"
 msgstr "Osoba"
 
-#: board/admin.py:88 board/admin.py:99
+#: board/admin.py:100 board/admin.py:111
 msgid "Contact"
 msgstr "Kontakt"
 
-#: board/helpers.py:26
+#: board/helpers.py:29
 msgid "Monday"
 msgstr "Pondělí"
 
-#: board/helpers.py:27
+#: board/helpers.py:30
 msgid "Tuesday"
 msgstr "Úterý"
 
-#: board/helpers.py:28
+#: board/helpers.py:31
 msgid "Wednesday"
 msgstr "Středa"
 
-#: board/helpers.py:29
+#: board/helpers.py:32
 msgid "Thursday"
 msgstr "Čtvrtek"
 
-#: board/helpers.py:30
+#: board/helpers.py:33
 msgid "Friday"
 msgstr "Pátek"
 
-#: board/helpers.py:31
+#: board/helpers.py:34
 msgid "Saturday"
 msgstr "Sobota"
 
-#: board/helpers.py:32
+#: board/helpers.py:35
 msgid "Sunday"
 msgstr "Neděle"
 
-#: board/helpers.py:38
+#: board/helpers.py:41
 msgid "Morning"
 msgstr "Dopoledne"
 
-#: board/helpers.py:39
+#: board/helpers.py:42
 msgid "Afternoon"
 msgstr "Odpoledne"
 
-#: board/models.py:73
-msgid "birthday"
-msgstr "narozeniny"
+#: board/models.py:38
+msgid "first name"
+msgstr "jméno"
+
+#: board/models.py:39
+msgid "surname"
+msgstr "příjmení"
+
+#: board/models.py:41
+msgid "birth date"
+msgstr "datum narození"
+
+#: board/models.py:45 board/models.py:117
+msgid "notes"
+msgstr "poznámky"
+
+#: board/models.py:46
+msgid "phone"
+msgstr "telefon"
+
+#: board/models.py:47
+msgid "e-mail"
+msgstr "e-mail"
 
 #: board/models.py:75
 msgid "Birthday today?"
 msgstr "Narozeniny dnes?"
 
-#: board/models.py:116
-msgid "was on"
-msgstr "byl u"
+#: board/models.py:89
+msgid "patients"
+msgstr "pacienti"
 
-#: board/models.py:118
-msgid "day"
-msgstr "den"
-
-#: board/models.py:122
+#: board/models.py:90 board/models.py:113 board/models.py:134
 msgid "patient"
 msgstr "pacient"
 
-#: board/models.py:123
+#: board/models.py:91
+msgid "ward"
+msgstr "oddělení"
+
+#: board/models.py:96
+msgid "volunteers"
+msgstr "dobrovolníci"
+
+#: board/models.py:97 board/models.py:112 board/models.py:135
 msgid "volunteer"
 msgstr "dobrovolník"
 
-#: board/models.py:147
-msgid "duty"
-msgstr "služba"
+#: board/models.py:110
+msgid "duties"
+msgstr "služby"
 
-#: board/models.py:149
+#: board/models.py:114
+msgid "created"
+msgstr "vytvořeno"
+
+#: board/models.py:115
+msgid "time"
+msgstr "čas"
+
+#: board/models.py:116
+msgid "date"
+msgstr "datum"
+
+#: board/models.py:125
+msgid "was on"
+msgstr "byla"
+
+#: board/models.py:161
 msgid "Duty today?"
 msgstr "Služba dnes?"
 
@@ -141,7 +198,7 @@ msgid "Birthdays today"
 msgstr "Narozeniny dnes"
 
 #: board/templates/board/birthdays.html:3
-#: board/templates/board/birthdays.html:28 templates/organiser/base.html:54
+#: board/templates/board/birthdays.html:28 templates/organiser/base.html:103
 msgid "Patients"
 msgstr "Pacienti"
 
@@ -165,7 +222,7 @@ msgid "Nobody"
 msgstr "Nikdo"
 
 #: board/templates/board/birthdays.html:14
-#: board/templates/board/birthdays.html:39 templates/organiser/base.html:49
+#: board/templates/board/birthdays.html:39 templates/organiser/base.html:98
 msgid "Volunteers"
 msgstr "Dobrovolníci"
 
@@ -186,65 +243,142 @@ msgstr "bude mít"
 msgid "Dutys today"
 msgstr "Služba dnes"
 
-#: board/templates/board/duties.html:16
-#: templates/organiser/base.html:44
-msgid "Duties"
-msgstr "Služby"
+#: board/templates/board/duties.html:7
+msgid "will go to"
+msgstr "půjde k"
 
-#: board/templates/board/duties.html:13
-#: board/templates/board/duties.html:29
+#: board/templates/board/duties.html:7
+msgid "on"
+msgstr ""
+
+#: board/templates/board/duties.html:13 board/templates/board/duties.html:29
 msgid "Nobody has a duty."
 msgstr "Nikdo nemá službu."
 
-#: organiser/settings.py:93
-msgid "English"
-msgstr "Anglicky"
+#: board/templates/board/duties.html:16 templates/organiser/base.html:93
+msgid "Duties"
+msgstr "Služby"
 
-#: organiser/settings.py:94
+#: board/templates/board/index.html:12 templates/admin/change_form.html:18
+#: templates/admin/change_list.html:40 templates/admin/object_history.html:6
+#: templates/organiser/base.html:88 templates/organiser/base.html.py:112
+msgid "Board"
+msgstr "Nástěnka"
+
+#: organiser/settings.py:98
 msgid "Czech"
 msgstr "Česky"
+
+#: organiser/settings.py:99
+msgid "English"
+msgstr "Anglicky"
 
 #: organiser/templates/admin/base_site.html:3
 msgid "Volunteer Organiser"
 msgstr "Organizátor dobrovolníků"
 
-#: organiser/templates/admin/base_site.html:6
-msgid "Volunteer administration"
-msgstr "Administrace dobrovolníků"
-
-#: organiser/templates/admin/index.html:20
+#: organiser/templates/admin/index.html:20 templates/admin/index.html:19
 #, python-format
 msgid "Models in the %(name)s application"
 msgstr "Modely v aplikaci %(name)s"
 
-#: organiser/templates/admin/index.html:31
+#: organiser/templates/admin/index.html:31 templates/admin/change_form.html:21
+#: templates/admin/index.html:30
 msgid "Add"
 msgstr "Přidat"
 
-#: organiser/templates/admin/index.html:37
+#: organiser/templates/admin/index.html:37 templates/admin/index.html:36
+#: templates/organiser/base.html:57
 msgid "Change"
 msgstr "Upravit"
 
-#: organiser/templates/admin/index.html:47
+#: organiser/templates/admin/index.html:47 templates/admin/index.html:46
 msgid "You don't have permission to edit anything."
 msgstr "Nemáte oprávnění cokoliv upravovat."
 
-#: organiser/templates/admin/index.html:55
+#: organiser/templates/admin/index.html:55 templates/admin/index.html:54
 msgid "Recent Actions"
 msgstr "Nedávné aktivity"
 
-#: organiser/templates/admin/index.html:56
+#: organiser/templates/admin/index.html:56 templates/admin/index.html:55
 msgid "My Actions"
 msgstr "Moje akce"
 
-#: organiser/templates/admin/index.html:60
+#: organiser/templates/admin/index.html:60 templates/admin/index.html:59
 msgid "None available"
 msgstr "Nic není dostupné"
 
-#: organiser/templates/admin/index.html:74
+#: organiser/templates/admin/index.html:74 templates/admin/index.html:73
 msgid "Unknown content"
 msgstr "Neznámý obsah"
 
-#: templates/organiser/base.html:39
-msgid "Board"
-msgstr "Nástěnka"
+#: templates/admin/change_form.html:33 templates/admin/object_history.html:10
+msgid "History"
+msgstr "Historie"
+
+#: templates/admin/change_form.html:35
+msgid "View on site"
+msgstr "Prohlédnout na stránce"
+
+#: templates/admin/change_form.html:47 templates/admin/change_list.html:67
+msgid "Please correct the error below."
+msgstr "Prosím, opravte chybu."
+
+#: templates/admin/change_form.html:47 templates/admin/change_list.html:67
+msgid "Please correct the errors below."
+msgstr "Prosím, opravte chyby."
+
+#: templates/admin/change_list.html:58
+#, python-format
+msgid "Add %(name)s"
+msgstr "Přidat %(name)s"
+
+#: templates/admin/change_list.html:78
+msgid "Filter"
+msgstr "Filtrovat"
+
+#: templates/admin/object_history.html:22
+msgid "Date/time"
+msgstr "Datum/čas"
+
+#: templates/admin/object_history.html:23
+msgid "User"
+msgstr "Uživatel"
+
+#: templates/admin/object_history.html:24
+msgid "Action"
+msgstr "Akce"
+
+#: templates/admin/object_history.html:38
+msgid ""
+"This object doesn't have a change history. It probably wasn't added via this "
+"admin site."
+msgstr ""
+"Tento objekt nemá historii změn. Pravděpodobně nebyl přidán skrz tuto "
+"stránku."
+
+#: templates/organiser/base.html:63
+msgid "Welcome,"
+msgstr "Vítejte"
+
+#: templates/organiser/base.html:69
+msgid "Site administration"
+msgstr "Nastavení stránky"
+
+#: templates/organiser/base.html:71
+msgid "Documentation"
+msgstr "Dokumentace"
+
+#: templates/organiser/base.html:75
+msgid "Change password"
+msgstr "Změna hesla"
+
+#: templates/organiser/base.html:77
+msgid "Log out"
+msgstr "Odhlásit"
+
+#~ msgid "day"
+#~ msgstr "den"
+
+#~ msgid "in"
+#~ msgstr "v"

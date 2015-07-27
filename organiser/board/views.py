@@ -12,10 +12,13 @@ OVERVIEW_DAYS=7
 
 
 def index(request):
+    site_header ="Volunteer administration"
+    site_title ="Volunteer administration"
 
     
     return render(request, 'board/index.html', {
         'overview_days': OVERVIEW_DAYS,
+        'has_permission': request.user.is_authenticated(),
 
         'birthdays_patients_today': Patient.filter_birthday_in(0, skip=0),
         'birthdays_volunteers_today': Volunteer.filter_birthday_in(0, skip=0),
