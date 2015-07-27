@@ -9,20 +9,8 @@ import board.helpers as h
 from pprint import pprint
 
 
-
-admin.AdminSite.site_header = _("Volunteer administration")
-admin.AdminSite.site_title = _("Volunteer administration")
-
-class ModelAdmin(admin.ModelAdmin):
-    """
-    Use custom admin model to provide links.
-    """
-    def changelist_view(self, request, extra_context=None):
-        extra_context = extra_context or {}
-        extra_context['duty_list_url'] = urlresolvers.reverse('admin:board_duty_changelist')
-        extra_context['patient_list_url'] = urlresolvers.reverse('admin:board_patient_changelist')
-        extra_context['volunteer_list_url'] = urlresolvers.reverse('admin:board_volunteer_changelist')
-        return super(ModelAdmin, self).changelist_view(request, extra_context=extra_context)
+admin.ModelAdmin.site_header = _("Volunteer administration")
+admin.ModelAdmin.site_title = _("Volunteer administration")
 
 
 class VolunteerActiveFilter(admin.SimpleListFilter):
@@ -85,7 +73,7 @@ class BirthdayFilter(admin.SimpleListFilter):
                 )
 
 
-class DutyAdmin(ModelAdmin):
+class DutyAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Who'), {'fields': ['volunteer', 'patient']}),
        (_('When'), {'fields': ['date', 'time']}),
@@ -96,7 +84,7 @@ class DutyAdmin(ModelAdmin):
     list_filter = [DutyFilter]
 
 
-class VolunteerAdmin(ModelAdmin):
+class VolunteerAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone']}),
@@ -107,7 +95,7 @@ class VolunteerAdmin(ModelAdmin):
     list_filter = [BirthdayFilter,VolunteerActiveFilter]
 
 
-class PatientAdmin(ModelAdmin):
+class PatientAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone']}),

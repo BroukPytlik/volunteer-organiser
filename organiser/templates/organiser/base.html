@@ -89,25 +89,23 @@
                 </a>
             </div>
             <div class="pure-u-1-4">
-                <a href="{{ duty_list_url }}" class="silver">
-                    {#<a href="{% url opts|admin_urlname:'changelist' %}" class="silver">#}
+                <a href="{% url 'admin:board_duty_changelist' %}" class="silver">
                     {{ _('Duties') }}
                 </a>
             </div>
             <div class="pure-u-1-4">
-                <a href="{{ volunteer_list_url }}" class="silver">
+                <a href="{% url 'admin:board_volunteer_changelist' %}" class="silver">
                     {{ _('Volunteers') }}
                 </a>
             </div>
             <div class="pure-u-1-4">
-                <a href="{{ patient_list_url }}" class="silver">
+                <a href="{% url 'admin:board_patient_changelist' %}" class="silver">
                     {{ _('Patients') }}
                 </a>
             </div>
 
         </div>
     </div>
-    {{ duty_list_url }}
     <!-- END Header -->
     {% block breadcrumbs %}
     <div class="breadcrumbs">
