@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-27 22:00+0200\n"
+"POT-Creation-Date: 2015-07-27 22:15+0200\n"
 "PO-Revision-Date: 2015-07-26 19:15+ZONE\n"
 "Last-Translator: Jan Tulak <jan@tulak.me>\n"
 "Language-Team: Jan Tulak <jan@tulak.me>\n"
@@ -41,7 +41,7 @@ msgstr "Administrace dobrovolníků"
 msgid "wards"
 msgstr "oddělení"
 
-#: board/admin.py:30 board/models.py:30 board/models.py:126
+#: board/admin.py:30 board/models.py:30 board/models.py:128
 msgid "categories"
 msgstr "kategorie"
 
@@ -57,7 +57,7 @@ msgstr "Aktivní"
 msgid "Inactive"
 msgstr "Neaktivní"
 
-#: board/admin.py:58 board/models.py:138 board/models.py:176
+#: board/admin.py:58 board/models.py:140 board/models.py:178
 msgid "duty"
 msgstr "služba"
 
@@ -133,7 +133,7 @@ msgstr "Dopoledne"
 msgid "Afternoon"
 msgstr "Odpoledne"
 
-#: board/models.py:31 board/models.py:145
+#: board/models.py:31 board/models.py:147
 msgid "category"
 msgstr "kategorie"
 
@@ -149,7 +149,7 @@ msgstr "příjmení"
 msgid "birth date"
 msgstr "datum narození"
 
-#: board/models.py:49 board/models.py:144
+#: board/models.py:49 board/models.py:146
 msgid "notes"
 msgstr "poznámky"
 
@@ -177,7 +177,7 @@ msgstr "jméno"
 msgid "patients"
 msgstr "pacienti"
 
-#: board/models.py:101 board/models.py:140 board/models.py:151
+#: board/models.py:101 board/models.py:142 board/models.py:153
 msgid "patient"
 msgstr "pacient"
 
@@ -189,7 +189,7 @@ msgstr "diagnóza"
 msgid "volunteers"
 msgstr "dobrovolníci"
 
-#: board/models.py:109 board/models.py:139 board/models.py:152
+#: board/models.py:109 board/models.py:141 board/models.py:154
 msgid "volunteer"
 msgstr "dobrovolník"
 
@@ -201,23 +201,27 @@ msgstr "Dostupné kategorie"
 msgid "PID"
 msgstr "PID"
 
-#: board/models.py:137
+#: board/models.py:113
+msgid "working since"
+msgstr "zaměstnaný od"
+
+#: board/models.py:139
 msgid "duties"
 msgstr "služby"
 
-#: board/models.py:141
+#: board/models.py:143
 msgid "created"
 msgstr "vytvořeno"
 
-#: board/models.py:142
+#: board/models.py:144
 msgid "time"
 msgstr "čas"
 
-#: board/models.py:143
+#: board/models.py:145
 msgid "date"
 msgstr "datum"
 
-#: board/models.py:178
+#: board/models.py:180
 msgid "Duty today?"
 msgstr "Služba dnes?"
 

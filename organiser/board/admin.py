@@ -123,7 +123,7 @@ class VolunteerAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['pid', 'first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone']}),
-       (_('Other'), {'fields': ['active','availableCategories','notes']}),
+       (_('Other'), {'fields': ['workingSince', 'active','availableCategories','notes']}),
     ]
     list_display = ('first_name', 'surname',
                     'birthdate', 'email', 'phone', 'active', 'getCategoriesStr', 'notes')

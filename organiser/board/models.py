@@ -110,12 +110,14 @@ class Volunteer(Person):
     active = models.BooleanField(blank=True, default=True, verbose_name=_('active'))
     availableCategories = models.ManyToManyField(Category, verbose_name = _('available categories'))
     pid = models.IntegerField(unique = True, blank = True, verbose_name = _('PID'))
+    workingSince = models.DateField(blank=True, verbose_name = _('working since'))
 
     def save(self, *args, **kwargs):
         if not self.pid:
             last_pid = Volunteer.objects.all().aggregate(models.Max('pid'))['pid__max']
             self.pid = int(last_pid) + 1
-        print ("\n\n%s\n\n" % self.pid )
+        if not self.workingSince:
+            self.workingSince = now().date()
         super(Volunteer, self).save(*args, **kwargs)
 
 
