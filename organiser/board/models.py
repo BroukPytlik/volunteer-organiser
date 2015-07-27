@@ -95,25 +95,16 @@ class Volunteer(Person):
             verbose_name_plural = _("volunteers")
             verbose_name = _("volunteer")
     active = models.BooleanField(blank=True, default=True, verbose_name=_('active'))
+    availableWards = models.ManyToManyField(Ward, verbose_name = _('available wards'))
 
-    def getWards(self):
-        return VolunteerWard.objects.filter(volunteer = self)
 
     def getWardsStr(self):
         l = []
-        for i in self.getWards():
+        for i in self.availableWards.all():
             l.append(str(i))
         return ', '.join(l)
     getWardsStr.short_description = _('wards')
 
-class VolunteerWard(models.Model):
-    class Meta:
-            verbose_name_plural = _("Volunteer's wards")
-            verbose_name = _("Volunteer's ward")
-    volunteer = models.ForeignKey(Volunteer, verbose_name = _('volunteer'))
-    ward = models.ForeignKey(Ward, verbose_name = _('ward'))
-    def __str__(self):
-        return str(self.ward)
 
 
 #

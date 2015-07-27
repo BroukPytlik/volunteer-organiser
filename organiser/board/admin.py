@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 from django.core import urlresolvers
 import datetime
-from .models import Duty,Person,Patient,Volunteer,Ward, VolunteerWard
+from .models import Duty,Person,Patient,Volunteer,Ward
 import board.helpers as h
 
 from pprint import pprint
@@ -22,7 +22,7 @@ class VolunteerWardsFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value():
-            return queryset.filter(volunteerward__ward__name = self.value())
+            return queryset.filter(availableWards__name = self.value())
 
 
 class VolunteerActiveFilter(admin.SimpleListFilter):
@@ -84,9 +84,6 @@ class BirthdayFilter(admin.SimpleListFilter):
                     h.bday(future_date.month, future_date.day)
                 )
 
-class WardInline(admin.TabularInline):
-    model = VolunteerWard
-
 
 class DutyAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -103,9 +100,8 @@ class VolunteerAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone']}),
-       (_('Other'), {'fields': ['active','notes']}),
+       (_('Other'), {'fields': ['active','availableWards','notes']}),
     ]
-    inlines = [ WardInline ]
     list_display = ('first_name', 'surname',
                     'birthdate', 'email', 'phone', 'active', 'getWardsStr', 'notes')
     list_filter = [BirthdayFilter,VolunteerActiveFilter, VolunteerWardsFilter]
@@ -125,4 +121,3 @@ admin.site.register(Patient, PatientAdmin)
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(Duty, DutyAdmin)
 admin.site.register(Ward)
-admin.site.register(VolunteerWard)
