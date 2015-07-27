@@ -88,7 +88,6 @@ class Patient(Person):
     class Meta:
             verbose_name_plural = _("patients")
             verbose_name = _("patient")
-    ward = models.ForeignKey(Ward, verbose_name=_('ward'))
 
 
 class Volunteer(Person):
@@ -96,8 +95,25 @@ class Volunteer(Person):
             verbose_name_plural = _("volunteers")
             verbose_name = _("volunteer")
     active = models.BooleanField(blank=True, default=True, verbose_name=_('active'))
-    pass
 
+    def getWards(self):
+        return VolunteerWard.objects.filter(volunteer = self)
+
+    def getWardsStr(self):
+        l = []
+        for i in self.getWards():
+            l.append(str(i))
+        return ', '.join(l)
+    getWardsStr.short_description = _('wards')
+
+class VolunteerWard(models.Model):
+    class Meta:
+            verbose_name_plural = _("Volunteer's wards")
+            verbose_name = _("Volunteer's ward")
+    volunteer = models.ForeignKey(Volunteer, verbose_name = _('volunteer'))
+    ward = models.ForeignKey(Ward, verbose_name = _('ward'))
+    def __str__(self):
+        return str(self.ward)
 
 
 #
@@ -115,6 +131,7 @@ class Duty(models.Model):
     time        = models.IntegerField(choices=h.DUTY_TIME, default=h.MORNING, verbose_name=_('time'))
     date        = models.DateField(verbose_name=_('date'))
     notes       = models.TextField(blank=True, null=True, verbose_name=_('notes'))
+    ward = models.ForeignKey(Ward, verbose_name=_('ward'))
 
     def __str__(self):
 
