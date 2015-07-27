@@ -9,8 +9,8 @@ import board.helpers as h
 from pprint import pprint
 
 
-admin.ModelAdmin.site_header = _("Volunteer administration")
-admin.ModelAdmin.site_title = _("Volunteer administration")
+admin.site.site_header = _("Volunteer administration")
+admin.site.site_title = _("Volunteer administration")
 
 
 class VolunteerActiveFilter(admin.SimpleListFilter):
