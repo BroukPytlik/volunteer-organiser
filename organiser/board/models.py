@@ -45,10 +45,12 @@ class Person(models.Model):
     birthdate  = models.DateField(verbose_name=_('birth date'))
     # birthday - only month and day, year is the same for all persons
     # BIRTHDAY_YEAR
-    birthday  = models.DateField()
+    birthday   = models.DateField()
     notes      = models.TextField(blank=True, null=True, verbose_name=_('notes'))
-    phone      = models.CharField(max_length=20,blank=True, null=True, verbose_name=_('phone'))
+    phone1     = models.CharField(max_length=20,blank=True, null=True, verbose_name=_('phone'))
+    phone2     = models.CharField(max_length=20,blank=True, null=True, verbose_name=_('phone'))
     email      = models.EmailField(blank=True, null=True, verbose_name=_('e-mail'))
+    address    = models.TextField(blank=True, null=True, verbose_name=_('address'))
 
     @classmethod
     def filter_birthday_in(cls, days, skip=1):
@@ -111,6 +113,8 @@ class Volunteer(Person):
     availableCategories = models.ManyToManyField(Category, verbose_name = _('available categories'))
     pid = models.IntegerField(unique = True, blank = True, verbose_name = _('PID'))
     workingSince = models.DateField(blank=True, verbose_name = _('working since'))
+    workedUntil = models.DateField(blank=True,null=True, verbose_name = _('worked until'))
+    professions = models.CharField(max_length=250, blank=True, null=True, verbose_name=_('professions'))
 
     def save(self, *args, **kwargs):
         if not self.pid:

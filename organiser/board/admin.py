@@ -122,11 +122,11 @@ class DutyAdmin(admin.ModelAdmin):
 class VolunteerAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['pid', 'first_name', 'surname', 'birthdate']}),
-       (_('Contact'), {'fields': ['email','phone']}),
-       (_('Other'), {'fields': ['workingSince', 'active','availableCategories','notes']}),
+       (_('Contact'), {'fields': ['email','phone1','phone2','address']}),
+       (_('Other'), {'fields': ['professions','availableCategories', 'workingSince', 'workedUntil', 'active','notes']}),
     ]
     list_display = ('first_name', 'surname',
-                    'birthdate', 'email', 'phone', 'active', 'getCategoriesStr', 'notes')
+                    'birthdate', 'professions', 'email', 'phone1', 'active', 'getCategoriesStr', 'notes')
     list_filter = [BirthdayFilter,VolunteerActiveFilter, VolunteerCategoriesFilter]
 
 
