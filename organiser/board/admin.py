@@ -129,8 +129,8 @@ class DutyAdmin(admin.ModelAdmin):
        (_('When'), {'fields': ['date', 'time']}),
        (_('Other'), {'fields': ['notes']}),
     ]
-    list_display = ('volunteer', 'patient',
-            'date', 'time', 'category1', 'category2', 'notes')
+    list_display = ('date', 'time', 'volunteer', 'patient',
+            'category1', 'category2', 'notes')
     list_filter = [DutyFilter]
 
 
