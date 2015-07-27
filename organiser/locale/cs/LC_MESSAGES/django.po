@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-27 23:14+0200\n"
+"POT-Creation-Date: 2015-07-27 23:41+0200\n"
 "PO-Revision-Date: 2015-07-26 19:15+ZONE\n"
 "Last-Translator: Jan Tulak <jan@tulak.me>\n"
 "Language-Team: Jan Tulak <jan@tulak.me>\n"
@@ -41,59 +41,63 @@ msgstr "Administrace dobrovolníků"
 msgid "wards"
 msgstr "oddělení"
 
-#: board/admin.py:30 board/models.py:30 board/models.py:149
+#: board/admin.py:30 board/models.py:30 board/models.py:150
 msgid "categories"
 msgstr "kategorie"
 
-#: board/admin.py:42 board/models.py:120
+#: board/admin.py:42 board/models.py:38 board/models.py:143
+msgid "subcategories"
+msgstr "subkategorie"
+
+#: board/admin.py:54 board/models.py:120
 msgid "active"
 msgstr "aktivní"
 
-#: board/admin.py:46
+#: board/admin.py:58
 msgid "Active"
 msgstr "Aktivní"
 
-#: board/admin.py:47
+#: board/admin.py:59
 msgid "Inactive"
 msgstr "Neaktivní"
 
-#: board/admin.py:58 board/models.py:161 board/models.py:200
+#: board/admin.py:70 board/models.py:162 board/models.py:201
 msgid "duty"
 msgstr "služba"
 
-#: board/admin.py:62 board/admin.py:83
+#: board/admin.py:74 board/admin.py:95
 msgid "Today"
 msgstr "Dnes"
 
-#: board/admin.py:62 board/admin.py:83
+#: board/admin.py:74 board/admin.py:95
 msgid "Next 7 days"
 msgstr "Příštích 7 dní"
 
-#: board/admin.py:79 board/models.py:87
+#: board/admin.py:91 board/models.py:87
 msgid "birthday"
 msgstr "narozeniny"
 
-#: board/admin.py:115
+#: board/admin.py:127
 msgid "Where"
 msgstr "Kde"
 
-#: board/admin.py:116
+#: board/admin.py:128
 msgid "Who"
 msgstr "Kdo"
 
-#: board/admin.py:117
+#: board/admin.py:129
 msgid "When"
 msgstr "Kdy"
 
-#: board/admin.py:118 board/admin.py:129 board/admin.py:139
+#: board/admin.py:130 board/admin.py:141 board/admin.py:151
 msgid "Other"
 msgstr "Jiné"
 
-#: board/admin.py:127 board/admin.py:138
+#: board/admin.py:139 board/admin.py:150
 msgid "Person"
 msgstr "Osoba"
 
-#: board/admin.py:128
+#: board/admin.py:140
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -133,15 +137,11 @@ msgstr "Dopoledne"
 msgid "Afternoon"
 msgstr "Odpoledne"
 
-#: board/models.py:31 board/models.py:168
+#: board/models.py:31 board/models.py:169
 msgid "category"
 msgstr "kategorie"
 
-#: board/models.py:38 board/models.py:142
-msgid "subcategories"
-msgstr "subkategorie"
-
-#: board/models.py:39 board/models.py:169
+#: board/models.py:39 board/models.py:170
 msgid "subcategory"
 msgstr "subategorie"
 
@@ -157,7 +157,7 @@ msgstr "příjmení"
 msgid "birth date"
 msgstr "datum narození"
 
-#: board/models.py:57 board/models.py:167
+#: board/models.py:57 board/models.py:168
 msgid "notes"
 msgstr "poznámky"
 
@@ -189,7 +189,7 @@ msgstr "jméno"
 msgid "patients"
 msgstr "pacienti"
 
-#: board/models.py:111 board/models.py:163 board/models.py:175
+#: board/models.py:111 board/models.py:164 board/models.py:176
 msgid "patient"
 msgstr "pacient"
 
@@ -201,7 +201,7 @@ msgstr "diagnóza"
 msgid "volunteers"
 msgstr "dobrovolníci"
 
-#: board/models.py:119 board/models.py:162 board/models.py:176
+#: board/models.py:119 board/models.py:163 board/models.py:177
 msgid "volunteer"
 msgstr "dobrovolník"
 
@@ -229,23 +229,27 @@ msgstr "pracoval do"
 msgid "professions"
 msgstr "profese"
 
-#: board/models.py:160
+#: board/models.py:127
+msgid "preferred days"
+msgstr "preferované dny"
+
+#: board/models.py:161
 msgid "duties"
 msgstr "služby"
 
-#: board/models.py:164
+#: board/models.py:165
 msgid "created"
 msgstr "vytvořeno"
 
-#: board/models.py:165
+#: board/models.py:166
 msgid "time"
 msgstr "čas"
 
-#: board/models.py:166
+#: board/models.py:167
 msgid "date"
 msgstr "datum"
 
-#: board/models.py:202
+#: board/models.py:203
 msgid "Duty today?"
 msgstr "Služba dnes?"
 

@@ -124,6 +124,7 @@ class Volunteer(Person):
     workingSince = models.DateField(blank=True, verbose_name = _('working since'))
     workedUntil = models.DateField(blank=True,null=True, verbose_name = _('worked until'))
     professions = models.CharField(max_length=250, blank=True, null=True, verbose_name=_('professions'))
+    preferredDays = models.CharField(max_length=250, blank=True, null=True, verbose_name=_('preferred days'))
 
     def save(self, *args, **kwargs):
         if not self.pid:

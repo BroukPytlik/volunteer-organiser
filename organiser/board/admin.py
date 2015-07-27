@@ -138,10 +138,10 @@ class VolunteerAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['pid', 'first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone1','phone2','address']}),
-       (_('Other'), {'fields': ['professions','availableCategories', 'availableSubcategories', 'workingSince', 'workedUntil', 'active','notes']}),
+       (_('Other'), {'fields': ['professions','preferredDays','availableCategories', 'availableSubcategories', 'workingSince', 'workedUntil', 'active','notes']}),
     ]
     list_display = ('surname', 'first_name',
-                    'birthdate', 'professions', 'getCategoriesStr','getSubcategoriesStr', 'notes', 'active')
+                    'birthdate', 'professions', 'getCategoriesStr','getSubcategoriesStr','preferredDays', 'notes', 'active')
     list_filter = [BirthdayFilter,VolunteerActiveFilter, VolunteerCategoriesFilter, VolunteerSubcategoriesFilter]
 
 
