@@ -126,7 +126,7 @@ class VolunteerAdmin(admin.ModelAdmin):
        (_('Other'), {'fields': ['professions','availableCategories', 'workingSince', 'workedUntil', 'active','notes']}),
     ]
     list_display = ('first_name', 'surname',
-                    'birthdate', 'professions', 'email', 'phone1', 'getCategoriesStr', 'notes', 'active')
+                    'birthdate', 'professions', 'getCategoriesStr', 'notes', 'active')
     list_filter = [BirthdayFilter,VolunteerActiveFilter, VolunteerCategoriesFilter]
 
 
