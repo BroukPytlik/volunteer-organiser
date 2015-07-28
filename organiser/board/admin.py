@@ -144,11 +144,6 @@ class VolunteerAdmin(admin.ModelAdmin):
     list_display = ('surname', 'first_name',
                     'birthdate', 'professions', 'getCategoriesStr','getSubcategoriesStr','preferredDays', 'notes', 'active')
     list_filter = [BirthdayFilter,VolunteerActiveFilter, VolunteerCategoriesFilter, VolunteerSubcategoriesFilter]
-    def changelist_view(self, request, extra_context=None):
-            extra_context = extra_context or {}
-            extra_context['extra'] = {'some_var':'This is what I want to show'}
-            return super(VolunteerAdmin, self).changelist_view(request, extra_context=extra_context)
-    
 
 
 class PatientAdmin(admin.ModelAdmin):

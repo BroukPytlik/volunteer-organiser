@@ -13,6 +13,12 @@
     background: #ffa;
 }
 
-.red {
-    background: #f99;
+#result_list .green td, #result_list .green th{
+    background: #bfb;
+}
+#result_list .blue td, #result_list .blue th{
+    background: #bbf;
+}
+#result_list .red td, #result_list .red th{
+    background: #fbb;
 }

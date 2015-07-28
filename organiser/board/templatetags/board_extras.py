@@ -51,21 +51,35 @@ def dump(var):
     out = json.dumps(var, indent=4, sort_keys=True)
     return "<pre class='dump'>%s</pre>" % (out)
 
+
+def result_css(cl):
+    for x in cl.result_list:
+        if hasattr(x, 'cssClass'):
+            yield '' if x.cssClass is None else x.cssClass.cls
+        else:
+            yield ''
+
 # copy from django.contrib.admin.templatetags.admin_list
 # to get an extra options
 @register.inclusion_tag("admin/change_list_results.html")
-def board_result_list(cl, extra):
+def board_result_list(cl):
     """
     Displays the headers and data list together
     """
+    css = list(result_css(cl))
     headers = list(admin_list.result_headers(cl))
     num_sorted_fields = 0
+    results = list(admin_list.results(cl))
     for h in headers:
         if h['sortable'] and h['sorted']:
             num_sorted_fields += 1
     return {'cl': cl,
-            'extra': extra,
+            'css': css,
             'result_hidden_fields': list(admin_list.result_hidden_fields(cl)),
             'result_headers': headers,
             'num_sorted_fields': num_sorted_fields,
-            'results': list(admin_list.results(cl))}
+            'results': results}
+
+@register.simple_tag()
+def get_index_minus_one(var, i):
+    return var[i-1]
