@@ -4,7 +4,7 @@ from django.utils.timezone import now
 from django.core import urlresolvers
 from django import forms
 import datetime
-from .models import Duty,Person,Patient,Volunteer,Category1,Category2,Ward
+from .models import Duty,Person,Patient,Volunteer,Category1,Category2,Ward,CssClass
 import board.helpers as h
 import board.validators as validators
 
@@ -120,6 +120,7 @@ class DutyAdminForm(forms.ModelForm):
         return self.cleaned_data
 
 
+
 class DutyAdmin(admin.ModelAdmin):
     # disabled, not needed
     # form = DutyAdminForm
@@ -138,17 +139,22 @@ class VolunteerAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['pid', 'first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone1','phone2','address']}),
-       (_('Other'), {'fields': ['professions','preferredDays','availableCategories', 'availableSubcategories', 'workingSince', 'workedUntil', 'active','notes']}),
+       (_('Other'), {'fields': ['professions','preferredDays','availableCategories', 'availableSubcategories', 'workingSince', 'workedUntil', 'active','notes','cssClass']}),
     ]
     list_display = ('surname', 'first_name',
                     'birthdate', 'professions', 'getCategoriesStr','getSubcategoriesStr','preferredDays', 'notes', 'active')
     list_filter = [BirthdayFilter,VolunteerActiveFilter, VolunteerCategoriesFilter, VolunteerSubcategoriesFilter]
+    def changelist_view(self, request, extra_context=None):
+            extra_context = extra_context or {}
+            extra_context['extra'] = {'some_var':'This is what I want to show'}
+            return super(VolunteerAdmin, self).changelist_view(request, extra_context=extra_context)
+    
 
 
 class PatientAdmin(admin.ModelAdmin):
     fieldsets = [
        (_('Person'), {'fields': ['first_name', 'surname', 'birthdate']}),
-       (_('Other'), {'fields': ['ward','diagnosis','notes']}),
+       (_('Other'), {'fields': ['ward','diagnosis','notes','cssClass']}),
     ]
     list_display = ('surname', 'first_name',
                     'birthdate', 'ward', 'diagnosis', 'notes')
@@ -160,3 +166,4 @@ admin.site.register(Duty, DutyAdmin)
 admin.site.register(Category1)
 admin.site.register(Category2)
 admin.site.register(Ward)
+admin.site.register(CssClass)

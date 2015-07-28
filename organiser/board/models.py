@@ -17,7 +17,7 @@
 #
 
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _,pgettext
 from django.utils.timezone import now
 import datetime
 import board.helpers as h
@@ -43,6 +43,24 @@ class Category2(models.Model):
         return self.name
 
 
+class CssClass(models.Model):
+    class Meta:
+            verbose_name_plural = _("styles")
+            verbose_name = _("style")
+    name = models.CharField(max_length=50, verbose_name=_('name'))
+    cls  = models.CharField(max_length=250, verbose_name=_('CSS class'))
+
+    def dummy_styles(self):
+        """
+        This is here to provide translation strings somwhere.
+        """
+        pgettext('css','Red')
+        pgettext('css','Blue')
+        pgettext('css','Green')
+
+    def __str__(self):
+        return pgettext('css',self.name)
+
 #
 # Generic person details, common for both patient and volunteer.
 #
@@ -59,6 +77,7 @@ class Person(models.Model):
     phone2     = models.CharField(max_length=20,blank=True, null=True, verbose_name=_('phone'))
     email      = models.EmailField(blank=True, null=True, verbose_name=_('e-mail'))
     address    = models.TextField(blank=True, null=True, verbose_name=_('address'))
+    cssClass  = models.ForeignKey(CssClass, blank=True, null=True, verbose_name=_('style'))
 
     @classmethod
     def filter_birthday_in(cls, days, skip=1):
