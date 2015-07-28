@@ -265,7 +265,7 @@ class WorkedHours(models.Model):
             verbose_name_plural = _("worked hours")
             verbose_name = _("worked hours")
     volunteer = models.ForeignKey(Volunteer, verbose_name=_('volunteer'))
-    added = models.DateTimeField(verbose_name=_('added'))
+    added = models.DateField(verbose_name=_('added'))
     hours = models.IntegerField(verbose_name=_('worked hours'))
 
     def __str__(self):
