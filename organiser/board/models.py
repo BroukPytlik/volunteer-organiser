@@ -155,6 +155,16 @@ class Volunteer(Person):
             self.workingSince = now().date()
         super(Volunteer, self).save(*args, **kwargs)
 
+    def notOnHoliday(self):
+        if Holiday.objects.filter(
+                since__lte=now().date(),
+                until__gte=now().date(),
+                volunteer = self
+            ).count() == 0:
+            return True
+        return False
+    notOnHoliday.short_description = _('not on holiday')
+    notOnHoliday.boolean = True
 
     def getSubcategoriesStr(self):
         l = []
@@ -260,3 +270,14 @@ class WorkedHours(models.Model):
 
     def __str__(self):
         return "%s: %d"%(self.volunteer, self.hours)
+
+class Holiday(models.Model):
+    class Meta:
+        verbose_name_plural = _('holidays')
+        verbose_name = _('holiday')
+    volunteer = models.ForeignKey(Volunteer, verbose_name=_('volunteer'))
+    since = models.DateField(verbose_name=_('since'))
+    until = models.DateField(verbose_name=_('until'))
+    reason = models.CharField(max_length=250, blank=True, null=True, verbose_name=_('reason'))
+    def __str__(self):
+        return str(self.volunteer)

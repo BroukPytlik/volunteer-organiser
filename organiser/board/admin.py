@@ -4,9 +4,10 @@ from django.utils.timezone import now
 from django.core import urlresolvers
 from django import forms
 from django.utils.html import format_html
+from django.db.models import Q
 
 import datetime
-from .models import Duty,Person,Patient,Volunteer,Category1,Category2,Ward,CssClass,WorkedHours
+from .models import Duty,Person,Patient,Volunteer,Category1,Category2,Ward,CssClass,WorkedHours,Holiday
 import board.helpers as h
 import board.validators as validators
 
@@ -51,6 +52,26 @@ class VolunteerSubcategoriesFilter(admin.SimpleListFilter):
         if self.value():
             return queryset.filter(availableSubcategories__name = self.value())
 
+
+class VolunteerHolidayFilter(admin.SimpleListFilter):
+    title = _('holiday')
+    parameter_name = 'holiday'
+
+    def lookups(self, request, model_admin):
+        return (('true', _('is on holiday')), 
+                ('false', _('is not on holiday'))
+            )
+    def queryset(self, request, queryset):
+        if self.value() == 'true':
+            return queryset.filter(
+                    holiday__since__lte = now().date(),
+                    holiday__until__gte = now().date()
+                )
+        elif self.value() == 'false':
+            return queryset.exclude(
+                    holiday__since__lte = now().date(),
+                    holiday__until__gte = now().date()
+                )
 
 class VolunteerActiveFilter(admin.SimpleListFilter):
     title = _('active')
@@ -139,16 +160,22 @@ class DutyAdmin(admin.ModelAdmin):
 
 
 class VolunteerAdmin(admin.ModelAdmin):
-    readonly_fields = ['getWorkedHours','getWorkedHoursMonthly']
+    readonly_fields = ['getWorkedHours','getWorkedHoursMonthly','notOnHoliday']
     fieldsets = [
-       (_('Worked hours'), {'fields': [('getWorkedHoursMonthly','getWorkedHours')]}),
+       (_('Worked hours'), {'fields': ['notOnHoliday',('getWorkedHoursMonthly','getWorkedHours')]}),
        (_('Person'), {'fields': ['pid', 'first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone1','phone2','address']}),
        (_('Other'), {'fields': ['professions','preferredDays','availableCategories', 'availableSubcategories', 'workingSince', 'workedUntil', 'active','notes','cssClass']}),
     ]
     list_display = ('surname', 'first_name',
-                    'birthdate', 'professions', 'getCategoriesStr','getSubcategoriesStr','preferredDays', 'notes', 'active')
-    list_filter = [BirthdayFilter,VolunteerActiveFilter, VolunteerCategoriesFilter, VolunteerSubcategoriesFilter]
+                    'birthdate', 'professions', 'getCategoriesStr','getSubcategoriesStr','preferredDays', 'notes','notOnHoliday', 'active')
+    list_filter = [
+            BirthdayFilter,
+            VolunteerActiveFilter,
+            VolunteerCategoriesFilter,
+            VolunteerSubcategoriesFilter,
+            VolunteerHolidayFilter
+        ]
 
     # Not doing what I want... check how to link it to another object
     def admin_link(self, instance):
@@ -172,6 +199,9 @@ class PatientAdmin(admin.ModelAdmin):
 class WorkedHoursAdmin(admin.ModelAdmin):
     list_display = ('volunteer','added','hours')
 
+class HolidayAdmin(admin.ModelAdmin):
+    list_display = ('volunteer','since','until','reason')
+
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(Duty, DutyAdmin)
@@ -180,3 +210,4 @@ admin.site.register(Category2)
 admin.site.register(Ward)
 admin.site.register(CssClass)
 admin.site.register(WorkedHours,WorkedHoursAdmin)
+admin.site.register(Holiday, HolidayAdmin)
