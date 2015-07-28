@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-28 09:50+0200\n"
+"POT-Creation-Date: 2015-07-28 12:49+0200\n"
 "PO-Revision-Date: 2015-07-26 19:15+ZONE\n"
 "Last-Translator: Jan Tulak <jan@tulak.me>\n"
 "Language-Team: Jan Tulak <jan@tulak.me>\n"
@@ -37,19 +37,19 @@ msgstr ""
 msgid "Volunteer administration"
 msgstr "Administrace dobrovolníků"
 
-#: board/admin.py:19 board/models.py:121
+#: board/admin.py:19 board/models.py:132
 msgid "wards"
 msgstr "oddělení"
 
-#: board/admin.py:30 board/models.py:30 board/models.py:169
+#: board/admin.py:30 board/models.py:30 board/models.py:180
 msgid "categories"
 msgstr "kategorie"
 
-#: board/admin.py:42 board/models.py:38 board/models.py:162
+#: board/admin.py:42 board/models.py:38 board/models.py:173
 msgid "subcategories"
 msgstr "subkategorie"
 
-#: board/admin.py:54 board/models.py:139
+#: board/admin.py:54 board/models.py:150
 msgid "active"
 msgstr "aktivní"
 
@@ -61,7 +61,7 @@ msgstr "Aktivní"
 msgid "Inactive"
 msgstr "Neaktivní"
 
-#: board/admin.py:70 board/models.py:181 board/models.py:220
+#: board/admin.py:70 board/models.py:192 board/models.py:231
 msgid "duty"
 msgstr "služba"
 
@@ -73,31 +73,31 @@ msgstr "Dnes"
 msgid "Next 7 days"
 msgstr "Příštích 7 dní"
 
-#: board/admin.py:91 board/models.py:106
+#: board/admin.py:91 board/models.py:117
 msgid "birthday"
 msgstr "narozeniny"
 
-#: board/admin.py:127
+#: board/admin.py:128
 msgid "Where"
 msgstr "Kde"
 
-#: board/admin.py:128
+#: board/admin.py:129
 msgid "Who"
 msgstr "Kdo"
 
-#: board/admin.py:129
+#: board/admin.py:130
 msgid "When"
 msgstr "Kdy"
 
-#: board/admin.py:130 board/admin.py:141 board/admin.py:151
+#: board/admin.py:131 board/admin.py:142 board/admin.py:152
 msgid "Other"
 msgstr "Jiné"
 
-#: board/admin.py:139 board/admin.py:150
+#: board/admin.py:140 board/admin.py:151
 msgid "Person"
 msgstr "Osoba"
 
-#: board/admin.py:140
+#: board/admin.py:141
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -137,146 +137,155 @@ msgstr "Dopoledne"
 msgid "Afternoon"
 msgstr "Odpoledne"
 
-#: board/models.py:31 board/models.py:188
+#: board/models.py:31 board/models.py:199
 msgid "category"
 msgstr "kategorie"
 
-#: board/models.py:39 board/models.py:189
+#: board/models.py:39 board/models.py:200
 msgid "subcategory"
 msgstr "subategorie"
 
-#: board/models.py:48
+#: board/models.py:47 board/models.py:48 board/models.py:51
+msgid "worked hours"
+msgstr "odpracované hodiny"
+
+#: board/models.py:49 board/models.py:149 board/models.py:193
+#: board/models.py:207
+msgid "volunteer"
+msgstr "dobrovolník"
+
+#: board/models.py:50
+msgid "added"
+msgstr "přidáno"
+
+#: board/models.py:59
 msgid "styles"
 msgstr "styly"
 
-#: board/models.py:49 board/models.py:80
+#: board/models.py:60 board/models.py:91
 msgid "style"
 msgstr "styl"
 
-#: board/models.py:50 board/models.py:123
+#: board/models.py:61 board/models.py:134
 msgid "name"
 msgstr "jméno"
 
-#: board/models.py:51
+#: board/models.py:62
 msgid "CSS class"
 msgstr "CSS třída"
 
-#: board/models.py:57
+#: board/models.py:68
 msgctxt "css"
 msgid "Red"
 msgstr "Červená"
 
-#: board/models.py:58
+#: board/models.py:69
 msgctxt "css"
 msgid "Blue"
 msgstr "Modrá"
 
-#: board/models.py:59
+#: board/models.py:70
 msgctxt "css"
 msgid "Green"
 msgstr "Zelená"
 
-#: board/models.py:68
+#: board/models.py:79
 msgid "first name"
 msgstr "jméno"
 
-#: board/models.py:69
+#: board/models.py:80
 msgid "surname"
 msgstr "příjmení"
 
-#: board/models.py:71
+#: board/models.py:82
 msgid "birth date"
 msgstr "datum narození"
 
-#: board/models.py:75 board/models.py:187
+#: board/models.py:86 board/models.py:198
 msgid "notes"
 msgstr "poznámky"
 
-#: board/models.py:76 board/models.py:77
+#: board/models.py:87 board/models.py:88
 msgid "phone"
 msgstr "telefon"
 
-#: board/models.py:78
+#: board/models.py:89
 msgid "e-mail"
 msgstr "e-mail"
 
-#: board/models.py:79
+#: board/models.py:90
 msgid "address"
 msgstr "adresa"
 
-#: board/models.py:108
+#: board/models.py:119
 msgid "Birthday today?"
 msgstr "Narozeniny dnes?"
 
-#: board/models.py:122 board/models.py:132
+#: board/models.py:133 board/models.py:143
 msgid "ward"
 msgstr "oddělení"
 
-#: board/models.py:129
+#: board/models.py:140
 msgid "patients"
 msgstr "pacienti"
 
-#: board/models.py:130 board/models.py:183 board/models.py:195
+#: board/models.py:141 board/models.py:194 board/models.py:206
 msgid "patient"
 msgstr "pacient"
 
-#: board/models.py:131
+#: board/models.py:142
 msgid "diagnosis"
 msgstr "diagnóza"
 
-#: board/models.py:137
+#: board/models.py:148
 msgid "volunteers"
 msgstr "dobrovolníci"
 
-#: board/models.py:138 board/models.py:182 board/models.py:196
-msgid "volunteer"
-msgstr "dobrovolník"
-
-#: board/models.py:140
+#: board/models.py:151
 msgid "available categories"
 msgstr "Dostupné kategorie"
 
-#: board/models.py:141
+#: board/models.py:152
 msgid "available subcategories"
 msgstr "dostupné podkategorie"
 
-#: board/models.py:142
+#: board/models.py:153
 msgid "PID"
 msgstr "PID"
 
-#: board/models.py:143
+#: board/models.py:154
 msgid "working since"
 msgstr "zaměstnaný od"
 
-#: board/models.py:144
+#: board/models.py:155
 msgid "worked until"
 msgstr "pracoval do"
 
-#: board/models.py:145
+#: board/models.py:156
 msgid "professions"
 msgstr "profese"
 
-#: board/models.py:146
+#: board/models.py:157
 msgid "preferred days"
 msgstr "preferované dny"
 
-#: board/models.py:180
+#: board/models.py:191
 msgid "duties"
 msgstr "služby"
 
-#: board/models.py:184
+#: board/models.py:195
 msgid "created"
 msgstr "vytvořeno"
 
-#: board/models.py:185
+#: board/models.py:196
 msgid "time"
 msgstr "čas"
 
-#: board/models.py:186
+#: board/models.py:197
 msgid "date"
 msgstr "datum"
 
-#: board/models.py:222
+#: board/models.py:233
 msgid "Duty today?"
 msgstr "Služba dnes?"
 
@@ -285,7 +294,7 @@ msgid "Birthdays today"
 msgstr "Narozeniny dnes"
 
 #: board/templates/board/birthdays.html:3
-#: board/templates/board/birthdays.html:28 templates/organiser/base.html:103
+#: board/templates/board/birthdays.html:28 templates/organiser/base.html:104
 msgid "Patients"
 msgstr "Pacienti"
 
@@ -309,7 +318,7 @@ msgid "Nobody"
 msgstr "Nikdo"
 
 #: board/templates/board/birthdays.html:14
-#: board/templates/board/birthdays.html:39 templates/organiser/base.html:98
+#: board/templates/board/birthdays.html:39 templates/organiser/base.html:99
 msgid "Volunteers"
 msgstr "Dobrovolníci"
 
@@ -343,7 +352,7 @@ msgstr ""
 msgid "Nobody has a duty."
 msgstr "Nikdo nemá službu."
 
-#: board/templates/board/duties.html:14 templates/organiser/base.html:93
+#: board/templates/board/duties.html:14 templates/organiser/base.html:94
 msgid "Duties"
 msgstr "Služby"
 
@@ -354,7 +363,7 @@ msgstr "ve: "
 
 #: board/templates/board/index.html:12 templates/admin/change_form.html:18
 #: templates/admin/change_list.html:40 templates/admin/object_history.html:6
-#: templates/organiser/base.html:88 templates/organiser/base.html.py:112
+#: templates/organiser/base.html:89 templates/organiser/base.html.py:113
 msgid "Board"
 msgstr "Nástěnka"
 
@@ -385,7 +394,7 @@ msgid "Add"
 msgstr "Přidat"
 
 #: organiser/templates/admin/index.html:37 templates/admin/index.html:36
-#: templates/organiser/base.html:57
+#: templates/organiser/base.html:58
 msgid "Change"
 msgstr "Upravit"
 
@@ -434,6 +443,19 @@ msgstr "Přidat %(name)s"
 msgid "Filter"
 msgstr "Filtrovat"
 
+#: templates/admin/change_list_results.html:17
+msgid "Remove from sorting"
+msgstr "Odstranit z řazení"
+
+#: templates/admin/change_list_results.html:18
+#, python-format
+msgid "Sorting priority: %(priority_number)s"
+msgstr "Řadící priorita: %(priority_number)s"
+
+#: templates/admin/change_list_results.html:19
+msgid "Toggle sorting"
+msgstr "Přepnout řazení"
+
 #: templates/admin/object_history.html:22
 msgid "Date/time"
 msgstr "Datum/čas"
@@ -454,23 +476,23 @@ msgstr ""
 "Tento objekt nemá historii změn. Pravděpodobně nebyl přidán skrz tuto "
 "stránku."
 
-#: templates/organiser/base.html:63
+#: templates/organiser/base.html:64
 msgid "Welcome,"
 msgstr "Vítejte"
 
-#: templates/organiser/base.html:69
+#: templates/organiser/base.html:70
 msgid "Site administration"
 msgstr "Nastavení stránky"
 
-#: templates/organiser/base.html:71
+#: templates/organiser/base.html:72
 msgid "Documentation"
 msgstr "Dokumentace"
 
-#: templates/organiser/base.html:75
+#: templates/organiser/base.html:76
 msgid "Change password"
 msgstr "Změna hesla"
 
-#: templates/organiser/base.html:77
+#: templates/organiser/base.html:78
 msgid "Log out"
 msgstr "Odhlásit"
 

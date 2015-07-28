@@ -20,6 +20,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _,pgettext
 from django.utils.timezone import now
 import datetime
+import calendar
 import board.helpers as h
 import board.validators
 #
@@ -41,6 +42,7 @@ class Category2(models.Model):
 
     def __str__(self):
         return self.name
+
 
 
 class CssClass(models.Model):
@@ -167,6 +169,32 @@ class Volunteer(Person):
             l.append(str(i))
         return ', '.join(l)
     getCategoriesStr.short_description = _('categories')
+    
+    def getWorkedHours(self, since=None,until=None):
+        """
+        Get hours the volunteer worked. If since and until is None, get
+        total sum. Otherwise, filter it by the month.
+        """
+        if since is None and until is None:
+            total = 0
+            for x in WorkedHours.objects.filter(volunteer = self):
+                total += x.hours
+            return total
+        else:
+            total = 0
+            for x in WorkedHours.objects.filter(volunteer = self, added__gte=since, added__lte=until):
+                total += x.hours
+            return total
+    getWorkedHours.short_description =_('total')
+
+    def getWorkedHoursMonthly(self):
+        today = now()
+        (weekday,end) = calendar.monthrange(today.year, today.month)
+        return self.getWorkedHours(
+                since=datetime.date(year=today.year, month=today.month, day=1),
+                until=datetime.date(year=today.year, month=today.month, day=end)
+            )
+    getWorkedHoursMonthly.short_description = _('this month')
 
 
 
@@ -222,3 +250,13 @@ class Duty(models.Model):
     duty_today.short_description = _("Duty today?")
     
 
+class WorkedHours(models.Model):
+    class Meta:
+            verbose_name_plural = _("worked hours")
+            verbose_name = _("worked hours")
+    volunteer = models.ForeignKey(Volunteer, verbose_name=_('volunteer'))
+    added = models.DateTimeField(verbose_name=_('added'))
+    hours = models.IntegerField(verbose_name=_('worked hours'))
+
+    def __str__(self):
+        return "%s: %d"%(self.volunteer, self.hours)

@@ -3,8 +3,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 from django.core import urlresolvers
 from django import forms
+from django.utils.html import format_html
+
 import datetime
-from .models import Duty,Person,Patient,Volunteer,Category1,Category2,Ward,CssClass
+from .models import Duty,Person,Patient,Volunteer,Category1,Category2,Ward,CssClass,WorkedHours
 import board.helpers as h
 import board.validators as validators
 
@@ -133,10 +135,13 @@ class DutyAdmin(admin.ModelAdmin):
     list_display = ('date', 'time', 'volunteer', 'patient',
             'category1', 'category2', 'notes')
     list_filter = [DutyFilter]
+        
 
 
 class VolunteerAdmin(admin.ModelAdmin):
+    readonly_fields = ['getWorkedHours','getWorkedHoursMonthly']
     fieldsets = [
+       (_('Worked hours'), {'fields': [('getWorkedHoursMonthly','getWorkedHours')]}),
        (_('Person'), {'fields': ['pid', 'first_name', 'surname', 'birthdate']}),
        (_('Contact'), {'fields': ['email','phone1','phone2','address']}),
        (_('Other'), {'fields': ['professions','preferredDays','availableCategories', 'availableSubcategories', 'workingSince', 'workedUntil', 'active','notes','cssClass']}),
@@ -144,6 +149,15 @@ class VolunteerAdmin(admin.ModelAdmin):
     list_display = ('surname', 'first_name',
                     'birthdate', 'professions', 'getCategoriesStr','getSubcategoriesStr','preferredDays', 'notes', 'active')
     list_filter = [BirthdayFilter,VolunteerActiveFilter, VolunteerCategoriesFilter, VolunteerSubcategoriesFilter]
+
+    # Not doing what I want... check how to link it to another object
+    def admin_link(self, instance):
+        url = urlresolvers.reverse('admin:%s_%s_change' % (instance._meta.app_label,  
+                                              instance._meta.model_name),
+                      args=(instance.id,))
+        return format_html(u'<a href="{}">Edit</a>', url)
+        # … or if you want to include other fields:
+        return format_html(u'<a href="{}">Edit: {}</a>', url, instance.title)
 
 
 class PatientAdmin(admin.ModelAdmin):
@@ -155,6 +169,9 @@ class PatientAdmin(admin.ModelAdmin):
                     'birthdate', 'ward', 'diagnosis', 'notes')
     list_filter = [BirthdayFilter, PatientWardsFilter]
 
+class WorkedHoursAdmin(admin.ModelAdmin):
+    list_display = ('volunteer','added','hours')
+
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(Duty, DutyAdmin)
@@ -162,3 +179,4 @@ admin.site.register(Category1)
 admin.site.register(Category2)
 admin.site.register(Ward)
 admin.site.register(CssClass)
+admin.site.register(WorkedHours,WorkedHoursAdmin)
