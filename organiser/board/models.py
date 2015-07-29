@@ -77,7 +77,7 @@ class Ward(models.Model):
     class Meta:
             verbose_name_plural = _("wards")
             verbose_name = _("ward")
-    name = models.TextField(verbose_name = _('name'))
+    name = models.CharField(max_length=200,verbose_name = _('name'))
     def __str__(self):
         return self.name
 
@@ -278,6 +278,8 @@ class WorkedHours(models.Model):
     volunteer = models.ForeignKey(Volunteer, verbose_name=_('volunteer'))
     added = models.DateField(verbose_name=_('added'))
     hours = models.IntegerField(verbose_name=_('worked hours'))
+    category1 = models.ForeignKey(Category1, verbose_name=_('category'))
+    category2 = models.ForeignKey(Category2, blank=True, null=True, verbose_name=_('subcategory'))
 
     def __str__(self):
         return "%s: %d"%(self.volunteer, self.hours)

@@ -197,7 +197,7 @@ class PatientAdmin(admin.ModelAdmin):
     list_filter = [BirthdayFilter, PatientWardsFilter]
 
 class WorkedHoursAdmin(admin.ModelAdmin):
-    list_display = ('volunteer','added','hours')
+    list_display = ('volunteer','added','hours', 'category1', 'category2')
 
 class HolidayAdmin(admin.ModelAdmin):
     list_display = ('volunteer','since','until','reason')
