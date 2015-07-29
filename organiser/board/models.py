@@ -160,6 +160,8 @@ class Volunteer(Person):
     def save(self, *args, **kwargs):
         if not self.pid:
             last_pid = Volunteer.objects.all().aggregate(models.Max('pid'))['pid__max']
+            if last_pid is None:
+                last_pid = 0
             self.pid = int(last_pid) + 1
         if not self.workingSince:
             self.workingSince = now().date()
