@@ -22,3 +22,8 @@
 #result_list .red td, #result_list .red th{
     background: #fbb;
 }
+
+.submit-row {
+    position: fixed;
+    bottom:0;
+}
