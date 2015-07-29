@@ -45,9 +45,14 @@ DUTY_TIME = [
 ]
 
 # used for Person.birthday, everyone has the same year in this value
-BIRTHDAY_YEAR = 2000
+# 2004 used as a leap year, to have 29th Feb.
+BIRTHDAY_YEAR = 2004
 
 def bday(month=None, day=None, now=False):
+    """
+    Return a date object set to a date in an arbitrary configured year,
+    useful for comparing two dates on month/day basis (birthdays..)
+    """
     if (month is None and day is None and now is False or
             month is None and day is not None or
             month is not None and day is None):
@@ -61,6 +66,7 @@ def bday(month=None, day=None, now=False):
 
 def years_ago(years, from_date=None):
     """
+    Get a date object for a date X years ago (aka timedelta).
     Author: Rick Copeland - http://stackoverflow.com/a/765990/1023519
     """
     if from_date is None:
@@ -75,10 +81,15 @@ def years_ago(years, from_date=None):
 
 def num_years(begin, end=None):
     """
+    Return the number of years between two dates.
     Author: Rick Copeland - http://stackoverflow.com/a/765990/1023519
     """
     if end is None:
         end = timezone.now().date()
+    if end < begin:
+        tmp = end
+        end = begin
+        begin = tmp
     num_years = int((end - begin).days / 365.25)
     if begin > years_ago(num_years, end):
         return num_years - 1
@@ -86,25 +97,29 @@ def num_years(begin, end=None):
         return num_years
 
 def filter_date_range(queryset, column, start, end):
-            arg_start={ column+'__gte' : start}
-            arg_end={column+'__lte' :end}
-            arg_start_year={ column+'__gte' : datetime.date(end.year, 1, 1)}
-            arg_end_year={column+'__lte' :datetime.date(start.year, 12, 31)}
+    """
+    Filter a query to items which has value in column within
+    a range stated by start and end arguments.
+    """
+    arg_start={ column+'__gte' : start}
+    arg_end={column+'__lte' :end}
+    arg_start_year={ column+'__gte' : datetime.date(end.year, 1, 1)}
+    arg_end_year={column+'__lte' :datetime.date(start.year, 12, 31)}
 
-            # if we are looking for next few days,
-            # we have to bear in mind what happens on the eve
-            # of a new year. So if the interval we are looking into
-            # is going over the New Year, break the search into two.
-            if (start.year == end.year):
-                return queryset.filter(
-                        Q(**arg_start) &
-                        Q(**arg_end)
-                    )
-            else:
-                return queryset.filter(
-                        Q(**arg_start) &
-                        Q(**arg_end_year) |
-                        Q(**arg_start_year) &
-                        Q(**arg_end)
-                    )
+    # if we are looking for next few days,
+    # we have to bear in mind what happens on the eve
+    # of a new year. So if the interval we are looking into
+    # is going over the New Year, break the search into two.
+    if (start.year == end.year):
+        return queryset.filter(
+                Q(**arg_start) &
+                Q(**arg_end)
+            )
+    else:
+        return queryset.filter(
+                Q(**arg_start) &
+                Q(**arg_end_year) |
+                Q(**arg_start_year) &
+                Q(**arg_end)
+            )
 
