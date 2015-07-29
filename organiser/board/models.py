@@ -148,6 +148,7 @@ class Volunteer(Person):
             verbose_name_plural = _("volunteers")
             verbose_name = _("volunteer")
     active = models.BooleanField(blank=True, default=True, verbose_name=_('active'))
+    insured = models.BooleanField(blank=True, default=False, verbose_name=_('insured'))
     availableCategories = models.ManyToManyField(Category1, verbose_name = _('available categories'))
     availableSubcategories = models.ManyToManyField(Category2, blank=True, verbose_name = _('available subcategories'))
     pid = models.IntegerField(unique = True, blank = True, verbose_name = _('PID'))
@@ -172,7 +173,7 @@ class Volunteer(Person):
             ).count() == 0:
             return True
         return False
-    notOnHoliday.short_description = _('not on holiday')
+    notOnHoliday.short_description = _('not vacant')
     notOnHoliday.boolean = True
 
     def getSubcategoriesStr(self):
@@ -289,8 +290,8 @@ class WorkedHours(models.Model):
 #
 class Holiday(models.Model):
     class Meta:
-        verbose_name_plural = _('holidays')
-        verbose_name = _('holiday')
+        verbose_name_plural = _('Vacancies')
+        verbose_name = _('Vacancy')
     volunteer = models.ForeignKey(Volunteer, verbose_name=_('volunteer'))
     since = models.DateField(verbose_name=_('since'))
     until = models.DateField(verbose_name=_('until'))

@@ -17,7 +17,9 @@ from pprint import pprint
 admin.site.site_header = _("Volunteer administration")
 admin.site.site_title = _("Volunteer administration")
 
-
+#
+# patient filters
+#
 class PatientWardsFilter(admin.SimpleListFilter):
     title = _('wards')
     parameter_name = 'wards'
@@ -29,6 +31,10 @@ class PatientWardsFilter(admin.SimpleListFilter):
         if self.value():
             return queryset.filter(ward__name = self.value())
         
+
+#
+# volunteer filters
+#
 class VolunteerCategoriesFilter(admin.SimpleListFilter):
     title = _('categories')
     parameter_name = 'categories'
@@ -39,7 +45,6 @@ class VolunteerCategoriesFilter(admin.SimpleListFilter):
     def queryset(self, request, queryset):
         if self.value():
             return queryset.filter(availableCategories__name = self.value())
-
 
 class VolunteerSubcategoriesFilter(admin.SimpleListFilter):
     title = _('subcategories')
@@ -52,14 +57,13 @@ class VolunteerSubcategoriesFilter(admin.SimpleListFilter):
         if self.value():
             return queryset.filter(availableSubcategories__name = self.value())
 
-
 class VolunteerHolidayFilter(admin.SimpleListFilter):
-    title = _('holiday')
-    parameter_name = 'holiday'
+    title = _('vacancy')
+    parameter_name = 'vacancy'
 
     def lookups(self, request, model_admin):
-        return (('true', _('is on holiday')), 
-                ('false', _('is not on holiday'))
+        return (('true', _('Is vacant')), 
+                ('false', _('Is not vacant'))
             )
     def queryset(self, request, queryset):
         if self.value() == 'true':
@@ -88,7 +92,9 @@ class VolunteerActiveFilter(admin.SimpleListFilter):
         elif self.value() == 'inactive':
             return queryset.filter(active = False)
 
-
+#
+# Duty filters
+#
 class DutyFilter(admin.SimpleListFilter):
     title = _('duty')
     # Parameter for the filter that will be used in the URL query.
@@ -110,6 +116,9 @@ class DutyFilter(admin.SimpleListFilter):
                     future_date
                 )
 
+#
+# Generic person filters
+#
 class BirthdayFilter(admin.SimpleListFilter):
     title = _('birthday')
     # Parameter for the filter that will be used in the URL query.
@@ -162,19 +171,50 @@ class DutyAdmin(admin.ModelAdmin):
 class VolunteerAdmin(admin.ModelAdmin):
     readonly_fields = ['getWorkedHours','getWorkedHoursMonthly','notOnHoliday']
     fieldsets = [
-       (_('Worked hours'), {'fields': ['notOnHoliday',('getWorkedHoursMonthly','getWorkedHours')]}),
-       (_('Person'), {'fields': ['pid', 'first_name', 'surname', 'birthdate']}),
-       (_('Contact'), {'fields': ['email','phone1','phone2','address']}),
-       (_('Other'), {'fields': ['professions','preferredDays','availableCategories', 'availableSubcategories', 'workingSince', 'workedUntil', 'active','notes','cssClass']}),
+       (_('Worked hours'), {'fields': [
+           'notOnHoliday',
+           ('getWorkedHoursMonthly','getWorkedHours'),
+        ]}),
+       (_('Person'), {'fields': [
+           'pid',
+           ('first_name', 'surname'),
+           'birthdate',
+        ]}),
+       (_('Contact'), {'fields': [
+           'email',
+           ('phone1','phone2'),
+           'address',
+        ]}),
+       (_('Other'), {'fields': [
+           'cssClass',
+           'professions',
+           'preferredDays',
+           ('availableCategories', 'availableSubcategories'),
+           ('workingSince', 'workedUntil'),
+           'active',
+           'insured',
+           'notes',
+        ]}),
     ]
-    list_display = ('surname', 'first_name',
-                    'birthdate', 'professions', 'getCategoriesStr','getSubcategoriesStr','preferredDays', 'notes','notOnHoliday', 'active')
+    list_display = (
+            'surname',
+            'first_name',
+            'birthdate',
+            'professions',
+            'getCategoriesStr',
+            'getSubcategoriesStr',
+            'preferredDays',
+            'notOnHoliday',
+            'active',
+            'insured',
+            'notes',
+        )
     list_filter = [
             BirthdayFilter,
             VolunteerActiveFilter,
             VolunteerCategoriesFilter,
             VolunteerSubcategoriesFilter,
-            VolunteerHolidayFilter
+            VolunteerHolidayFilter,
         ]
 
     # Not doing what I want... check how to link it to another object
