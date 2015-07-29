@@ -121,7 +121,7 @@ class Person(models.Model):
     # show whether the person has birthday today
     # Class method
     def birthday_today(self):
-        return self.birthday == helper.bday(now=True)
+        return self.birthday == h.bday(now=True)
 
     birthday_today.admin_order_field = _('birthday')
     birthday_today.boolean = True
