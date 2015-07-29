@@ -34,6 +34,10 @@ class Category1(models.Model):
 
     def __str__(self):
         return self.name
+
+#
+# Second category class, currently used as a subcategory
+#
 class Category2(models.Model):
     class Meta:
             verbose_name_plural = _("subcategories")
@@ -43,8 +47,11 @@ class Category2(models.Model):
     def __str__(self):
         return self.name
 
-
-
+#
+# Class used to keep legal values for row highlighting.
+# Note: All entries has to be in English, and then translate them
+# with gettext!
+#
 class CssClass(models.Model):
     class Meta:
             verbose_name_plural = _("styles")
@@ -62,6 +69,17 @@ class CssClass(models.Model):
 
     def __str__(self):
         return pgettext('css',self.name)
+
+#
+# Ward for patients
+#
+class Ward(models.Model):
+    class Meta:
+            verbose_name_plural = _("wards")
+            verbose_name = _("ward")
+    name = models.TextField(verbose_name = _('name'))
+    def __str__(self):
+        return self.name
 
 #
 # Generic person details, common for both patient and volunteer.
@@ -118,21 +136,12 @@ class Person(models.Model):
                 self.surname, self.first_name, self.birthdate
             )
 
-class Ward(models.Model):
-    class Meta:
-            verbose_name_plural = _("wards")
-            verbose_name = _("ward")
-    name = models.TextField(verbose_name = _('name'))
-    def __str__(self):
-        return self.name
-
 class Patient(Person):
     class Meta:
             verbose_name_plural = _("patients")
             verbose_name = _("patient")
     diagnosis = models.TextField(blank = True, null=True,verbose_name = _('diagnosis'))
     ward = models.ForeignKey(Ward, verbose_name = _('ward'))
-
 
 class Volunteer(Person):
     class Meta:
@@ -258,8 +267,10 @@ class Duty(models.Model):
     duty_today.admin_order_field = _('duty')
     duty_today.boolean = True
     duty_today.short_description = _("Duty today?")
-    
 
+#
+# Keep a record of what volunteer really did
+#
 class WorkedHours(models.Model):
     class Meta:
             verbose_name_plural = _("worked hours")
@@ -271,6 +282,9 @@ class WorkedHours(models.Model):
     def __str__(self):
         return "%s: %d"%(self.volunteer, self.hours)
 
+#
+# Keep a record of volunteers temporarily out of work
+#
 class Holiday(models.Model):
     class Meta:
         verbose_name_plural = _('holidays')
