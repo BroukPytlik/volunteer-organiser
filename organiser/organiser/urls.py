@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf.urls.i18n import i18n_patterns
+from organiser import settings
 
 urlpatterns = [
     url(r'^i18n/', include('django.conf.urls.i18n')),
@@ -23,4 +24,5 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     url(r'^$', include('board.urls', namespace='board')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^uploads/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT, 'show_indexes': False}),
 )

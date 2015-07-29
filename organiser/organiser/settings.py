@@ -109,6 +109,9 @@ USE_L10N = True
 USE_TZ = True
 
 
+# File uploads
+MEDIA_ROOT = BASE_DIR + "/uploads/"
+MEDIA_URL = '/uploads/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/

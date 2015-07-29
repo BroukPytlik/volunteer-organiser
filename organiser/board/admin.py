@@ -7,7 +7,7 @@ from django.utils.html import format_html
 from django.db.models import Q
 
 import datetime
-from .models import Duty,Person,Patient,Volunteer,Category1,Category2,Ward,CssClass,WorkedHours,Holiday
+from .models import Duty,Person,Patient,Volunteer,Category1,Category2,Ward,CssClass,WorkedHours,Holiday,Attachment
 import board.helpers as h
 import board.validators as validators
 
@@ -167,6 +167,56 @@ class DutyAdmin(admin.ModelAdmin):
     list_filter = [DutyFilter]
         
 
+class AttachmentAdmin(admin.ModelAdmin):
+    readonly_fields = [
+            'created',
+            'download_link',
+        ]
+    list_display = [
+            'volunteer',
+            'download_link',
+            'description',
+            'created'
+        ]
+    fieldsets = [ ((None), {'fields': [
+            'created',
+            'volunteer',
+            'name',
+            'attachment',
+            'description',
+        ]})]
+
+class InlineDuty(admin.TabularInline):
+    model = Duty
+
+class InlineWorkedHours(admin.TabularInline):
+    model = WorkedHours
+
+class AttachmentForm(forms.ModelForm):
+    class Meta:
+        model = Attachment
+        widgets = {
+                'description': forms.Textarea(attrs={'rows':2, 'cols':40}),
+                'name': forms.TextInput(attrs={'size':20}),
+            }
+        fields = '__all__'
+
+class InlineAttachments(admin.TabularInline):
+    form = AttachmentForm
+    model = Attachment
+    readonly_fields = [
+            'download_link',
+            'created',
+            'description',
+            ]
+    fields = [
+            'download_link',
+            'description',
+            'created',
+            ]
+    # no adding in this form, only download and delete
+    extra = 0
+    max_num = 0
 
 class VolunteerAdmin(admin.ModelAdmin):
     readonly_fields = [
@@ -225,6 +275,10 @@ class VolunteerAdmin(admin.ModelAdmin):
             VolunteerSubcategoriesFilter,
             VolunteerHolidayFilter,
         ]
+    inlines = [
+            InlineWorkedHours,
+            InlineAttachments,
+            ]
 
     def link_add_worked_hours(self, instance):
         url = urlresolvers.reverse('admin:%s_%s_add' % (
@@ -253,13 +307,32 @@ class VolunteerAdmin(admin.ModelAdmin):
                 instance.id,
                 _('duty'),
             )
-    link_add_worked_hours.short_description = _('New duty')
+    link_add_duty.short_description = _('New duty')
+
+    def link_add_attachment(self, instance):
+        url = urlresolvers.reverse('admin:%s_%s_add' % (
+            Attachment._meta.app_label,
+            Attachment._meta.model_name),
+            args=()
+        )
+        return format_html(
+            '<a href="{}?volunteer={}">{}</a>',
+                url,
+                instance.id,
+                _('attachment'),
+            )
+    link_add_attachment.short_description = _('New attachment')
 
 
     def links(self, instance):
-        return format_html("<ul><li>{}<li>{}</ul>", 
+        return format_html("""<ul>
+                <li>{}
+                <li>{}
+                <li>{}
+                </ul>""", 
                 self.link_add_worked_hours(instance),
                 self.link_add_duty(instance),
+                self.link_add_attachment(instance),
             )
     links.short_description = _('Add')
     
@@ -297,5 +370,6 @@ admin.site.register(Category1)
 admin.site.register(Category2)
 admin.site.register(Ward)
 admin.site.register(CssClass)
+admin.site.register(Attachment,AttachmentAdmin)
 admin.site.register(WorkedHours,WorkedHoursAdmin)
 admin.site.register(Holiday, HolidayAdmin)

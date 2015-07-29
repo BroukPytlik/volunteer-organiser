@@ -18,11 +18,15 @@
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _,pgettext
+from django.utils.translation import ugettext
 from django.utils.timezone import now
+from django.utils.html import format_html
 import datetime
 import calendar
 import board.helpers as h
 import board.validators
+
+
 #
 # Just a simple class to hold categories list
 #
@@ -300,3 +304,39 @@ class Holiday(models.Model):
     reason = models.CharField(max_length=250, blank=True, null=True, verbose_name=_('reason'))
     def __str__(self):
         return str(self.volunteer)
+
+#
+# allow file uploads with documents about a volunteer
+#
+class Attachment(models.Model):
+    class Meta:
+        verbose_name_plural = _('Attachments')
+        verbose_name = _('Attachment')
+    volunteer = models.ForeignKey(Volunteer, verbose_name=_('volunteer'))
+    name = models.CharField(max_length=250, verbose_name = _('name'))
+    attachment = models.FileField(verbose_name=_('attachment'), upload_to='./')
+    description = models.TextField(blank=True,null=True, verbose_name = _('description'))
+    created     = models.DateTimeField(auto_now_add=True, verbose_name=_('created'))
+
+    def download_link(self):
+        if self.attachment:
+            return format_html(
+                    '<a href="{}">{}</a>',
+                    self.attachment.url,
+                    #_('download'))
+                    self.name)
+        return ''
+    download_link.short_description = _('download')
+    
+    def __str__(self):
+        return ugettext('attachment')
+
+# Receive the pre_delete signal and delete the file associated with the model instance.
+from django.db.models.signals import post_delete
+from django.dispatch.dispatcher import receiver
+@receiver(post_delete, sender=Attachment)
+def attachment_delete(sender, instance, **kwargs):
+    if instance.attachment:
+        # Pass false so FileField doesn't save the model.
+        instance.attachment.delete(False)
+
