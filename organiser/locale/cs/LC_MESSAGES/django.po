@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-29 09:26+0200\n"
+"POT-Creation-Date: 2015-07-29 11:01+0200\n"
 "PO-Revision-Date: 2015-07-26 19:15+ZONE\n"
 "Last-Translator: Jan Tulak <jan@tulak.me>\n"
 "Language-Team: Jan Tulak <jan@tulak.me>\n"
@@ -73,7 +73,7 @@ msgstr "Aktivní"
 msgid "Inactive"
 msgstr "Neaktivní"
 
-#: board/admin.py:99 board/models.py:229 board/models.py:268
+#: board/admin.py:99 board/admin.py:254 board/models.py:229 board/models.py:268
 msgid "duty"
 msgstr "služba"
 
@@ -101,21 +101,34 @@ msgstr "Kdo"
 msgid "When"
 msgstr "Kdy"
 
-#: board/admin.py:163 board/admin.py:177 board/admin.py:202
+#: board/admin.py:163 board/admin.py:196 board/admin.py:281
 msgid "Other"
 msgstr "Jiné"
 
-#: board/admin.py:174
+#: board/admin.py:181 board/admin.py:242
 msgid "Worked hours"
 msgstr "Odpracované hodiny"
 
-#: board/admin.py:175 board/admin.py:201
+#: board/admin.py:186 board/admin.py:280
 msgid "Person"
 msgstr "Osoba"
 
-#: board/admin.py:176
+#: board/admin.py:191
 msgid "Contact"
 msgstr "Kontakt"
+
+#: board/admin.py:240
+msgid "hours"
+msgstr "hodiny"
+
+#: board/admin.py:256
+msgid "New duty"
+msgstr "Nová služba"
+
+#: board/admin.py:264 organiser/templates/admin/index.html:31
+#: templates/admin/change_form.html:21 templates/admin/index.html:30
+msgid "Add"
+msgstr "Přidat"
 
 #: board/helpers.py:30
 msgid "Monday"
@@ -439,11 +452,6 @@ msgstr "Organizátor dobrovolníků"
 #, python-format
 msgid "Models in the %(name)s application"
 msgstr "Modely v aplikaci %(name)s"
-
-#: organiser/templates/admin/index.html:31 templates/admin/change_form.html:21
-#: templates/admin/index.html:30
-msgid "Add"
-msgstr "Přidat"
 
 #: organiser/templates/admin/index.html:37 templates/admin/index.html:36
 #: templates/organiser/base.html:58

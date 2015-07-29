@@ -169,11 +169,19 @@ class DutyAdmin(admin.ModelAdmin):
 
 
 class VolunteerAdmin(admin.ModelAdmin):
-    readonly_fields = ['getWorkedHours','getWorkedHoursMonthly','notOnHoliday']
+    readonly_fields = [
+            'getWorkedHours',
+            'getWorkedHoursMonthly',
+            'notOnHoliday',
+            'link_add_worked_hours',
+            'link_add_duty',
+            'links',
+        ]
     fieldsets = [
        (_('Worked hours'), {'fields': [
            'notOnHoliday',
            ('getWorkedHoursMonthly','getWorkedHours'),
+           'links',
         ]}),
        (_('Person'), {'fields': [
            'pid',
@@ -200,6 +208,7 @@ class VolunteerAdmin(admin.ModelAdmin):
             'surname',
             'first_name',
             'birthdate',
+            'links',
             'professions',
             'getCategoriesStr',
             'getSubcategoriesStr',
@@ -217,8 +226,47 @@ class VolunteerAdmin(admin.ModelAdmin):
             VolunteerHolidayFilter,
         ]
 
-    # Not doing what I want... check how to link it to another object
+    def link_add_worked_hours(self, instance):
+        url = urlresolvers.reverse('admin:%s_%s_add' % (
+            WorkedHours._meta.app_label,
+            WorkedHours._meta.model_name),
+            args=()
+        )
+        return format_html(
+            '<a href="{}?added={}&volunteer={}">{}</a>',
+                url,
+                str(now().date()),
+                instance.id,
+                _('hours'),
+            )
+    link_add_worked_hours.short_description = _('Worked hours')
+
+    def link_add_duty(self, instance):
+        url = urlresolvers.reverse('admin:%s_%s_add' % (
+            Duty._meta.app_label,
+            Duty._meta.model_name),
+            args=()
+        )
+        return format_html(
+            '<a href="{}?volunteer={}">{}</a>',
+                url,
+                instance.id,
+                _('duty'),
+            )
+    link_add_worked_hours.short_description = _('New duty')
+
+
+    def links(self, instance):
+        return format_html("<ul><li>{}<li>{}</ul>", 
+                self.link_add_worked_hours(instance),
+                self.link_add_duty(instance),
+            )
+    links.short_description = _('Add')
+    
+
+
     def admin_link(self, instance):
+
         url = urlresolvers.reverse('admin:%s_%s_change' % (instance._meta.app_label,  
                                               instance._meta.model_name),
                       args=(instance.id,))
