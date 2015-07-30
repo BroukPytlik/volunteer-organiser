@@ -13,14 +13,53 @@
     background: #ffa;
 }
 
+#result_list .aqua td, #result_list .aqua th{
+    background: #7FDBFF;
+    color: #111;
+}
+#result_list .teal td, #result_list .teal th{
+    background: #39CCCC;
+    color: #111;
+}
+#result_list .olive td, #result_list .olive th{
+    background: #3D9970;
+    color: #111;
+}
+    #result_list .olive a {
+        color: white;
+    }
+    #result_list .olive a:hover {
+        color: #DDDDDD;
+    }
+#result_list .orange td, #result_list .orange th{
+    background: #FF851B;
+    color: #111;
+}
+    #result_list .orange a {
+        color: white;
+    }
+    #result_list .orange a:hover {
+        color: #DDDDDD;
+    }
+#result_list .silver td, #result_list .silver th{
+    background: #DDDDDD;
+    color: #111;
+}
+#result_list .purple td, #result_list .purple th{
+    background: #D1BDE9;
+    color: #111;
+}
 #result_list .green td, #result_list .green th{
     background: #bfb;
+    color: #111;
 }
 #result_list .blue td, #result_list .blue th{
     background: #bbf;
+    color: #111;
 }
 #result_list .red td, #result_list .red th{
     background: #fbb;
+    color: #111;
 }
 
 .submit-row {

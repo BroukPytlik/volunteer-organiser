@@ -67,6 +67,12 @@ class CssClass(models.Model):
         """
         This is here to provide translation strings somwhere.
         """
+        pgettext('css','Silver')
+        pgettext('css','Purple')
+        pgettext('css','Orange')
+        pgettext('css','Teal')
+        pgettext('css','Aqua')
+        pgettext('css','Olive')
         pgettext('css','Red')
         pgettext('css','Blue')
         pgettext('css','Green')
