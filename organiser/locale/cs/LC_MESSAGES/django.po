@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-03 22:12+0200\n"
+"POT-Creation-Date: 2015-08-03 22:25+0200\n"
 "PO-Revision-Date: 2015-07-26 19:15+ZONE\n"
 "Last-Translator: Jan Tulak <jan@tulak.me>\n"
 "Language-Team: Jan Tulak <jan@tulak.me>\n"
@@ -657,6 +657,10 @@ msgstr "Změna hesla"
 #: templates/organiser/base.html:78
 msgid "Log out"
 msgstr "Odhlásit"
+
+#: templates/organiser/base.html:150
+msgid "Source code"
+msgstr "Zdrojový kód"
 
 #~ msgid "holiday"
 #~ msgstr "dovolená"
