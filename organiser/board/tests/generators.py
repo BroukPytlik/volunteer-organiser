@@ -23,7 +23,33 @@ from datetime import date
 
 from board.models import *
 
-def create_volunteers(count):
+# prepare a ward and category
+def init_db():
+    global CAT, WARD
+    CAT = Category1(name='foo cat')
+    WARD = Ward(name='foo ward')
+
+    CAT.save()
+    WARD.save()
+
+
+def create_patients(count, save=True):
+    patients = []
+    for i in range(count):
+        p = Patient(
+            first_name  = "name %d"%i,
+            surname     = "surname %d"%i,
+            # don't get into future with birthdays
+            birthdate   = datetime.date( 1900 + (i*10+i) % 110, 1 + i % 12, 1 + i % 28),
+            ward = WARD,
+        )
+        patients.append(p)
+        if save:
+            p.save()
+    return patients
+
+def create_volunteers(count, save=True):
+    volunteers = []
     for i in range(count):
         v = Volunteer(
             first_name  = "name %d"%i,
@@ -34,5 +60,8 @@ def create_volunteers(count):
             insured     = i % 2 == 0,
             workingSince = now().date(),
         )
-        v.save()
+        volunteers.append(v)
+        if save:
+            v.save()
+    return volunteers
 

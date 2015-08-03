@@ -67,3 +67,24 @@ class SimpleHelpersTests(TestCase):
                 date(helpers.BIRTHDAY_YEAR, now().month, now().day))
 
 
+    def test_week(self):
+        """
+        week should return first and last day of the week the given day belongs to.
+        """
+        correct_mon = date(year=2015, month=6, day=29)
+        correct_sun = date(year=2015, month=7, day=5)
+
+        # check week boundary - monday
+        test = date(year=2015, month=6, day = 29)
+        (res_mon, res_sun) = helpers.week(test)
+        self.assertTrue(res_mon == correct_mon and res_sun == correct_sun)
+
+        # check week boundary - sunday
+        test = date(year=2015, month=7, day = 5)
+        (res_mon, res_sun) = helpers.week(test)
+        self.assertTrue(res_mon == correct_mon and res_sun == correct_sun)
+
+        # check middle of the week
+        test = date(year=2015, month=7, day = 1)
+        (res_mon, res_sun) = helpers.week(test)
+        self.assertTrue(res_mon == correct_mon and res_sun == correct_sun)

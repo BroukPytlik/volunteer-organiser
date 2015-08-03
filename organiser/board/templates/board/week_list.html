@@ -1,0 +1,101 @@
+{% extends "organiser/base.html" %}
+{% load i18n admin_urls admin_static admin_modify %}
+{% load board_extras %}
+{% block title %}{{ title }} | {{ site_title|default:_('Volunteer administration') }}{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+<script type="text/javascript" src="{% static "admin/js/core.js" %}"></script>
+<script type="text/javascript" src="{% static "admin/js/admin/RelatedObjectLookups.js" %}"></script>
+<script type="text/javascript" src="{% static "admin/js/jquery.js" %}"></script>
+<script type="text/javascript" src="{% static "admin/js/jquery.init.js" %}"></script>
+<script type="text/javascript" src="{% static "admin/js/actions.js" %}"></script>
+<script type="text/javascript" src="{% static "admin/js/related-widget-wrapper.js" %}"></script>
+<script type="text/javascript" src="{% static "admin/js/inlines.js" %}"></script>
+{{ week_form.media }}
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Volunteer administration') }}</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'board:index' %}">{% trans 'Board' %}</a>
+&rsaquo; {{_('Week list')}}
+</div>
+{% endblock %}
+{% endif %}
+
+{% block content %}
+<h2>{{_('Showing week')}}: {{monday}} - {{sunday}}</h2>
+<div class="">
+    <form method="get">
+        {#% csrf_token %#}
+        {{week_form.as_p}}
+        <input type="submit" value="{{_('show')|title}}">
+    </form>
+</div>
+{% if duties %}
+    <h3>{{_('Duties for patients')}}</h3>
+    <table>
+    <thead>
+        <tr>
+            <th>{{_('volunteer')|title}}</th>
+            <th>{{_('patient')|title}}</th>
+            <th>{{_('when')|title}}</th>
+            <th>{{_('category')|title}}</th>
+        </tr>
+    </thead>
+    {% for duty in duties %}
+        {# put only duties with patients into the table #}
+        {% if duty.patient %}
+        <tr>
+            <td>{{duty.volunteer}}</td>
+            <td>{{duty.patient}}</td>
+            <td>{{duty.date|day_of_week}} {{duty.time|duty_time_short}}</td>
+            <td>
+                {{duty.category1}}
+                {% if duty.Category2 %}
+                ({{duty.category2}})
+                {%endif%}
+            </td>
+        </tr>
+        {% endif %}
+    {%endfor%}
+    </table>
+
+    <h3>{{_('Other duties')}}</h3>
+    <table>
+    <thead>
+        <tr>
+            <th>{{_('volunteer')|title}}</th>
+            <th>{{_('when')|title}}</th>
+            <th>{{_('category')|title}}</th>
+        </tr>
+    </thead>
+    {% for duty in duties %}
+        {# put only duties with patients into the table #}
+        {% if not duty.patient %}
+        <tr>
+            <td>{{duty.volunteer}}</td>
+            <td>{{duty.date|day_of_week}} {{duty.time|duty_time_short}}</td>
+            <td>
+                {{duty.category1}}
+                {% if duty.Category2 %}
+                ({{duty.category2}})
+                {%endif%}
+            </td>
+        </tr>
+        {% endif %}
+    {%endfor%}
+    </table>
+{% else %}
+    {{_('No duty')}}.
+{% endif %}
+{% endblock %}

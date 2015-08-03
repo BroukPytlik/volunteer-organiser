@@ -22,7 +22,11 @@ urlpatterns = [
     url(r'^i18n/', include('django.conf.urls.i18n')),
 ]
 urlpatterns += i18n_patterns(
-    url(r'^$', include('board.urls', namespace='board')),
+    # to get datewidget working out of admin scope
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/jsi18n/$', 'django.views.i18n.javascript_catalog'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^uploads/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT, 'show_indexes': False}),
+    url(r'^', include('board.urls', namespace='board')),
+    
 )

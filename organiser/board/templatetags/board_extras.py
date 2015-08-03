@@ -25,16 +25,25 @@ import re
 import datetime
 from pprint import pformat
 import json
+import board.helpers as h
 
 register = template.Library()
 
 @register.filter
 def day_of_week(day):
-    return DAY_OF_THE_WEEK[day][1]
+    # assume it is a date/datetime object
+    # TODO if it fails somewhere, catch the exception and use the second return
+    return h.DAY_OF_THE_WEEK[day.isoweekday()][1]
+        
+    return h.DAY_OF_THE_WEEK[day][1]
 
 @register.filter
 def duty_time(time):
-    return DUTY_TIME[time][1]
+    return h.DUTY_TIME[time][1]
+
+@register.filter
+def duty_time_short(time):
+    return h.DUTY_TIME_SHORT[time][1]
 
 # strip language from URL when changing language
 @register.filter
@@ -48,7 +57,10 @@ def strip_lang(path):
 # Custom tag for diagnostics
 @register.simple_tag()
 def dump(var):
-    out = json.dumps(var, indent=4, sort_keys=True)
+    try:
+        out = json.dumps(var, indent=4, sort_keys=True)
+    except TypeError:
+        out = '[]'
     return "<pre class='dump'>%s</pre>" % (out)
 
 

@@ -41,7 +41,10 @@ AFTERNOON = 1
 DUTY_TIME = [
     (MORNING, _('Morning')),
     (AFTERNOON, _('Afternoon')),
-
+]
+DUTY_TIME_SHORT = [
+    (MORNING, _('a.m.')),
+    (AFTERNOON, _('p.m.')),
 ]
 
 # used for Person.birthday, everyone has the same year in this value
@@ -62,6 +65,16 @@ def bday(month=None, day=None, now=False):
         month = timezone.now().month
         day = timezone.now().day
     return datetime.date(BIRTHDAY_YEAR, month, day)
+
+def week(date):
+    """
+    Return (monday, sunday).
+    Return date objects for first and last day of the week the given day belongs to.
+    Get day of week, use it as a delta...
+    """
+    monday = date - datetime.timedelta(days = date.weekday())
+    sunday = date + datetime.timedelta(days = 6-date.weekday())
+    return (monday, sunday)
 
 
 def years_ago(years, from_date=None):

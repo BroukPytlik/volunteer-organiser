@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'django.contrib.admindocs',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -113,6 +114,8 @@ USE_TZ = True
 # File uploads
 MEDIA_ROOT = BASE_DIR + "/uploads/"
 MEDIA_URL = '/uploads/'
+
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/

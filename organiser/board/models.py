@@ -276,6 +276,15 @@ class Duty(models.Model):
                 now().date() + datetime.timedelta(days=skip),
                 future_date
             )
+
+    @classmethod
+    def get_date_range(cls, start, end):
+        return h.filter_date_range(
+            cls.objects,
+            'date',
+            start,
+            end
+        )
             
     duty_today.admin_order_field = _('duty')
     duty_today.boolean = True
