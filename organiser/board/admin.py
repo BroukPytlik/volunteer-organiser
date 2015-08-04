@@ -223,15 +223,14 @@ class VolunteerAdmin(admin.ModelAdmin):
             'getWorkedHours',
             'getWorkedHoursMonthly',
             'notOnHoliday',
-            'link_add_worked_hours',
-            'link_add_duty',
-            'links',
+            'links_inline',
+            'links_edit',
         ]
     fieldsets = [
        (_('Worked hours'), {'fields': [
            'notOnHoliday',
            ('getWorkedHoursMonthly','getWorkedHours'),
-           'links',
+           'links_edit',
         ]}),
        (_('Person'), {'fields': [
            'pid',
@@ -258,7 +257,7 @@ class VolunteerAdmin(admin.ModelAdmin):
             'surname',
             'first_name',
             'birthdate',
-            'links',
+            'links_inline',
             'professions',
             'getCategoriesStr',
             'getSubcategoriesStr',
@@ -323,9 +322,34 @@ class VolunteerAdmin(admin.ModelAdmin):
             )
     link_add_attachment.short_description = _('New attachment')
 
+    def link_add_vacancy(self, instance):
+        url = urlresolvers.reverse('admin:%s_%s_add' % (
+            Holiday._meta.app_label,
+            Holiday._meta.model_name),
+            args=()
+        )
+        return format_html(
+            '<a href="{}?volunteer={}">{}</a>',
+                url,
+                instance.id,
+                _('vacancy'),
+            )
+    link_add_vacancy.short_description = _('New vacancy')
 
-    def links(self, instance):
+
+    def links_inline(self, instance):
         return format_html("""<ul>
+                <li>{}
+                <li>{}
+                </ul>""", 
+                self.link_add_worked_hours(instance),
+                self.link_add_duty(instance),
+            )
+    links_inline.short_description = _('Add')
+
+    def links_edit(self, instance):
+        return format_html("""<ul>
+                <li>{}
                 <li>{}
                 <li>{}
                 <li>{}
@@ -333,8 +357,9 @@ class VolunteerAdmin(admin.ModelAdmin):
                 self.link_add_worked_hours(instance),
                 self.link_add_duty(instance),
                 self.link_add_attachment(instance),
+                self.link_add_vacancy(instance),
             )
-    links.short_description = _('Add')
+    links_edit.short_description = _('Add')
     
 
 
