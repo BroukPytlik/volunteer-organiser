@@ -21,11 +21,13 @@ from django.utils import timezone
 from django.utils.translation import get_language
 from django.contrib.admin.templatetags import admin_list
 from django import template
+from django.core.urlresolvers import reverse, NoReverseMatch
 import re
 import datetime
 from pprint import pformat
 import json
 import board.helpers as h
+from organiser import settings
 
 register = template.Library()
 
@@ -95,3 +97,23 @@ def board_result_list(cl):
 @register.simple_tag()
 def get_index_minus_one(var, i):
     return var[i-1]
+
+# This tag returns 'active' string if current URL matches given argument.
+# source: http://stackoverflow.com/a/18772289/1023519 in comments
+@register.simple_tag(takes_context=True)
+def active(context, pattern_or_urlname):
+    path = context['request'].path
+    try:
+        pattern = '^' + reverse(pattern_or_urlname)
+        if re.search(pattern, path):
+            return 'active-page-link'
+    except NoReverseMatch:
+        pattern = pattern_or_urlname
+        if getattr(settings, 'USE_I18N', False):
+            print (pattern)
+            if pattern[0] == '^':
+                pattern = '^/' + get_language() + pattern.replace("^",'')
+            print (pattern)
+        if re.search(pattern, path):
+            return 'active-page-link'
+    return ''

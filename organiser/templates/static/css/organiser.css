@@ -74,3 +74,11 @@
     position: fixed;
     bottom:0;
 }
+
+.nav-main a {
+    font-size: 120%;
+}
+
+.active-page-link{
+    color: #ccc !important;
+}

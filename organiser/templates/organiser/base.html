@@ -82,25 +82,25 @@
             {% endblock %}
         </div>
         {% block nav-global %}{% endblock %}
-        <div class="pure-g bg-navy silver center" id="header">
+        <div class="pure-g bg-navy silver center nav-main" id="header">
 
             <div class="pure-u-1-4">
-                <a href="{% url 'board:index' %}" class="silver">
+                <a href="{% url 'board:index' %}" class="silver {% active '^/(week_list/.*)?$' %}">
                     {{ _('Board') }}
                 </a>
             </div>
             <div class="pure-u-1-4">
-                <a href="{% url 'admin:board_duty_changelist' %}" class="silver">
+                <a href="{% url 'admin:board_duty_changelist' %}" class="silver {% active 'admin:board_duty_changelist' %}">
                     {{ _('Duties') }}
                 </a>
             </div>
             <div class="pure-u-1-4">
-                <a href="{% url 'admin:board_volunteer_changelist' %}" class="silver">
+                <a href="{% url 'admin:board_volunteer_changelist' %}" class="silver {% active 'admin:board_volunteer_changelist' %}">
                     {{ _('Volunteers') }}
                 </a>
             </div>
             <div class="pure-u-1-4">
-                <a href="{% url 'admin:board_patient_changelist' %}" class="silver">
+                <a href="{% url 'admin:board_patient_changelist' %}" class="silver {% active 'admin:board_patient_changelist' %}">
                     {{ _('Patients') }}
                 </a>
             </div>
