@@ -48,6 +48,7 @@ class Category2(models.Model):
             verbose_name_plural = _("subcategories")
             verbose_name = _("subcategory")
     name = models.CharField(max_length=50)
+    contact = models.CharField(max_length=100, blank=True, null=True, verbose_name = _('contact person'))
 
     def __str__(self):
         return self.name

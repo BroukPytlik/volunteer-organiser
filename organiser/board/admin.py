@@ -387,12 +387,14 @@ class WorkedHoursAdmin(admin.ModelAdmin):
 
 class HolidayAdmin(admin.ModelAdmin):
     list_display = ('volunteer','since','until','reason')
+class Category2Admin(admin.ModelAdmin):
+    list_display = ('name','contact')
 
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(Volunteer, VolunteerAdmin)
 admin.site.register(Duty, DutyAdmin)
 admin.site.register(Category1)
-admin.site.register(Category2)
+admin.site.register(Category2, Category2Admin)
 admin.site.register(Ward)
 admin.site.register(CssClass)
 admin.site.register(Attachment,AttachmentAdmin)
