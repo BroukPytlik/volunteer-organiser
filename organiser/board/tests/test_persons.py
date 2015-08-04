@@ -82,7 +82,101 @@ class PersonTests(TestCase):
             self.assertTrue( tomorrow <= v.birthday <= next_week )
 
 
+    def test_vacancy(self):
+        """
+        Check if vacancy filter correctly gets people who are vacant
+        during a period
+        """
+        volunteers = g.create_volunteers(10)
 
+        Holiday(volunteer = volunteers[0],
+                since = date(year=2015, month=7, day=1),
+                until = date(year=2015, month=7, day=25)
+        ).save()
+
+        Holiday(volunteer = volunteers[1],
+                since = date(year=2015, month=7, day=4),
+                until = date(year=2015, month=7, day=4)
+        ).save()
+
+        Holiday(volunteer = volunteers[2],
+                since = date(year=2015, month=7, day=1),
+                until = date(year=2015, month=7, day=15)
+        ).save()
+
+        Holiday(volunteer = volunteers[3],
+                since = date(year=2015, month=7, day=15),
+                until = date(year=2015, month=7, day=30)
+        ).save()
+
+        # someone has two vacancies in a month
+        Holiday(volunteer = volunteers[3],
+                since = date(year=2015, month=6, day=1),
+                until = date(year=2015, month=7, day=5)
+        ).save()
+
+        Holiday(volunteer = volunteers[4],
+                since = date(year=2015, month=6, day=1),
+                until = date(year=2015, month=7, day=5)
+        ).save()
+
+        # now do the test - both volunteer and Holiday version
+        self.assertEqual(
+            len(Holiday.filter_vacant_only(
+                date(year=2015, month=7, day=1),
+                date(year=2015, month=7, day=30),
+            )), 6)
+
+        self.assertEqual(
+            len(Holiday.filter_vacant_only(
+                date(year=2015, month=7, day=1),
+                date(year=2015, month=7, day=14),
+            )), 5)
+        self.assertEqual(
+            len(Holiday.filter_vacant_only(
+                date(year=2015, month=7, day=5),
+                date(year=2015, month=7, day=5),
+            )), 4)
+        self.assertEqual(
+            len(Holiday.filter_vacant_only(
+                date(year=2015, month=7, day=26),
+                date(year=2015, month=7, day=30),
+            )), 1)
+
+        self.assertEqual(
+            len(Holiday.filter_vacant_only(
+                date(year=2015, month=3, day=1),
+                date(year=2015, month=3, day=30),
+            )), 0)
+
+        # volunteers
+        self.assertEqual(
+            len(Volunteer.filter_vacant_only(
+                date(year=2015, month=7, day=1),
+                date(year=2015, month=7, day=30),
+            )), 6)
+
+        self.assertEqual(
+            len(Volunteer.filter_vacant_only(
+                date(year=2015, month=7, day=1),
+                date(year=2015, month=7, day=14),
+            )), 5)
+        self.assertEqual(
+            len(Volunteer.filter_vacant_only(
+                date(year=2015, month=7, day=5),
+                date(year=2015, month=7, day=5),
+            )), 4)
+        self.assertEqual(
+            len(Volunteer.filter_vacant_only(
+                date(year=2015, month=7, day=26),
+                date(year=2015, month=7, day=30),
+            )), 1)
+
+        self.assertEqual(
+            len(Volunteer.filter_vacant_only(
+                date(year=2015, month=3, day=1),
+                date(year=2015, month=3, day=30),
+            )), 0)
 
 
     def test_age(self):

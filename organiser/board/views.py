@@ -12,7 +12,7 @@ import sys
 import datetime
 
 import board.helpers as h
-from .models import Duty,Patient,Volunteer
+from .models import Duty,Patient,Volunteer,Holiday
 
 # how many days should we look in front for birthdays and duties?
 OVERVIEW_DAYS=7
@@ -83,6 +83,9 @@ class WeekListView(generic.edit.FormView):
             'monday' : self.chosen_week[0],
             'sunday' : self.chosen_week[1],
             'duties' : Duty.get_date_range(
+                            self.chosen_week[0],
+                            self.chosen_week[1]),
+            'vacancies' : Holiday.filter_vacant_only(
                             self.chosen_week[0],
                             self.chosen_week[1]),
         })

@@ -98,4 +98,17 @@
 {% else %}
     {{_('No duty')}}.
 {% endif %}
+<h3>{{_('vacancies')|title}}</h3>
+{% if vacancies %}
+<table>
+    {%for v in vacancies%}
+    <tr>
+        <td>{{v.since}} - {{v.until}}</td>
+        <td>{{v.volunteer}}</td>
+    </tr>
+    {%endfor%}
+</table>
+{%else%}
+<p>{{_('No vacancies')}}.</p>
+{%endif%}
 {% endblock %}

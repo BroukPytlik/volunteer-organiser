@@ -25,6 +25,7 @@ import datetime
 import calendar
 import board.helpers as h
 import board.validators
+from django.db.models import Q
 
 
 #
@@ -228,6 +229,24 @@ class Volunteer(Person):
             )
     getWorkedHoursMonthly.short_description = _('this month')
 
+    # get volunteers who are vacant in the given range since start to end
+    # even if it is for a part of the range
+    @classmethod
+    def filter_vacant_only(cls, start, end):
+        res = cls.objects.filter(
+                    # if the beginning or ending of the vaccancy is
+                    # in the searched interval, gotcha!
+                    Q(holiday__since__gte = start) &
+                    Q(holiday__since__lte = end) |
+                    Q(holiday__until__gte = start) &
+                    Q(holiday__until__lte = end) |
+                    # the only other option is if we are searching in middle
+                    # of a vacancy. So check that too.
+                    Q(holiday__since__lte = start) &
+                    Q(holiday__until__gte = end)
+                )
+        return res
+
 
 
 #
@@ -319,6 +338,24 @@ class Holiday(models.Model):
     reason = models.CharField(max_length=250, blank=True, null=True, verbose_name=_('reason'))
     def __str__(self):
         return str(self.volunteer)
+
+    # get volunteers who are vacant in the given range since start to end
+    # even if it is for a part of the range
+    @classmethod
+    def filter_vacant_only(cls, start, end):
+        res = cls.objects.filter(
+                    # if the beginning or ending of the vaccancy is
+                    # in the searched interval, gotcha!
+                    Q(since__gte = start) &
+                    Q(since__lte = end) |
+                    Q(until__gte = start) &
+                    Q(until__lte = end) |
+                    # the only other option is if we are searching in middle
+                    # of a vacancy. So check that too.
+                    Q(since__lte = start) &
+                    Q(until__gte = end)
+                )
+        return res
 
 #
 # allow file uploads with documents about a volunteer
