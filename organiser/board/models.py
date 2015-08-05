@@ -179,14 +179,17 @@ class Volunteer(Person):
             self.workingSince = now().date()
         super(Volunteer, self).save(*args, **kwargs)
 
-    def notOnHoliday(self):
-        if Holiday.objects.filter(
-                since__lte=now().date(),
-                until__gte=now().date(),
-                volunteer = self
-            ).count() == 0:
-            return True
-        return False
+    def notOnHoliday(self, when = now()):
+        query = h.filter_vacant(
+                Holiday.objects.filter(volunteer = self),
+                'since',
+                'until',
+                when,
+                when,
+        )
+        if query.count() > 0:
+            return False
+        return True
     notOnHoliday.short_description = _('not vacant')
     notOnHoliday.boolean = True
 
@@ -234,19 +237,13 @@ class Volunteer(Person):
     # even if it is for a part of the range
     @classmethod
     def filter_vacant_only(cls, start, end):
-        res = cls.objects.filter(
-                    # if the beginning or ending of the vaccancy is
-                    # in the searched interval, gotcha!
-                    Q(holiday__since__gte = start) &
-                    Q(holiday__since__lte = end) |
-                    Q(holiday__until__gte = start) &
-                    Q(holiday__until__lte = end) |
-                    # the only other option is if we are searching in middle
-                    # of a vacancy. So check that too.
-                    Q(holiday__since__lte = start) &
-                    Q(holiday__until__gte = end)
-                )
-        return res
+        return h.filter_vacant(
+                cls.objects,
+                'holiday__since',
+                'holiday__until',
+                start,
+                end
+        )
 
 
 
@@ -335,28 +332,22 @@ class Holiday(models.Model):
         verbose_name = _('Vacancy')
     volunteer = models.ForeignKey(Volunteer, verbose_name=_('volunteer'))
     since = models.DateField(verbose_name=_('since'))
-    until = models.DateField(verbose_name=_('until'))
+    until = models.DateField(null=True, blank=True, verbose_name=_('until'))
     reason = models.CharField(max_length=250, blank=True, null=True, verbose_name=_('reason'))
     def __str__(self):
-        return str(self.volunteer)
+        return "%s: %s - %s" % (str(self.volunteer), self.since, self.until)
 
     # get volunteers who are vacant in the given range since start to end
     # even if it is for a part of the range
     @classmethod
     def filter_vacant_only(cls, start, end):
-        res = cls.objects.filter(
-                    # if the beginning or ending of the vaccancy is
-                    # in the searched interval, gotcha!
-                    Q(since__gte = start) &
-                    Q(since__lte = end) |
-                    Q(until__gte = start) &
-                    Q(until__lte = end) |
-                    # the only other option is if we are searching in middle
-                    # of a vacancy. So check that too.
-                    Q(since__lte = start) &
-                    Q(until__gte = end)
-                )
-        return res
+        return h.filter_vacant(
+                cls.objects,
+                'since',
+                'until',
+                start,
+                end
+        )
 
 #
 # allow file uploads with documents about a volunteer

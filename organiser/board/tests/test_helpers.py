@@ -4,6 +4,8 @@ from django.utils.timezone import now
 import board.helpers as helpers
 import datetime
 from datetime import date
+from . import generators as g
+from board.models import *
 
 class SimpleHelpersTests(TestCase):
 
@@ -88,3 +90,200 @@ class SimpleHelpersTests(TestCase):
         test = date(year=2015, month=7, day = 1)
         (res_mon, res_sun) = helpers.week(test)
         self.assertTrue(res_mon == correct_mon and res_sun == correct_sun)
+
+class VacancyTests(TestCase):
+    """
+    Check if vacancy filter correctly gets people who are vacant
+    during a period
+    """
+
+    def setUp(self):
+        volunteers = g.create_volunteers(10)
+
+        Holiday(volunteer = volunteers[0],
+                since = date(year=2015, month=7, day=1),
+                until = date(year=2015, month=7, day=25)
+        ).save()
+
+        Holiday(volunteer = volunteers[1],
+                since = date(year=2015, month=7, day=4),
+                until = date(year=2015, month=7, day=4)
+        ).save()
+
+        Holiday(volunteer = volunteers[2],
+                since = date(year=2015, month=7, day=1),
+                until = date(year=2015, month=7, day=15)
+        ).save()
+
+        Holiday(volunteer = volunteers[4],
+                since = date(year=2015, month=6, day=1),
+                until = date(year=2015, month=7, day=5)
+        ).save()
+
+
+        # someone has two vacancies in a month
+        Holiday(volunteer = volunteers[3],
+                since = date(year=2015, month=6, day=1),
+                until = date(year=2015, month=7, day=5)
+        ).save()
+        Holiday(volunteer = volunteers[3],
+                since = date(year=2015, month=7, day=15),
+                until = date(year=2015, month=7, day=30)
+        ).save()
+
+        # and someone has a vaccancy with uncertain end
+        Holiday(volunteer = volunteers[5],
+                since = date(year=2015, month=8, day=15),
+        ).save()
+
+
+    def test_vacancy_basic(self):
+
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Holiday.objects,
+                'since',
+                'until',
+                date(year=2015, month=7, day=1),
+                date(year=2015, month=7, day=30),
+            )), 6)
+
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Holiday.objects,
+                'since',
+                'until',
+                date(year=2015, month=7, day=1),
+                date(year=2015, month=7, day=14),
+            )), 5)
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Holiday.objects,
+                'since',
+                'until',
+                date(year=2015, month=7, day=5),
+                date(year=2015, month=7, day=5),
+            )), 4)
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Holiday.objects,
+                'since',
+                'until',
+                date(year=2015, month=7, day=26),
+                date(year=2015, month=7, day=30),
+            )), 1)
+
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Holiday.objects,
+                'since',
+                'until',
+                date(year=2015, month=3, day=1),
+                date(year=2015, month=3, day=30),
+            )), 0)
+
+
+    def test_vacancy_uncertain_ending(self):
+        # two for uncertain end
+        # one which partly cover the starting day
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Holiday.objects,
+                'since',
+                'until',
+                date(year=2015, month=8, day=10),
+                date(year=2015, month=8, day=20),
+            )), 1)
+        # one search inside of the uncertain vaccancy
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Holiday.objects,
+                'since',
+                'until',
+                date(year=2015, month=8, day=20),
+                date(year=2015, month=8, day=30),
+            )), 1)
+
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Holiday.objects,
+                'since',
+                'until',
+                date(year=2015, month=8, day=20),
+                date(year=2015, month=8, day=20),
+            )), 1)
+    def test_volunteers(self):
+        # and test it through volunteers as well
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Volunteer.objects,
+                'holiday__since',
+                'holiday__until',
+                date(year=2015, month=8, day=20),
+                date(year=2015, month=8, day=30),
+            )), 1)
+
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Volunteer.objects,
+                'holiday__since',
+                'holiday__until',
+                date(year=2015, month=3, day=1),
+                date(year=2015, month=3, day=30),
+            )), 0)
+
+
+    def test_volunteers_inverted(self):
+        # check for cases between two entries for a volunteer
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Volunteer.objects,
+                'holiday__since',
+                'holiday__until',
+                date(year=2015, month=7, day=10),
+                date(year=2015, month=7, day=10),
+                inverted=True,
+            )), 8)
+        # a volunteer with multiple entries, we are in middle of one
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Volunteer.objects,
+                'holiday__since',
+                'holiday__until',
+                date(year=2015, month=7, day=15),
+                date(year=2015, month=7, day=15),
+                inverted=True,
+            )), 7)
+        # check if we can filter out volunteers WITHOUT a vacancy at a moment
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Volunteer.objects,
+                'holiday__since',
+                'holiday__until',
+                date(year=2015, month=3, day=1),
+                date(year=2015, month=3, day=30),
+                inverted=True,
+            )), 10)
+        
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Volunteer.objects,
+                'holiday__since',
+                'holiday__until',
+                date(year=2015, month=3, day=1),
+                date(year=2015, month=3, day=1),
+                inverted=True,
+            )), 10)
+
+        # everyone except the uncertain end should be available
+        self.assertEqual(
+            len(helpers.filter_vacant(
+                Volunteer.objects,
+                'holiday__since',
+                'holiday__until',
+                date(year=2015, month=8, day=20),
+                date(year=2015, month=8, day=20),
+                inverted=True,
+            )), 9)
+
+

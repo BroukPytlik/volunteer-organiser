@@ -67,15 +67,22 @@ class VolunteerHolidayFilter(admin.SimpleListFilter):
             )
     def queryset(self, request, queryset):
         if self.value() == 'true':
-            return queryset.filter(
-                    holiday__since__lte = now().date(),
-                    holiday__until__gte = now().date()
-                )
+            return h.filter_vacant(
+                    queryset,
+                    'holiday__since',
+                    'holiday__until',
+                    now(),
+                    now(),
+            )
         elif self.value() == 'false':
-            return queryset.exclude(
-                    holiday__since__lte = now().date(),
-                    holiday__until__gte = now().date()
-                )
+            return h.filter_vacant(
+                    queryset,
+                    'holiday__since',
+                    'holiday__until',
+                    now(),
+                    now(),
+                    inverted = True,
+            )
 
 class VolunteerActiveFilter(admin.SimpleListFilter):
     title = _('active')

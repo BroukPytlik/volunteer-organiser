@@ -51,6 +51,13 @@ DUTY_TIME_SHORT = [
 # 2004 used as a leap year, to have 29th Feb.
 BIRTHDAY_YEAR = 2004
 
+
+def merge_two_dicts(x, y):
+    '''Given two dicts, merge them into a new dict as a shallow copy.'''
+    z = x.copy()
+    z.update(y)
+    return z
+
 def bday(month=None, day=None, now=False):
     """
     Return a date object set to a date in an arbitrary configured year,
@@ -113,6 +120,9 @@ def filter_date_range(queryset, column, start, end):
     """
     Filter a query to items which has value in column within
     a range stated by start and end arguments.
+    The start/end year hassle is here for normalized data tables,
+    i.e. birthdays. It allows to set starting date later than ending
+    date in the same year, and make a closed circle over the New Year.
     """
     arg_start={ column+'__gte' : start}
     arg_end={column+'__lte' :end}
@@ -135,4 +145,45 @@ def filter_date_range(queryset, column, start, end):
                 Q(**arg_start_year) &
                 Q(**arg_end)
             )
+
+def filter_vacant(queryset, col_start, col_end, date_start, date_end, inverted = False):
+    """
+    Filter a query of persons/vacancies by date range.
+    """
+
+    start_range     = { col_start+'__range' : (date_start, date_end) }
+    end_range     = { col_end+'__range' : (date_start, date_end) }
+
+    start_lte_start   = { col_start+'__lte' : date_start}
+    end_gte_end   = { col_end+'__gte' : date_end}
+    end_none   = { col_end : None}
+
+
+    if not inverted:
+        return queryset.filter(
+                    # if the beginning or ending of the vacancy is
+                    # in the searched interval, gotcha!
+                    Q(**start_range) |
+                    Q(**end_range) |
+                    # the only other option is if we are searching in middle
+                    # of a vacancy. So check that too.
+                    Q(**start_lte_start) &
+                    (
+                        Q(**end_gte_end) |
+                        # In case of uncertain/unfilled ends, where the 'since' is
+                        # before our searched period. Other cases are covered
+                        # above.
+                        Q(**end_none)
+                    )
+                )
+    else:
+        positive = filter_vacant(queryset, col_start, col_end, date_start, date_end)
+        ids = list( i.id for i in positive )
+        res = queryset.exclude(id__in = ids)
+        return res
+
+        # it would be better to have it in a single query and filter it
+        # directly, but django keeps making subqueries on bad places
+        # and breaking the 'positive' query in exclude  when used with
+        # foreign key relations.
 

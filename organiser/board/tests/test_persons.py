@@ -82,103 +82,6 @@ class PersonTests(TestCase):
             self.assertTrue( tomorrow <= v.birthday <= next_week )
 
 
-    def test_vacancy(self):
-        """
-        Check if vacancy filter correctly gets people who are vacant
-        during a period
-        """
-        volunteers = g.create_volunteers(10)
-
-        Holiday(volunteer = volunteers[0],
-                since = date(year=2015, month=7, day=1),
-                until = date(year=2015, month=7, day=25)
-        ).save()
-
-        Holiday(volunteer = volunteers[1],
-                since = date(year=2015, month=7, day=4),
-                until = date(year=2015, month=7, day=4)
-        ).save()
-
-        Holiday(volunteer = volunteers[2],
-                since = date(year=2015, month=7, day=1),
-                until = date(year=2015, month=7, day=15)
-        ).save()
-
-        Holiday(volunteer = volunteers[3],
-                since = date(year=2015, month=7, day=15),
-                until = date(year=2015, month=7, day=30)
-        ).save()
-
-        # someone has two vacancies in a month
-        Holiday(volunteer = volunteers[3],
-                since = date(year=2015, month=6, day=1),
-                until = date(year=2015, month=7, day=5)
-        ).save()
-
-        Holiday(volunteer = volunteers[4],
-                since = date(year=2015, month=6, day=1),
-                until = date(year=2015, month=7, day=5)
-        ).save()
-
-        # now do the test - both volunteer and Holiday version
-        self.assertEqual(
-            len(Holiday.filter_vacant_only(
-                date(year=2015, month=7, day=1),
-                date(year=2015, month=7, day=30),
-            )), 6)
-
-        self.assertEqual(
-            len(Holiday.filter_vacant_only(
-                date(year=2015, month=7, day=1),
-                date(year=2015, month=7, day=14),
-            )), 5)
-        self.assertEqual(
-            len(Holiday.filter_vacant_only(
-                date(year=2015, month=7, day=5),
-                date(year=2015, month=7, day=5),
-            )), 4)
-        self.assertEqual(
-            len(Holiday.filter_vacant_only(
-                date(year=2015, month=7, day=26),
-                date(year=2015, month=7, day=30),
-            )), 1)
-
-        self.assertEqual(
-            len(Holiday.filter_vacant_only(
-                date(year=2015, month=3, day=1),
-                date(year=2015, month=3, day=30),
-            )), 0)
-
-        # volunteers
-        self.assertEqual(
-            len(Volunteer.filter_vacant_only(
-                date(year=2015, month=7, day=1),
-                date(year=2015, month=7, day=30),
-            )), 6)
-
-        self.assertEqual(
-            len(Volunteer.filter_vacant_only(
-                date(year=2015, month=7, day=1),
-                date(year=2015, month=7, day=14),
-            )), 5)
-        self.assertEqual(
-            len(Volunteer.filter_vacant_only(
-                date(year=2015, month=7, day=5),
-                date(year=2015, month=7, day=5),
-            )), 4)
-        self.assertEqual(
-            len(Volunteer.filter_vacant_only(
-                date(year=2015, month=7, day=26),
-                date(year=2015, month=7, day=30),
-            )), 1)
-
-        self.assertEqual(
-            len(Volunteer.filter_vacant_only(
-                date(year=2015, month=3, day=1),
-                date(year=2015, month=3, day=30),
-            )), 0)
-
-
     def test_age(self):
         """
         Check if the age of a person is correctly computed.
@@ -187,5 +90,89 @@ class PersonTests(TestCase):
         v = Volunteer(birthdate   = bd)
         self.assertEqual(v.age(), helpers.num_years(bd))
 
-        
+
+    def test_on_holiday(self):
+        """
+        Check on-holiday reporting.
+        """
+        v = Volunteer(birthdate = datetime.date(1950, 1, 1))
+        v.save()
+        h = Holiday(
+                volunteer = v,
+                since = datetime.date(2015, 7, 5),
+                until = datetime.date(2015, 7, 15)
+        )
+        h.save()
+
+        self.assertTrue(
+                v.notOnHoliday(datetime.date(2015,7,1)))
+
+        self.assertFalse(
+                v.notOnHoliday(datetime.date(2015,7,5)))
+        self.assertFalse(
+                v.notOnHoliday(datetime.date(2015,7,10)))
+        self.assertFalse(
+                v.notOnHoliday(datetime.date(2015,7,15)))
+        h.delete()
+        v.delete()
+
+    def test_on_holiday_multiple_terms(self):
+        """
+        Check on-holiday reporting if we are between two holidays 
+        for a volunteer.
+        """
+        v = Volunteer(birthdate = datetime.date(1950, 1, 1))
+        v.save()
+        h1 = Holiday(
+                volunteer = v,
+                since = datetime.date(2015, 7, 5),
+                until = datetime.date(2015, 7, 10)
+        )
+        h1.save()
+        h2 = Holiday(
+                volunteer = v,
+                since = datetime.date(2015, 7, 20),
+                until = datetime.date(2015, 7, 25)
+        )
+        h2.save()
+
+        self.assertTrue(
+                v.notOnHoliday(datetime.date(2015,7,1)))
+        self.assertTrue(
+                v.notOnHoliday(datetime.date(2015,7,15)))
+
+        self.assertFalse(
+                v.notOnHoliday(datetime.date(2015,7,5)))
+        self.assertFalse(
+                v.notOnHoliday(datetime.date(2015,7,10)))
+        self.assertFalse(
+                v.notOnHoliday(datetime.date(2015,7,22)))
+
+        h1.delete()
+        h2.delete()
+        v.delete()
+
+    def test_on_holiday_uncertain(self):
+        """
+        Check on-holiday reporting for uncertain endings.
+        """
+        v = Volunteer(birthdate = datetime.date(1950, 1, 1))
+        v.save()
+        h = Holiday(
+                volunteer = v,
+                since = datetime.date(2015, 7, 5),
+        )
+        h.save()
+
+        self.assertTrue(
+                v.notOnHoliday(datetime.date(2015,7,1)))
+
+        self.assertFalse(
+                v.notOnHoliday(datetime.date(2015,7,5)))
+        self.assertFalse(
+                v.notOnHoliday(datetime.date(2015,7,15)))
+
+        h.delete()
+        v.delete()
+
 
