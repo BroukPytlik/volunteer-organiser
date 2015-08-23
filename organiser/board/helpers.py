@@ -35,6 +35,15 @@ DAY_OF_THE_WEEK = [
     (6, _('Saturday')),
     (7, _('Sunday')),
 ]
+DAY_OF_THE_WEEK_SHORT = [
+    (1, _('Mon')),
+    (2, _('Tue')),
+    (3, _('Wed')),
+    (4, _('Thu')),
+    (5, _('Fri')),
+    (6, _('Sat')),
+    (7, _('Sun')),
+]
 
 MORNING = 0
 AFTERNOON = 1
@@ -51,13 +60,16 @@ DUTY_TIME_SHORT = [
 # 2004 used as a leap year, to have 29th Feb.
 BIRTHDAY_YEAR = 2004
 
-def day_of_week(day):
+def day_of_week(day, use_short=False):
     # assume it is a date/datetime object
     # if it isn't, then most likely it is a number of the weekday
     try:
-        return DAY_OF_THE_WEEK[day.isoweekday()][1]
+        day = day.isoweekday()
     except AttributeError:
-        return DAY_OF_THE_WEEK[day][1]
+        pass
+    if use_short:
+        return DAY_OF_THE_WEEK_SHORT[day][1]
+    return DAY_OF_THE_WEEK[day][1]
 
 def merge_two_dicts(x, y):
     '''Given two dicts, merge them into a new dict as a shallow copy.'''
