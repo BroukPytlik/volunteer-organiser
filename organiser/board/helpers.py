@@ -58,7 +58,7 @@ DUTY_TIME_SHORT = [
 
 # used for Person.birthday, everyone has the same year in this value
 # 2004 used as a leap year, to have 29th Feb.
-BIRTHDAY_YEAR = 2004
+NORMALIZED_YEAR = 2004
 
 def day_of_week(day, use_short=False):
     # assume it is a date/datetime object
@@ -90,7 +90,7 @@ def bday(month=None, day=None, now=False):
     if(now):
         month = timezone.now().month
         day = timezone.now().day
-    return datetime.date(BIRTHDAY_YEAR, month, day)
+    return datetime.date(NORMALIZED_YEAR, month, day)
 
 def week(date):
     """

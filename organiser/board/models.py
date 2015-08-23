@@ -102,7 +102,7 @@ class Person(models.Model):
     # birthdate - real date of birth
     birthdate  = models.DateField(verbose_name=_('birth date'))
     # birthday - only month and day, year is the same for all persons
-    # BIRTHDAY_YEAR
+    # NORMALIZED_YEAR
     birthday   = models.DateField()
     notes      = models.TextField(blank=True, null=True, verbose_name=_('notes'))
     phone1     = models.CharField(max_length=20,blank=True, null=True, verbose_name=_('phone'))

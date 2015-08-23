@@ -63,10 +63,10 @@ class SimpleHelpersTests(TestCase):
         """
         self.assertEqual(
                 helpers.bday( 4, 14),
-                date(helpers.BIRTHDAY_YEAR, 4, 14))
+                date(helpers.NORMALIZED_YEAR, 4, 14))
         self.assertEqual(
                 helpers.bday(now=True),
-                date(helpers.BIRTHDAY_YEAR, now().month, now().day))
+                date(helpers.NORMALIZED_YEAR, now().month, now().day))
 
 
     def test_week(self):
