@@ -79,6 +79,7 @@ class WeekListView(generic.edit.FormView):
     def get_context_data(self, **kwargs):
         context = super(WeekListView, self).get_context_data(**kwargs)
         context.update({
+            'has_permission': self.request.user.is_authenticated(),
             'week_form': self.week_form,
             'monday' : self.chosen_week[0],
             'sunday' : self.chosen_week[1],
