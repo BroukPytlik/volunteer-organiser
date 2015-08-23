@@ -262,6 +262,7 @@ class Duty(models.Model):
     time        = models.IntegerField(choices=h.DUTY_TIME, default=h.MORNING, verbose_name=_('time'))
     date        = models.DateField(verbose_name=_('date'),help_text=_('If the duty is recurrent, then this will be its first day, and the duty will repeat weekly.'))
     recurrent    = models.BooleanField(default=False, verbose_name=_('recurrent'))
+    normalized_date = models.DateField(blank=True, null=True) # NORMALIZED_*
     notes       = models.TextField(blank=True, null=True, verbose_name=_('notes'))
     category1        = models.ForeignKey(Category1, verbose_name=_('category'))
     category2        = models.ForeignKey(Category2, blank=True, null=True, verbose_name=_('subcategory'))
@@ -274,6 +275,19 @@ class Duty(models.Model):
                 _('volunteer'), self.volunteer, 
                 self.date, h.DUTY_TIME[self.time][1]
             )
+
+    def save(self, *args, **kwargs):
+        """
+        Override save, to add normalized_date for recurrent events.
+        """
+
+        if self.recurrent:
+            # get the day into the normalized week
+            self.normalized_date = h.normalized_week(self.date)
+        else:
+            self.normalized_date = None
+
+        super(Duty, self).save(*args, **kwargs)
 
     
     def duty_today(self):

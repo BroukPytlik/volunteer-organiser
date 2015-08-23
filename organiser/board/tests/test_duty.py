@@ -69,5 +69,51 @@ class DutyTests(TestCase):
                 date(year=2015, month=7, day=22)
             )),
             2)
+    
+    def test_recurrent_saving(self):
+        """
+        Test if recurrent duties are correctly mapped to normalized date.
+        """
+
+        volunteers = g.create_volunteers(1)
+        patients = g.create_patients(1)
+
+        # none
+        day = date(year=2015, month=7, day=13)
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+        self.assertEqual(d.normalized_date, None)
+
+        # monday
+        day = date(year=2015, month=7, day=13)
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+        self.assertEqual(d.normalized_date.weekday(), 0)
+
+        # friday
+        day = date(year=2015, month=7, day=10)
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+        self.assertEqual(d.normalized_date.weekday(), 4)
 
 

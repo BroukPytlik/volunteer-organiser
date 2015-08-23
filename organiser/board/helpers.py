@@ -56,9 +56,20 @@ DUTY_TIME_SHORT = [
     (AFTERNOON, _('p.m.')),
 ]
 
+# For events which repeats - either yearly, or more frequently. E.g.
 # used for Person.birthday, everyone has the same year in this value
 # 2004 used as a leap year, to have 29th Feb.
 NORMALIZED_YEAR = 2004
+NORMALIZED_MONTH = 1
+NORMALIZED_WEEK_START = 5 # 5th Jan 2004 was monday
+NORMALIZED_WEEK_END = 11
+
+
+def normalized_week(date):
+    # get the day into the normalized week
+    day = NORMALIZED_WEEK_START + date.weekday()
+    return datetime.date(year = NORMALIZED_YEAR,
+        month = NORMALIZED_MONTH, day = day)
 
 def day_of_week(day, use_short=False):
     # assume it is a date/datetime object
