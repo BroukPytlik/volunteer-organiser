@@ -51,6 +51,13 @@ DUTY_TIME_SHORT = [
 # 2004 used as a leap year, to have 29th Feb.
 BIRTHDAY_YEAR = 2004
 
+def day_of_week(day):
+    # assume it is a date/datetime object
+    # if it isn't, then most likely it is a number of the weekday
+    try:
+        return DAY_OF_THE_WEEK[day.isoweekday()][1]
+    except AttributeError:
+        return DAY_OF_THE_WEEK[day][1]
 
 def merge_two_dicts(x, y):
     '''Given two dicts, merge them into a new dict as a shallow copy.'''

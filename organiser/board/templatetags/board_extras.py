@@ -33,11 +33,7 @@ register = template.Library()
 
 @register.filter
 def day_of_week(day):
-    # assume it is a date/datetime object
-    # TODO if it fails somewhere, catch the exception and use the second return
-    return h.DAY_OF_THE_WEEK[day.isoweekday()][1]
-        
-    return h.DAY_OF_THE_WEEK[day][1]
+    return h.day_of_week(day)
 
 @register.filter
 def duty_time(time):
