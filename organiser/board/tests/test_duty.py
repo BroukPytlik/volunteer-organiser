@@ -116,4 +116,138 @@ class DutyTests(TestCase):
         d.save()
         self.assertEqual(d.normalized_date.weekday(), 4)
 
+    def test_get_today(self):
+        """
+        check duty_today method
+        """
 
+        volunteers = g.create_volunteers(1)
+        patients = g.create_patients(1)
+
+        day = now().date()
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+        self.assertTrue(d.duty_today())
+
+        day = now().date() - datetime.timedelta(days=1)
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+        self.assertFalse(d.duty_today())
+
+        day = now().date() - datetime.timedelta(days=7)
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+        self.assertTrue(d.duty_today())
+
+        # this should be false, because the duty starts next week!
+        day = now().date() + datetime.timedelta(days=7)
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+        self.assertFalse(d.duty_today())
+
+    def test_date_range_recurring(self):
+        """
+        Test date ranges for recurrent duties.
+        """
+        volunteers = g.create_volunteers(1)
+        patients = g.create_patients(1)
+
+
+        day = date(year=2015, month=6, day=30) #tue
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+
+        day = date(year=2015, month=7, day=13) # mon
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+
+        day = date(year=2015, month=7, day=6) # mon
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+
+        day = date(year=2015, month=6, day=21) # sun
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+
+        day = date(year=2015, month=7, day=27) # mon but after the tested date
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+
+        # now when duties are created, do the test
+        # at first for entire week
+        self.assertEqual(
+            len(Duty.get_date_range(
+                date(year=2015, month=7, day=13),
+                date(year=2015, month=7, day=19)
+            )),
+            4)
+        # then skip weekend and watch if we don't get the weekend recurrent duties
+        self.assertEqual(
+            len(Duty.get_date_range(
+                date(year=2015, month=7, day=13),
+                date(year=2015, month=7, day=17)
+            )),
+            3)

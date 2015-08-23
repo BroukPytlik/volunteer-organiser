@@ -291,6 +291,9 @@ class Duty(models.Model):
 
     
     def duty_today(self):
+        if self.recurrent:
+            return now().date() >= self.date and \
+                h.normalized_week(now()) == self.normalized_date
         return now().date() == self.date
 
     def day_or_date(self):
@@ -298,12 +301,15 @@ class Duty(models.Model):
         Return day of week if the duty is recurrent,
         or date if it is a one-time.
         """
-        if self.recurrent:
+        if self.recurrent and self.date <= now().date():
             return self.day_of_week()
         return "%s (%s)" % (str(self.date), h.day_of_week(self.date, use_short=True))
     day_or_date.short_description = _('day or date')
 
     def day_of_week(self):
+        """"
+        Get week name of the duty day.
+        """
         if self.date:
             return h.day_of_week(self.date)
         return ""
@@ -316,21 +322,63 @@ class Duty(models.Model):
         Get list of all duties in the next X days. By default it skips
         1 day to start search tomorrow. Can be altered with skip=N.
         """
-        future_date = (now() + datetime.timedelta(days=days)).date()
+        since = now().date() + datetime.timedelta(days=skip)
+        to = now().date() + datetime.timedelta(days=days)
+
+        # Just filter out future duties.
+        or_query = \
+            Q(recurrent = True) \
+            & Q(date__lte = to)
+        if (to - since).days >= 7:
+            # Entire week, nothing complicated, we already have it.
+            pass
+        elif to.weekday() > since.weekday():
+            # we are not crossing a week boundary, so just a simple gt/lt
+            or_query = or_query \
+                & Q(normalized_date__gte = h.normalized_week(since)) \
+                & Q(normalized_date__lte = h.normalized_week(to))
+        else:
+            # We crossed the week boundary, so make it a bit complicated:
+            # rather than inclusion, make it exclusion and search outside.
+            or_query = or_query \
+                & Q(normalized_date__lte = h.normalized_week(since)) \
+                & Q(normalized_date__gte = h.normalized_week(to))
+
         return h.filter_date_range(
                 cls.objects,
                 'date',
-                now().date() + datetime.timedelta(days=skip),
-                future_date
+                since,
+                to,
+                or_query = or_query
             )
 
     @classmethod
     def get_date_range(cls, start, end):
+        # Just filter out future duties.
+        or_query = \
+            Q(recurrent = True) \
+            & Q(date__lte = end)
+        if (end - start).days >= 7:
+            # Entire week, nothing complicated, we already have it.
+            pass
+        elif end.weekday() > start.weekday():
+            # we are not crossing a week boundary, so just a simple gt/lt
+            or_query = or_query \
+                & Q(normalized_date__gte = h.normalized_week(start)) \
+                & Q(normalized_date__lte = h.normalized_week(end))
+        else:
+            # We crossed the week boundary, so make it a bit complicated:
+            # rather than inclusion, make it exclusion and search outside.
+            or_query = or_query \
+                & Q(normalized_date__lte = h.normalized_week(start)) \
+                & Q(normalized_date__gte = h.normalized_week(end))
+
         return h.filter_date_range(
             cls.objects,
             'date',
             start,
-            end
+            end,
+            or_query = or_query
         )
             
     duty_today.admin_order_field = _('duty')

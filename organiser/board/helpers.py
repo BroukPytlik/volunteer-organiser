@@ -27,6 +27,7 @@ from pprint import pformat
 
 
 DAY_OF_THE_WEEK = [
+    (0, "Mixing iso and non-iso weekday."),
     (1, _('Monday')),
     (2, _('Tuesday')),
     (3, _('Wednesday')),
@@ -36,6 +37,7 @@ DAY_OF_THE_WEEK = [
     (7, _('Sunday')),
 ]
 DAY_OF_THE_WEEK_SHORT = [
+    (0, "Mixing iso and non-iso weekday."),
     (1, _('Mon')),
     (2, _('Tue')),
     (3, _('Wed')),
@@ -146,18 +148,23 @@ def num_years(begin, end=None):
     else:
         return num_years
 
-def filter_date_range(queryset, column, start, end):
+def filter_date_range(queryset, column, start, end, or_query = None):
     """
     Filter a query to items which has value in column within
     a range stated by start and end arguments.
     The start/end year hassle is here for normalized data tables,
     i.e. birthdays. It allows to set starting date later than ending
     date in the same year, and make a closed circle over the New Year.
+
+    If or_query is not None, but a Q object, make it as OR to entire date check.
     """
     arg_start={ column+'__gte' : start}
     arg_end={column+'__lte' :end}
     arg_start_year={ column+'__gte' : datetime.date(end.year, 1, 1)}
     arg_end_year={column+'__lte' :datetime.date(start.year, 12, 31)}
+
+    if or_query is None:
+        or_query = Q()
 
     # if we are looking for next few days,
     # we have to bear in mind what happens on the eve
@@ -165,16 +172,22 @@ def filter_date_range(queryset, column, start, end):
     # is going over the New Year, break the search into two.
     if (start.year == end.year):
         return queryset.filter(
+            or_query |
+            (
                 Q(**arg_start) &
                 Q(**arg_end)
             )
+        )
     else:
         return queryset.filter(
+            or_query |
+            (
                 Q(**arg_start) &
                 Q(**arg_end_year) |
                 Q(**arg_start_year) &
                 Q(**arg_end)
             )
+        )
 
 def filter_vacant(queryset, col_start, col_end, date_start, date_end, inverted = False):
     """

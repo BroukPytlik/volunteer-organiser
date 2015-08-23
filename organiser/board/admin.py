@@ -123,6 +123,20 @@ class DutyFilter(admin.SimpleListFilter):
                     future_date
                 )
 
+class DutyRecurrentFilter(admin.SimpleListFilter):
+    title = _('recurrent')
+    parameter_name = 'recurrent'
+
+    def lookups(self, request, model_admin):
+        return (('yes', _('yes')), 
+                ('no', _('no'))
+            )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'yes':
+            return queryset.filter(recurrent = True)
+        elif self.value() == 'no':
+            return queryset.filter(recurrent = False)
 #
 # Generic person filters
 #
@@ -178,7 +192,7 @@ class DutyAdmin(admin.ModelAdmin):
     ]
     list_display = ('day_or_date', 'recurrent', 'time', 'volunteer', 'patient',
             'category1', 'category2', 'notes')
-    list_filter = [DutyFilter]
+    list_filter = [DutyFilter, DutyRecurrentFilter]
         
 
 class AttachmentAdmin(admin.ModelAdmin):
