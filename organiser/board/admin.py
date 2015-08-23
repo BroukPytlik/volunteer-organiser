@@ -161,15 +161,22 @@ class DutyAdminForm(forms.ModelForm):
 
 
 class DutyAdmin(admin.ModelAdmin):
+    readonly_fields = [
+            'day_or_date',
+            'day_of_week',
+    ]
     # disabled, not needed
     # form = DutyAdminForm
     fieldsets = [
        (_('Where'), {'fields': ['category1','category2']}),
        (_('Who'), {'fields': ['volunteer', 'patient']}),
-       (_('When'), {'fields': ['date', 'time']}),
+       (_('When'), {'fields': ['recurrent', (
+           'date',
+           'day_of_week',
+           ), 'time']}),
        (_('Other'), {'fields': ['notes']}),
     ]
-    list_display = ('date', 'time', 'volunteer', 'patient',
+    list_display = ('day_or_date', 'recurrent', 'time', 'volunteer', 'patient',
             'category1', 'category2', 'notes')
     list_filter = [DutyFilter]
         

@@ -260,7 +260,8 @@ class Duty(models.Model):
     patient     = models.ForeignKey(Patient, blank=True, null=True, verbose_name=_('patient'))
     created     = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name=_('created'))
     time        = models.IntegerField(choices=h.DUTY_TIME, default=h.MORNING, verbose_name=_('time'))
-    date        = models.DateField(verbose_name=_('date'))
+    date        = models.DateField(verbose_name=_('date'),help_text=_('If the duty is recurrent, then this will be its first day, and the duty will repeat weekly.'))
+    recurrent    = models.BooleanField(default=False, verbose_name=_('recurrent'))
     notes       = models.TextField(blank=True, null=True, verbose_name=_('notes'))
     category1        = models.ForeignKey(Category1, verbose_name=_('category'))
     category2        = models.ForeignKey(Category2, blank=True, null=True, verbose_name=_('subcategory'))
@@ -278,6 +279,21 @@ class Duty(models.Model):
     def duty_today(self):
         return now().date() == self.date
 
+    def day_or_date(self):
+        """
+        Return day of week if the duty is recurrent,
+        or date if it is a one-time.
+        """
+        if self.recurrent:
+            return self.day_of_week()
+        return "%s (%s)" % (str(self.date), h.day_of_week(self.date, use_short=True))
+    day_or_date.short_description = _('day or date')
+
+    def day_of_week(self):
+        if self.date:
+            return h.day_of_week(self.date)
+        return ""
+    day_of_week.short_description = _('day of week')
 
     # get duties in next X days
     @classmethod
