@@ -1,0 +1,33 @@
+{# print table with duties for ward passed as "ward" variable #}
+{# (an instance of Ward class) #}
+{% load board_extras %}
+<h3>{{_('ward')}} {{ward}}</h3>
+<table class="duties_table">
+	<thead>
+		<tr>
+			<th>{{_("patient")}}</th>
+			<th>{{_("volunteer")}}</th>
+			<th>{{_("when")}}</th>
+			<th>{{_("notes")}}</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for duty in duties_patients %}
+		{% if duty.patient.ward == ward %}
+			<tr>
+				<td class="patient">
+					<b>{{duty.patient.full_name}}</b>
+					<i>{{duty.patient.birthdate.year}}</i>
+				</td>
+				<td>
+					{{duty.volunteer.full_name}}
+					<i>{{duty.volunteer.birthdate.year}}</i>
+				</td>
+				<td>{{duty.date|day_of_week}} {{duty.time|duty_time_short}}</td>
+				<td>{{duty.notes}}</td>
+			</tr>
+		{% endif %}
+	{%endfor%}
+	</tbody>
+</table>
+

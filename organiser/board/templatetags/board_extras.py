@@ -32,6 +32,17 @@ from organiser import settings
 register = template.Library()
 
 @register.filter
+def none_only(v, text):
+    """
+    Return text if variable is none, otherwise return variable.
+    A custom variant of 'yesno' filter, for None only.
+    """
+    if v is None:
+        return text
+    return v
+
+
+@register.filter
 def day_of_week(day):
     return h.day_of_week(day)
 
@@ -58,7 +69,8 @@ def dump(var):
     try:
         out = json.dumps(var, indent=4, sort_keys=True)
     except TypeError:
-        out = '[]'
+        #out = pformat(var, indent=4)
+        out = var
     return "<pre class='dump'>%s</pre>" % (out)
 
 

@@ -127,6 +127,11 @@ class Person(models.Model):
                 h.bday(future_date.month, future_date.day)
             )
 
+    def full_name(self, surname_first=True):
+        if surname_first:
+            return "%s, %s" % (self.surname, self.first_name)
+        return "%s %s" % (self.first_name, self.surname_first)
+
     def age(self):
         return h.num_years(self.birthdate)
 

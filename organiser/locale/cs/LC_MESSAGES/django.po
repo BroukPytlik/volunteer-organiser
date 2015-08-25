@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-23 22:35+0200\n"
+"POT-Creation-Date: 2015-08-25 19:19+0200\n"
 "PO-Revision-Date: 2015-07-26 19:15+ZONE\n"
 "Last-Translator: Jan Tulak <jan@tulak.me>\n"
 "Language-Team: Jan Tulak <jan@tulak.me>\n"
@@ -42,11 +42,11 @@ msgstr "Administrace dobrovolníků"
 msgid "wards"
 msgstr "oddělení"
 
-#: board/admin.py:39 board/models.py:36 board/models.py:208
+#: board/admin.py:39 board/models.py:36 board/models.py:213
 msgid "categories"
 msgstr "kategorie"
 
-#: board/admin.py:50 board/models.py:48 board/models.py:201
+#: board/admin.py:50 board/models.py:48 board/models.py:206
 msgid "subcategories"
 msgstr "subkategorie"
 
@@ -62,7 +62,7 @@ msgstr "Je nepřítomen"
 msgid "Is not vacant"
 msgstr "Je dostupný"
 
-#: board/admin.py:88 board/models.py:162
+#: board/admin.py:88 board/models.py:167
 msgid "active"
 msgstr "aktivní"
 
@@ -74,8 +74,8 @@ msgstr "Aktivní"
 msgid "Inactive"
 msgstr "Neaktivní"
 
-#: board/admin.py:106 board/admin.py:335 board/models.py:258
-#: board/models.py:384
+#: board/admin.py:106 board/admin.py:335 board/models.py:263
+#: board/models.py:389
 msgid "duty"
 msgstr "služba"
 
@@ -87,7 +87,7 @@ msgstr "Dnes"
 msgid "Next 7 days"
 msgstr "Příštích 7 dní"
 
-#: board/admin.py:127 board/models.py:264
+#: board/admin.py:127 board/models.py:269
 msgid "recurrent"
 msgstr "opakovaně"
 
@@ -99,7 +99,7 @@ msgstr "ano"
 msgid "no"
 msgstr "ne"
 
-#: board/admin.py:144 board/models.py:138
+#: board/admin.py:144 board/models.py:143
 msgid "birthday"
 msgstr "narozeniny"
 
@@ -139,7 +139,7 @@ msgstr "hodiny"
 msgid "New duty"
 msgstr "Nová služba"
 
-#: board/admin.py:349 board/models.py:439 board/models.py:454
+#: board/admin.py:349 board/models.py:444 board/models.py:459
 msgid "attachment"
 msgstr "příloha"
 
@@ -186,44 +186,32 @@ msgid "Sunday"
 msgstr "Neděle"
 
 #: board/helpers.py:41
-#, fuzzy
-#| msgctxt "Duties day and time"
-#| msgid "on"
 msgid "Mon"
-msgstr "ve: "
+msgstr "Po"
 
 #: board/helpers.py:42
-#, fuzzy
-#| msgid "Tuesday"
 msgid "Tue"
-msgstr "Úterý"
+msgstr "Út"
 
 #: board/helpers.py:43
-#, fuzzy
-#| msgctxt "css"
-#| msgid "Red"
 msgid "Wed"
-msgstr "Červená"
+msgstr "St"
 
 #: board/helpers.py:44
 msgid "Thu"
-msgstr ""
+msgstr "Čt"
 
 #: board/helpers.py:45
-#, fuzzy
-#| msgid "Friday"
 msgid "Fri"
-msgstr "Pátek"
+msgstr "Pá"
 
 #: board/helpers.py:46
 msgid "Sat"
-msgstr ""
+msgstr "So"
 
 #: board/helpers.py:47
-#, fuzzy
-#| msgid "Sunday"
 msgid "Sun"
-msgstr "Neděle"
+msgstr "Ne"
 
 #: board/helpers.py:53
 msgid "Morning"
@@ -241,17 +229,15 @@ msgstr "dop."
 msgid "p.m."
 msgstr "odp."
 
-#: board/models.py:37 board/models.py:267 board/models.py:398
-#: board/templates/board/week_list.html:52
-#: board/templates/board/week_list.html:79
+#: board/models.py:37 board/models.py:272 board/models.py:403
 msgid "category"
 msgstr "kategorie"
 
-#: board/models.py:49 board/models.py:268 board/models.py:399
+#: board/models.py:49 board/models.py:273 board/models.py:404
 msgid "subcategory"
 msgstr "subategorie"
 
-#: board/models.py:51
+#: board/models.py:51 board/templates/board/duties_other.html:5
 msgid "contact person"
 msgstr "kontaktní osoba"
 
@@ -263,7 +249,7 @@ msgstr "styly"
 msgid "style"
 msgstr "styl"
 
-#: board/models.py:65 board/models.py:92 board/models.py:438
+#: board/models.py:65 board/models.py:92 board/models.py:443
 msgid "name"
 msgstr "jméno"
 
@@ -316,7 +302,8 @@ msgctxt "css"
 msgid "Green"
 msgstr "Zelená"
 
-#: board/models.py:91 board/models.py:156
+#: board/models.py:91 board/models.py:161
+#: board/templates/board/duties_table.html:4
 msgid "ward"
 msgstr "oddělení"
 
@@ -332,7 +319,10 @@ msgstr "příjmení"
 msgid "birth date"
 msgstr "datum narození"
 
-#: board/models.py:107 board/models.py:266
+#: board/models.py:107 board/models.py:271
+#: board/templates/board/duties_other.html:14
+#: board/templates/board/duties_table.html:11
+#: board/templates/board/vacancy_table.html:11
 msgid "notes"
 msgstr "poznámky"
 
@@ -348,95 +338,96 @@ msgstr "e-mail"
 msgid "address"
 msgstr "adresa"
 
-#: board/models.py:140
+#: board/models.py:145
 msgid "Birthday today?"
 msgstr "Narozeniny dnes?"
 
-#: board/models.py:153
+#: board/models.py:158
 msgid "patients"
 msgstr "pacienti"
 
-#: board/models.py:154 board/models.py:260 board/models.py:274
-#: board/templates/board/week_list.html:50
+#: board/models.py:159 board/models.py:265 board/models.py:279
+#: board/templates/board/duties_table.html:8
 msgid "patient"
 msgstr "pacient"
 
-#: board/models.py:155
+#: board/models.py:160
 msgid "diagnosis"
 msgstr "diagnóza"
 
-#: board/models.py:160
+#: board/models.py:165
 msgid "volunteers"
 msgstr "dobrovolníci"
 
-#: board/models.py:161 board/models.py:259 board/models.py:275
-#: board/models.py:395 board/models.py:411 board/models.py:437
-#: board/templates/board/week_list.html:49
-#: board/templates/board/week_list.html:77
+#: board/models.py:166 board/models.py:264 board/models.py:280
+#: board/models.py:400 board/models.py:416 board/models.py:442
+#: board/templates/board/duties_other.html:12
+#: board/templates/board/duties_table.html:9
+#: board/templates/board/vacancy_table.html:8
 msgid "volunteer"
 msgstr "dobrovolník"
 
-#: board/models.py:163
+#: board/models.py:168
 msgid "insured"
 msgstr "pojištěn"
 
-#: board/models.py:164
+#: board/models.py:169
 msgid "available categories"
 msgstr "Dostupné kategorie"
 
-#: board/models.py:165
+#: board/models.py:170
 msgid "available subcategories"
 msgstr "dostupné podkategorie"
 
-#: board/models.py:166
+#: board/models.py:171
 msgid "PID"
 msgstr "PID"
 
-#: board/models.py:167
+#: board/models.py:172
 msgid "working since"
 msgstr "zaměstnaný od"
 
-#: board/models.py:168
+#: board/models.py:173
 msgid "worked until"
 msgstr "pracoval do"
 
-#: board/models.py:169
+#: board/models.py:174
 msgid "professions"
 msgstr "profese"
 
-#: board/models.py:170
+#: board/models.py:175
 msgid "preferred days"
 msgstr "preferované dny"
 
-#: board/models.py:193
+#: board/models.py:198
 msgid "not vacant"
 msgstr "přítomen"
 
-#: board/models.py:225
+#: board/models.py:230
 msgid "total"
 msgstr "celkem"
 
-#: board/models.py:234
+#: board/models.py:239
 msgid "this month"
 msgstr "tento měsíc"
 
-#: board/models.py:257
+#: board/models.py:262
 msgid "duties"
 msgstr "služby"
 
-#: board/models.py:261 board/models.py:441
+#: board/models.py:266 board/models.py:446
 msgid "created"
 msgstr "vytvořeno"
 
-#: board/models.py:262
+#: board/models.py:267
 msgid "time"
 msgstr "čas"
 
-#: board/models.py:263
+#: board/models.py:268
 msgid "date"
 msgstr "datum"
 
-#: board/models.py:263
+#: board/models.py:268
 msgid ""
 "If the duty is recurrent, then this will be its first day, and the duty will "
 "repeat weekly."
@@ -444,59 +435,59 @@ msgstr ""
 "Pokud je služba opakovaná, pak toto bude den zahájení, a služba se bude "
 "týdně opakovat."
 
-#: board/models.py:307
+#: board/models.py:312
 msgid "day or date"
 msgstr "den nebo datum"
 
-#: board/models.py:316
+#: board/models.py:321
 msgid "day of week"
 msgstr "den v týdnu"
 
-#: board/models.py:386
+#: board/models.py:391
 msgid "Duty today?"
 msgstr "Služba dnes?"
 
-#: board/models.py:393 board/models.py:394 board/models.py:397
+#: board/models.py:398 board/models.py:399 board/models.py:402
 msgid "worked hours"
 msgstr "odpracované hodiny"
 
-#: board/models.py:396
+#: board/models.py:401
 msgid "added"
 msgstr "přidáno"
 
-#: board/models.py:409
+#: board/models.py:414
 msgid "Vacancies"
 msgstr "Nepřítomnosti"
 
-#: board/models.py:410
+#: board/models.py:415
 msgid "Vacancy"
 msgstr "Nepřítomnost"
 
-#: board/models.py:412
+#: board/models.py:417 board/templates/board/vacancy_table.html:9
 msgid "since"
 msgstr "od"
 
-#: board/models.py:413
+#: board/models.py:418 board/templates/board/vacancy_table.html:10
 msgid "until"
 msgstr "do"
 
-#: board/models.py:414
+#: board/models.py:419
 msgid "reason"
 msgstr "důvod"
 
-#: board/models.py:435
+#: board/models.py:440
 msgid "Attachments"
 msgstr "Přílohy"
 
-#: board/models.py:436
+#: board/models.py:441
 msgid "Attachment"
 msgstr "Příloha"
 
-#: board/models.py:440
+#: board/models.py:445
 msgid "description"
 msgstr "popis"
 
-#: board/models.py:451
+#: board/models.py:456
 msgid "download"
 msgstr "stáhnout"
 
@@ -572,6 +563,15 @@ msgctxt "Duties day and time"
 msgid "on"
 msgstr "ve: "
 
+#: board/templates/board/duties_other.html:5
+msgid "nobody"
+msgstr "nikdo"
+
+#: board/templates/board/duties_other.html:13
+#: board/templates/board/duties_table.html:10
+msgid "when"
+msgstr "kdy"
+
 #: board/templates/board/index.html:12 board/templates/board/week_list.html:29
 #: templates/admin/change_form.html:18 templates/admin/change_list.html:40
 #: templates/admin/object_history.html:6 templates/organiser/base.html:89
@@ -583,6 +583,14 @@ msgstr "Nástěnka"
 msgid "Week list"
 msgstr "Týdenní seznam"
 
+#: board/templates/board/vacancy_table.html:3
+msgid "vacancies"
+msgstr "nepřítomnosti"
+
+#: board/templates/board/vacancy_table.html:24
+msgid "No vacancies"
+msgstr "Žádné nepřítomnosti"
+
 #: board/templates/board/week_list.html:36
 msgid "Showing week"
 msgstr "Zobrazuji týden"
@@ -592,35 +600,18 @@ msgid "show"
 msgstr "zobrazit"
 
 #: board/templates/board/week_list.html:45
-msgid "Duties for patients"
-msgstr "Služby u pacientů"
+msgid "Volunteers overview"
+msgstr "Náhled dobrovolníků"
 
-#: board/templates/board/week_list.html:51
-#: board/templates/board/week_list.html:78
-msgid "when"
-msgstr "kdy"
-
-#: board/templates/board/week_list.html:73
-msgid "Other duties"
-msgstr "Ostatní služby"
-
-#: board/templates/board/week_list.html:99
-msgid "No duty"
-msgstr "Žádná služba"
-
-#: board/templates/board/week_list.html:101
-msgid "vacancies"
-msgstr "nepřítomnosti"
-
-#: board/templates/board/week_list.html:112
-msgid "No vacancies"
-msgstr "Žádné nepřítomnosti"
+#: board/templates/board/week_list.html:52
+msgid "Duties without patients"
+msgstr "Služby bez pacientů"
 
 #: board/validators.py:25
 msgid "Volunteer doesn't like this category."
 msgstr "Dobrovolník nechce tuto kategorii."
 
-#: board/views.py:45
+#: board/views.py:46
 msgid "Choose a week"
 msgstr "Vyber týden"
 
@@ -747,6 +738,12 @@ msgstr "Odhlásit"
 #: templates/organiser/base.html:150
 msgid "Source code"
 msgstr "Zdrojový kód"
+
+#~ msgid "Other duties"
+#~ msgstr "Ostatní služby"
+
+#~ msgid "No duty"
+#~ msgstr "Žádná služba"
 
 #~ msgid "holiday"
 #~ msgstr "dovolená"

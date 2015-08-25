@@ -5,35 +5,36 @@ from django.core import urlresolvers
 from django.views import generic
 from django.utils import timezone
 from django import forms
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _,pgettext
 
 from django.contrib.admin import widgets
 import sys
 import datetime
-
+from . import models
 import board.helpers as h
-from .models import Duty,Patient,Volunteer,Holiday
 
 # how many days should we look in front for birthdays and duties?
-OVERVIEW_DAYS=7
+# 7 + 1, because we are skipping today
+OVERVIEW_DAYS=8
 
 
 
 def index(request):
-    site_header ="Volunteer administration"
-    site_title ="Volunteer administration"
+    site_header ="models.Volunteer administration"
+    site_title ="models.Volunteer administration"
 
     
     return render(request, 'board/index.html', {
         'overview_days': OVERVIEW_DAYS,
         'has_permission': request.user.is_authenticated(),
 
-        'birthdays_patients_today': Patient.filter_birthday_in(0, skip=0),
-        'birthdays_volunteers_today': Volunteer.filter_birthday_in(0, skip=0),
-        'duties_today': Duty.filter_date_in(0, skip=0),
-        'birthdays_patients_soon': Patient.filter_birthday_in(OVERVIEW_DAYS),
-        'birthdays_volunteers_soon': Volunteer.filter_birthday_in(OVERVIEW_DAYS),
-        'duties_soon': Duty.filter_date_in(OVERVIEW_DAYS),
+        'birthdays_patients_today': models.Patient.filter_birthday_in(0, skip=0),
+        'birthdays_volunteers_today': models.Volunteer.filter_birthday_in(0, skip=0),
+        'duties_today': models.Duty.filter_date_in(0, skip=0),
+        'birthdays_patients_soon': models.Patient.filter_birthday_in(OVERVIEW_DAYS),
+        'birthdays_volunteers_soon': models.Volunteer.filter_birthday_in(OVERVIEW_DAYS),
+        'duties_soon': models.Duty.filter_date_in(OVERVIEW_DAYS),
 
         'duty_list_url': urlresolvers.reverse('admin:board_duty_changelist'),
         'patient_list_url': urlresolvers.reverse('admin:board_patient_changelist'),
@@ -80,15 +81,22 @@ class WeekListView(generic.edit.FormView):
         context = super(WeekListView, self).get_context_data(**kwargs)
         context.update({
             'has_permission': self.request.user.is_authenticated(),
+            'wards' : models.Ward.objects.all(),
             'week_form': self.week_form,
             'monday' : self.chosen_week[0],
             'sunday' : self.chosen_week[1],
-            'duties' : Duty.get_date_range(
+            'duties_patients' : models.Duty.get_date_range(
                             self.chosen_week[0],
-                            self.chosen_week[1]),
-            'vacancies' : Holiday.filter_vacant_only(
+                            self.chosen_week[1]).filter(~Q(patient=None)).order_by('patient__surname'),
+            'duties_other' : models.Duty.get_date_range(
                             self.chosen_week[0],
-                            self.chosen_week[1]),
+                            self.chosen_week[1]).filter(Q(patient=None)).order_by('volunteer__surname'),
+            'categories' : models.Category1.objects.all(),
+            'subcategories': models.Category2.objects.all(),
+
+            'vacancies' : models.Holiday.filter_vacant_only(
+                            self.chosen_week[0],
+                            self.chosen_week[1]).order_by('volunteer__surname'),
         })
         return context
 

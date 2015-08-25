@@ -69,6 +69,13 @@ class DutyTests(TestCase):
                 date(year=2015, month=7, day=22)
             )),
             2)
+
+        self.assertEqual(
+            len(Duty.get_date_range(
+                date(year=2015, month=7, day=3),
+                date(year=2015, month=7, day=23)
+            )),
+            6)
     
     def test_recurrent_saving(self):
         """
@@ -251,3 +258,66 @@ class DutyTests(TestCase):
                 date(year=2015, month=7, day=17)
             )),
             3)
+
+    def test_filter_date_in(self):
+        volunteers = g.create_volunteers(1)
+        patients = g.create_patients(1)
+
+        td7 = datetime.timedelta(days=7)
+        td1 = datetime.timedelta(days=1)
+
+        day = now().date() - td7 # last week this day
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+
+        day = now().date() - td1 # yesterday
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+
+        day = now().date() - td7 + td1 # last week + one day
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+
+        day = now().date() + td7 + td7 # in two weeks
+        d = Duty(
+            volunteer = volunteers[0],
+            patient = patients[0],
+            created = now(),
+            recurrent = True,
+            date = day,
+            category1 = g.CAT
+        )
+        d.save()
+
+
+        # two days in front, skip today by default
+        self.assertEqual(len(Duty.filter_date_in(2)), 1)
+        # two days in front, with today
+        self.assertEqual(len(Duty.filter_date_in(2, skip=0)), 2)
+        # full week check
+        self.assertEqual(len(Duty.filter_date_in(7)), 2)
+        self.assertEqual(len(Duty.filter_date_in(7,skip=0)), 3)
+        self.assertEqual(len(Duty.filter_date_in(8,skip=1)), 3)
+
+

@@ -41,74 +41,18 @@
         <input type="submit" value="{{_('show')|title}}">
     </form>
 </div>
-{% if duties %}
-    <h3>{{_('Duties for patients')}}</h3>
-    <table>
-    <thead>
-        <tr>
-            <th>{{_('volunteer')|title}}</th>
-            <th>{{_('patient')|title}}</th>
-            <th>{{_('when')|title}}</th>
-            <th>{{_('category')|title}}</th>
-        </tr>
-    </thead>
-    {% for duty in duties %}
-        {# put only duties with patients into the table #}
-        {% if duty.patient %}
-        <tr>
-            <td>{{duty.volunteer}}</td>
-            <td>{{duty.patient}}</td>
-            <td>{{duty.date|day_of_week}} {{duty.time|duty_time_short}}</td>
-            <td>
-                {{duty.category1}}
-                {% if duty.category2 %}
-                ({{duty.category2}})
-                {%endif%}
-            </td>
-        </tr>
-        {% endif %}
-    {%endfor%}
-    </table>
 
-    <h3>{{_('Other duties')}}</h3>
-    <table>
-    <thead>
-        <tr>
-            <th>{{_('volunteer')|title}}</th>
-            <th>{{_('when')|title}}</th>
-            <th>{{_('category')|title}}</th>
-        </tr>
-    </thead>
-    {% for duty in duties %}
-        {# put only duties with patients into the table #}
-        {% if not duty.patient %}
-        <tr>
-            <td>{{duty.volunteer}}</td>
-            <td>{{duty.date|day_of_week}} {{duty.time|duty_time_short}}</td>
-            <td>
-                {{duty.category1}}
-                {% if duty.category2 %}
-                ({{duty.category2}})
-                {%endif%}
-            </td>
-        </tr>
-        {% endif %}
-    {%endfor%}
-    </table>
-{% else %}
-    {{_('No duty')}}.
-{% endif %}
-<h3>{{_('vacancies')|title}}</h3>
-{% if vacancies %}
-<table>
-    {%for v in vacancies%}
-    <tr>
-        <td>{{v.since}} - {{v.until}}</td>
-        <td>{{v.volunteer}}</td>
-    </tr>
-    {%endfor%}
-</table>
-{%else%}
-<p>{{_('No vacancies')}}.</p>
-{%endif%}
+<h2>{{_('Volunteers overview')}}</h2>
+{% for ward in wards %}
+	{% include 'board/duties_table.html' %}
+{% endfor %}
+
+{% include 'board/vacancy_table.html' %}
+
+<h3>{{_('Duties without patients')}}</h3>
+{% for category in subcategories %}
+	{% include 'board/duties_other.html' %}
+{% endfor %}
+{% include 'board/duties_other.html' with category=None %}
+
 {% endblock %}

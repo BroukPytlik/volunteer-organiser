@@ -1,0 +1,25 @@
+{% load board_extras %}
+
+<h3>{{_('vacancies')|title}}</h3>
+{% if vacancies %}
+<table>
+	<thead>
+		<tr>
+			<th>{{_('volunteer')}}</th>
+			<th>{{_('since')}}</th>
+			<th>{{_('until')}}</th>
+			<th>{{_('notes')}}</th>
+		</tr>
+	</thead>
+	{%for v in vacancies%}
+	<tr>
+		<td>{{v.volunteer.full_name}} <i>{{v.volunteer.birthdate.year}}</i></td>
+		<td>{{v.since}}</td>
+		<td>{{v.until|none_only:""}}</td>
+		<td>{{v.reason}}</td>
+    </tr>
+    {%endfor%}
+</table>
+{%else%}
+<p>{{_('No vacancies')}}.</p>
+{%endif%}

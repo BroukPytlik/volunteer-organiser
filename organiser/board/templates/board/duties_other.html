@@ -1,0 +1,32 @@
+{% load board_extras %}
+
+<h4>{{category|none_only:"other"|title}}</h4>
+<p>
+{{_('contact person')}}: <i>{{category.contact|none_only:_('nobody')}}</i>
+</p>
+
+<table class="duties_table">
+	<!--
+	<thead>
+		<tr>
+			<th>{{_("volunteer")}}</th>
+			<th>{{_("when")}}</th>
+			<th>{{_("notes")}}</th>
+		</tr>
+	</thead>
+	-->
+	<tbody>
+	{% for duty in duties_other %}
+		{% if duty.category2 == category %}
+			<tr>
+				<td>
+					{{duty.volunteer.full_name}}
+					<i>{{duty.volunteer.birthdate.year}}</i>
+				</td>
+				<td>{{duty.date|day_of_week}} {{duty.time|duty_time_short}}</td>
+				<td>{{duty.notes}}</td>
+			</tr>
+		{% endif %}
+	{%endfor%}
+	</tbody>
+</table>
